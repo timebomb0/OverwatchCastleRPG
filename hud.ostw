@@ -1,0 +1,102 @@
+import "vars.ostw";
+
+rule: "[HUD] Core"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.SkyBlue, Vector(39.261, 9.471, -87.568), 8, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1>", AbilityIconString(Hero.Torbjorn, ButtonValue(Button.Ability2)), <@"<0> <1> <2>", Heart, "/", PowerCoreLevel>>, Vector(39.261, 9.471, -87.568), 2, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Blue, Spectators.DefaultVisibility);
+}
+
+rule: "[HUD] Upgrade & Treasure Box"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, Vector(54.827, 13.307, -80.989), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Green, Vector(56.802, 13.271, -74.084), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, Vector(53.352, 19.025, -102.909), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Press Reload to Upgrade] Healing Dealt +0.25% -300 Coins", Vector(53.352, 19.025, -102.909), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, Vector(55.394, 22.554, -68.688), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Press Reload to Buy] Repair Kit +2 Power -5,000 Coins", Vector(55.394, 22.554, -68.688), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, Vector(59.776, 6.175, -95.982), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Treasure Box] +3,000 - 8,000 Coins! (Hold Reload)", Vector(59.776, 6.175, -95.982), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
+	# speed upgrade
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.SkyBlue, Vector(66.035, 19.344, -73.005), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(66.035, 19.344, -73.005), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[0] = LastTextID();
+	# open cursed box
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, Vector(56.444, 6.225, -87.247), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(56.444, 6.225, -87.247), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[1] = LastTextID();
+	# purchase max ult charge
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, Vector(65.498, 17.167, -61.426), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(65.498, 17.167, -61.426), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[3] = LastTextID();
+	# dig treasure
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Green, Vector(103.232, 13.842, -73.494), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(103.232, 13.842, -73.494), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[4] = LastTextID();
+	# increase core health
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, Vector(122.974, 12.007, -61.465), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(122.974, 12.007, -61.465), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[5] = LastTextID();
+	# upgrade damage received
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Turquoise, Vector(56.592, 19.347, -79.917), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(56.592, 19.347, -79.917), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[8] = LastTextID();
+	# upgrade ammo capacity
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Yellow, Vector(36.89, 14.021, -105.283), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(36.89, 14.021, -105.283), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[10] = LastTextID();
+}
+
+rule: "[HUD] Combine"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Aqua, Vector(93.966, 12.074, -35.155), 1.9, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Combine] 1 Treasure Box -35 Treasure Maps", Vector(93.966, 12.074, -35.155), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	# combine cursed box
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Aqua, Vector(118.238, 10.07, -48.792), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(118.238, 10.07, -48.792), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[2] = LastTextID();
+	# process geode
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Green, Vector(-1.364, 7.698, -72.803), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(-1.364, 7.698, -72.803), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[7] = LastTextID();
+	# sell diamond
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, Vector(-3.57, 3.176, -36.791), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(-3.57, 3.176, -36.791), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[9] = LastTextID();
+}
+
+rule: "[HUD] Enchant"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, Vector(96.735, 17.116, -22.764), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Enhancement] +All Status Except Damage Received -3,000 Coins (Hold Reload)", Vector(96.735, 17.116, -22.764), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
+	# force enchant
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, Vector(6.01, 6.213, -97.657), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Must Unlock First] ???", Vector(6.01, 6.213, -97.657), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	InWorldTextIds[6] = LastTextID();
+}
+
+rule: "[HUD] Magic Shop"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, Vector(2.944, 7.173, -47.248), 1.5, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Buy] S.Magic Potion Restore 25 MP -3,000 Coins (Maximum 200 Mp)", Vector(2.944, 7.173, -47.248), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, Vector(-3.872, 7.173, -48.876), 1.5, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Buy] M.Magic Potion Restore 50 MP -5,000 Coins (Maximum 200 Mp)", Vector(-3.872, 7.173, -48.876), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, Vector(-3.018, 8.177, -41.844), 1.5, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Buy] L.Magic Potion Restore 100 MP -9,000 Coins (Maximum 200 Mp)", Vector(-3.018, 8.177, -41.844), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+}
+
+rule: "[HUD] Prestige"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, Vector(24.258, 2.079, -9.804), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateEffect(AllPlayers(Team.All), Effect.Sparkles, Color.Blue, Vector(24.258, 2.079, -9.804), 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "[Prestige] Reset Your Enhancement Level, +Magic Point Regen & + Ultimate Passive Gen -50,000 Pts (Hold Reload)", Vector(24.258, 2.079, -9.804), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
+}
+
+rule: "[HUD] Level Energy"
+{
+	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1> <2>", "Level : ", Level, <@"<0> <1> <2>", "", AbilityIconString(Hero.Zarya, ButtonValue(Button.Ultimate)), <"<0> / <1>", EnergyPoints, "1000">>>, Vector(76.665, 17, -99.649), 2, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+}
+
+rule: "[HUD] Heart"
+{
+	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1>", "Press Reload (R) to Upgrade or Buy Something.", EnergyPoints>, Vector(48.671, 9, -72.659), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Aqua, Spectators.DefaultVisibility);
+}

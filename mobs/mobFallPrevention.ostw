@@ -1,0 +1,73 @@
+import "../vars.ostw";
+
+rule: "[All World] Prevent Pit"
+Event.OngoingPlayer
+Team.Team1
+if (YOf(PositionOf(EventPlayer())) <= 0.5)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), Vector(59.755, 10, -96.69));
+}
+
+rule: "[All World] Prevent 1"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(62.483, 8.025, -107.347)) <= 4)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), Vector(59.755, 10, -96.69));
+}
+
+rule: "[All World] Prevent 2"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(65.461, 6.385, -83.03)) <= 4)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), Vector(59.755, 10, -96.69));
+}
+
+rule: "[All World] Prevent 3"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(85.171, 13.857, -79.456)) <= 5)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), Vector(59.755, 10, -96.69));
+}
+
+rule: "[All World] Prevent 4"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(77.336, 12.026, -110.314)) <= 4)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), RandomValueInArray(MonsterSpawnRandom));
+}
+
+rule: "[All World] Prevent 5"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(68.725, 10.709, -108.544)) <= 3)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), RandomValueInArray(MonsterSpawnRandom));
+}
+
+rule: "[All World] Prevent 6"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(64.734, 8.647, -107.525)) <= 3)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), RandomValueInArray(MonsterSpawnRandom));
+}
+
+rule: "[All World] BigPrevent 7"
+Event.OngoingPlayer
+Team.Team1
+if (DistanceBetween(EventPlayer(), Vector(84.64, 14.032, -80.452)) <= 14)
+{
+	SetStatus(EventPlayer(), null, Status.Frozen, 0.5);
+	Teleport(EventPlayer(), RandomValueInArray(MonsterSpawnRandom));
+}

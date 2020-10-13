@@ -1,0 +1,165 @@
+import "../vars.ostw";
+
+class Mob {
+	private define RespawnTime;
+	private define CoinsOnKill;
+	private define TreasureMapOnKill;
+	private define EnergyOnKill;
+	private define CursedBoxLootChance;
+	private define TreasureBoxLootChance;
+	private define CoreDamage;
+	private define ObjectiveDescription;
+	private define SpawnMessage;
+	private define DamageDealt;
+	private define MaxHealth;
+	private define MoveSpeed;
+	private define HeroMob;
+
+	private define AutoUltChance;
+	private define AutoPrimaryAtkChance;
+	private define AutoSecondaryAtkChance;
+	private define AutoAbility1Chance;
+	private define AutoAbility2Chance;
+	private define HoldPrimaryFire;
+	private define HoldSecondaryFire;
+	public define AttackDuringUlt;
+	public define AttackInterval;
+	
+	public Mob(ref define heroMob, ref define coinsOnKill, ref define treasureMapOnKill,
+				ref define energyOnKill, ref define cursedBoxLootChance, ref define treasureBoxLootChance,
+				ref define objectiveDescription, ref define spawnMessage,
+				ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
+				ref define autoUltChance, ref define autoPrimaryAtkChance, ref define autoSecondaryAtkChance,
+				ref define autoAbility1Chance, ref define autoAbility2Chance,
+				ref define attackDuringUlt, ref define holdPrimaryFire, ref define holdSecondaryFire, ref define attackInterval)
+	{
+		HeroMob = heroMob;
+		CoinsOnKill = coinsOnKill;
+		TreasureMapOnKill = treasureMapOnKill;
+		EnergyOnKill = energyOnKill;
+		CursedBoxLootChance = cursedBoxLootChance;
+		TreasureBoxLootChance = treasureBoxLootChance;
+		CoreDamage = coreDamage;
+		ObjectiveDescription = objectiveDescription;
+		SpawnMessage = spawnMessage;
+		DamageDealt = damageDealt;
+		MaxHealth = maxHealth;
+		MoveSpeed = moveSpeed;
+		AutoUltChance = autoUltChance;
+		AutoPrimaryAtkChance = autoPrimaryAtkChance;
+		AutoSecondaryAtkChance = autoSecondaryAtkChance;
+		AutoAbility1Chance = autoAbility1Chance;
+		AutoAbility2Chance = autoAbility2Chance;
+		AttackDuringUlt = attackDuringUlt;
+		AttackInterval = attackInterval;
+		HoldPrimaryFire = holdPrimaryFire;
+		HoldSecondaryFire = holdSecondaryFire;
+	}
+
+	public void handleDead()
+	{
+		AllPlayers(Team.Team2).TreasureMap += RoundToInteger(root.TreasureMapModifier * TreasureMapOnKill, Rounding.Nearest);
+		AllPlayers(Team.Team2).Coins += RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * root.CoinsOnKillMultiplier;
+		root.EnergyPoints += EnergyOnKill * root.EnergyMultiplier;
+		AllPlayers(Team.Team2).LootChance = RandomInteger(1, CursedBoxLootChance);
+		AllPlayers(Team.Team2).CurseLootChance = RandomInteger(1, TreasureBoxLootChance);
+		root.MobKills += 1;
+	}
+
+	public void handleDamage(ref define mob)
+	{
+		root.Heart -= DamageDealt;
+		Wait(0.5, WaitBehavior.IgnoreCondition);
+		BigMessage(AllPlayers(Team.All), <@"<0> <1> <2> <3> <4> <5>", "Core Breached!!", DamageDealt, "Damage Taken From", HeroOf(HeroMob), root.Heart, "Core Health Remaining">);
+		Kill(mob, null);
+		PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, mob, 100);
+	}
+
+	public void spawn()
+	{
+		SetObjectiveDescription(AllPlayers(Team.All), ObjectiveDescription, ObjectiveRev.VisibleToAndString);
+		SetMatchTime(0.1 + root.BreakTime);
+		DestroyAllDummyBots();
+		BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", "Break Time", root.BreakTime, "Seconds">);
+		Wait(root.BreakTime, WaitBehavior.AbortWhenFalse);
+		root.IsBreakTime = false;
+		root.MobKills = 0;
+		SetMatchTime(3599);
+		BigMessage(AllPlayers(Team.All), SpawnMessage);
+		CreateDummyBot(HeroMob, Team.Team1, 0, Vector(0, 0, 0), Vector(0, 0, 0));
+		CreateDummyBot(HeroMob, Team.Team1, 1, Vector(0, 0, 0), Vector(0, 0, 0));
+		CreateDummyBot(HeroMob, Team.Team1, 2, Vector(0, 0, 0), Vector(0, 0, 0));
+		CreateDummyBot(HeroMob, Team.Team1, 3, Vector(0, 0, 0), Vector(0, 0, 0));
+		CreateDummyBot(HeroMob, Team.Team1, 4, Vector(0, 0, 0), Vector(0, 0, 0));
+		CreateDummyBot(HeroMob, Team.Team1, 5, Vector(0, 0, 0), Vector(0, 0, 0));
+		Wait(1, WaitBehavior.IgnoreCondition);
+		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Level * root.DifficultyModifier * NumberOfPlayers(Team.Team2) * DamageDealt);
+		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), root.Level * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
+		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Level * root.MobSpeedModifier * NumberOfPlayers(Team.Team2) * MoveSpeed);
+		SetObjectiveDescription(AllPlayers(Team.All), <@"<0> <1> <2>", "Protect the Core!", IconString(Icon.Heart), <@"<0> <1>", "", root.Heart>>, ObjectiveRev.VisibleToAndString);
+	}
+
+	public void attack(ref define mob)
+	{
+		LoopIf(IsUsingUltimate(mob) == true);
+
+		define randomChance = RandomInteger(1, 100);
+		Wait(0.1, WaitBehavior.IgnoreCondition);
+		
+		if (AutoUltChance != false && randomChance <= AutoUltChance) {
+			SetUltimateCharge(mob, 100);
+			Wait(0.1, WaitBehavior.IgnoreCondition);
+			PressButton(mob, Button.Ultimate);
+			LoopIfConditionIsTrue();
+		}
+
+		if (AutoAbility1Chance != false && randomChance <= AutoAbility1Chance) {
+			PressButton(mob, Button.Ability1);
+			mob.MobHasAttacked = true;
+		}
+
+		if (AutoAbility2Chance != false && randomChance <= AutoAbility2Chance) {
+			if (mob.MobHasAttacked == true) {
+				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
+			}
+			
+			PressButton(mob, Button.Ability2);
+			if (HeroOf(mob) == Hero.Moira) {
+				Wait(1, WaitBehavior.IgnoreCondition);
+				PressButton(mob, Button.SecondaryFire);
+			}
+			mob.MobHasAttacked = true;
+		}
+
+		if (AutoPrimaryAtkChance != false && randomChance <= AutoPrimaryAtkChance) {
+			if (mob.MobHasAttacked == true) {
+				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
+			}
+
+			if (HoldPrimaryFire){
+				StartHoldingButton(mob, Button.PrimaryFire);
+				Wait(RandomInteger(0.500, 3), WaitBehavior.IgnoreCondition);
+				StopHoldingButton(mob, Button.PrimaryFire);
+			} else {
+				PressButton(mob, Button.PrimaryFire);
+			}
+			mob.MobHasAttacked = true;
+		}
+
+		if (AutoSecondaryAtkChance != false && randomChance <= AutoSecondaryAtkChance) {
+			if (mob.MobHasAttacked == true) {
+				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
+			}
+
+			if (HoldSecondaryFire){
+				StartHoldingButton(mob, Button.SecondaryFire);
+				Wait(RandomInteger(0.500, 3), WaitBehavior.IgnoreCondition);
+				StopHoldingButton(mob, Button.SecondaryFire);
+			} else {
+				PressButton(mob, Button.SecondaryFire);
+			}
+		}
+		
+		mob.MobHasAttacked = false;
+	}
+}

@@ -1,0 +1,263 @@
+import "vars.ostw";
+
+rule: "[Guide 0] Have Pts to Enhance"
+Event.OngoingPlayer
+Team.Team2
+if (Coins >= 3000)
+if (EnchantLevel < 10)
+{
+	CreateIcon(EventPlayer(), Vector(96.735, 17.116, -22.764), Icon.Bolt, IconRev.VisibleToAndPosition, Color.Aqua, true);
+	p_GuideSave[0] = LastCreatedEntity();
+}
+
+rule: "[Guide 0] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (Coins < 3000)
+{
+	DestroyIcon(p_GuideSave[0]);
+}
+
+rule: "[Guide 1] Have Treasure box to Open"
+Event.OngoingPlayer
+Team.Team2
+if (LootBox >= 1)
+{
+	CreateIcon(EventPlayer(), Vector(59.776, 6.175, -95.982), Icon.Diamond, IconRev.VisibleToAndPosition, Color.Yellow, true);
+	p_GuideSave[1] = LastCreatedEntity();
+}
+
+rule: "[Guide 1] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (LootBox == 0)
+{
+	DestroyIcon(p_GuideSave[1]);
+}
+
+rule: "[Guide 2] Have Cursed Treasure box to Open"
+Event.OngoingPlayer
+Team.Team2
+if (CursedBox >= 1)
+if (UnlockLevel >= 1)
+{
+	CreateIcon(EventPlayer(), Vector(56.444, 6.225, -87.247), Icon.Diamond, IconRev.VisibleToAndPosition, Color.Purple, true);
+	p_GuideSave[2] = LastCreatedEntity();
+}
+
+rule: "[Guide 2] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (CursedBox == 0)
+{
+	DestroyIcon(p_GuideSave[2]);
+}
+
+rule: "[Guide 3] Have Pts to Force Enhance"
+Event.OngoingPlayer
+Team.Team2
+if (Coins >= 10000 + 10000)
+if (EnchantLevel >= 7)
+if (EnchantLevel < 10)
+if (UnlockLevel >= 3)
+{
+	CreateIcon(EventPlayer(), Vector(6.01, 6.213, -97.657), Icon.Bolt, IconRev.VisibleToAndPosition, Color.Red, true);
+	p_GuideSave[3] = LastCreatedEntity();
+}
+
+rule: "[Guide 3] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (EnchantLevel < 7)
+{
+	DestroyIcon(p_GuideSave[3]);
+}
+
+rule: "[Guide 3] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (Coins < 10000 + 10000)
+{
+	DestroyIcon(p_GuideSave[3]);
+}
+
+rule: "[Guide 0 & 3] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (EnchantLevel == 10)
+{
+	DestroyIcon(p_GuideSave[3]);
+	DestroyIcon(p_GuideSave[0]);
+}
+
+rule: "[Guide 4] Have Treasure maps to combine Treasure box"
+Event.OngoingPlayer
+Team.Team2
+if (TreasureMap >= 40)
+{
+	// Wait(1, WaitBehavior.IgnoreCondition);
+	CreateIcon(EventPlayer(), Vector(93.966, 12.074, -35.155), Icon.Recycle, IconRev.VisibleToAndPosition, Color.Yellow, true);
+	p_GuideSave[4] = LastCreatedEntity();
+}
+
+rule: "[Guide 4] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (TreasureMap < 30)
+{
+	DestroyIcon(p_GuideSave[4]);
+}
+
+rule: "[Guide 5] Have Treasure maps to combine Cursed Treasure box"
+Event.OngoingPlayer
+Team.Team2
+if (TreasureMap >= 80)
+if (UnlockLevel >= 1)
+{
+	CreateIcon(EventPlayer(), Vector(118.238, 10.07, -48.792), Icon.Recycle, IconRev.VisibleToAndPosition, Color.Purple, true);
+	p_GuideSave[5] = LastCreatedEntity();
+}
+
+rule: "[Guide 5] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (TreasureMap < 80)
+{
+	DestroyIcon(p_GuideSave[5]);
+}
+
+rule: "[Guide 7] Have Pts to Prestige"
+Event.OngoingPlayer
+Team.Team2
+if (Coins >= 10000 * 5)
+if (EnchantLevel == 10)
+{
+	CreateIcon(EventPlayer(), Vector(24.258, 2.079, -9.804), Icon.ArrowUp, IconRev.VisibleToAndPosition, Color.Green, true);
+	p_GuideSave[7] = LastCreatedEntity();
+}
+
+rule: "[Guide 7] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (EnchantLevel < 10)
+{
+	DestroyIcon(p_GuideSave[7]);
+}
+
+rule: "[Guide 7] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (Coins < 10000 * 5)
+{
+	DestroyIcon(p_GuideSave[7]);
+}
+
+rule: "[Guide 8] Have Diamond to Sell"
+Event.OngoingPlayer
+Team.Team2
+if (UnlockLevel >= 4)
+if (Item_Diamond >= 1)
+{
+	CreateIcon(EventPlayer(), Vector(-3.525, 3.173, -36.729), Icon.Diamond, IconRev.VisibleToAndPosition, Color.SkyBlue, true);
+	p_GuideSave[8] = LastCreatedEntity();
+}
+
+rule: "[Guide 8] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (Item_Diamond == 0)
+{
+	DestroyIcon(p_GuideSave[8]);
+}
+
+rule: "[Guide 9] Have Oil to Upgrade"
+Event.OngoingPlayer
+Team.Team2
+if (UnlockLevel >= 2)
+if (Item_Oil >= 1)
+{
+	CreateIcon(EventPlayer(), Vector(123.011, 11.929, -61.405), Icon.Trashcan, IconRev.VisibleToAndPosition, Color.White, true);
+	p_GuideSave[9] = LastCreatedEntity();
+}
+
+rule: "[Guide 9] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (Item_Oil == 0)
+{
+	DestroyIcon(p_GuideSave[9]);
+}
+
+rule: "[Guide 10] Have Geode to Process"
+Event.OngoingPlayer
+Team.Team2
+if (UnlockLevel >= 3)
+if (Item_Geode >= 5)
+{
+	CreateIcon(EventPlayer(), Vector(-1.36, 7.696, -72.919), Icon.Spade, IconRev.VisibleToAndPosition, Color.LimeGreen, true);
+	p_GuideSave[10] = LastCreatedEntity();
+}
+
+rule: "[Guide 10] Delete"
+Event.OngoingPlayer
+Team.Team2
+if (Item_Geode <= 4)
+{
+	DestroyIcon(p_GuideSave[10]);
+}
+
+rule: "[Guide 11] Have Treasure Boxes To Open"
+Event.OngoingPlayer
+Team.Team2
+if (LootBox >= 1)
+if (IsBreakTime == true)
+{
+	Wait(3, WaitBehavior.AbortWhenFalse);
+	BigMessage(EventPlayer(), "You have Treasure Boxes to open! Look around to find where to open them.");
+	Wait(61, WaitBehavior.AbortWhenFalse);
+}
+
+rule: "[Guide 12] Have Treasure Maps To Spend"
+Event.OngoingPlayer
+Team.Team2
+if (TreasureMap >= 35)
+if (IsBreakTime == true)
+{
+	Wait(6, WaitBehavior.AbortWhenFalse);
+	BigMessage(EventPlayer(), "You have Treasure Maps to spend! Look around for places to combine them.");
+	Wait(61, WaitBehavior.AbortWhenFalse);
+}
+
+rule: "[Guide 13] Have Geodes To Spend"
+Event.OngoingPlayer
+Team.Team2
+if (UnlockLevel >= 3)
+if (Item_Geode >= 5)
+if (IsBreakTime == true)
+{
+	Wait(9, WaitBehavior.AbortWhenFalse);
+	BigMessage(EventPlayer(), "You have Geodes to process! Look around to find where to process them.");
+	Wait(61, WaitBehavior.AbortWhenFalse);
+}
+
+rule: "[Guide 14] Have Diamonds To Sell"
+Event.OngoingPlayer
+Team.Team2
+if (UnlockLevel >= 4)
+if (Item_Diamond >= 1)
+if (IsBreakTime == true)
+{
+	Wait(12, WaitBehavior.AbortWhenFalse);
+	BigMessage(EventPlayer(), "You have Diamonds to sell! Look around to find where to sell them.");
+	Wait(61, WaitBehavior.AbortWhenFalse);
+}
+
+rule: "[Core] Regenerate"
+{
+	Wait(30, WaitBehavior.AbortWhenFalse);
+	if (Heart < PowerCoreLevel)
+	{
+		Heart += 1;
+	}
+	Loop();
+}

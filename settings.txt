@@ -1,0 +1,339 @@
+settings
+{
+    main
+    {
+        Description: "Castle Defense, by TimeBomb. v0.10 Based on Just Tower Defense by #KurenoDesu. CODE: N0BG0"
+    }
+
+    lobby
+    {
+        Match Voice Chat: Enabled
+        Max Spectators: 12
+        Max Team 1 Players: 0
+        Return To Lobby: Never
+        Swap Teams After Match: No
+    }
+
+    modes
+    {
+        Skirmish
+        {
+            enabled maps
+            {
+                Eichenwalde
+                Eichenwalde Halloween
+            }
+        }
+
+        General
+        {
+            Game Mode Start: Immediately
+            Kill Cam: Off
+        }
+    }
+
+    heroes
+    {
+        Team 1
+        {
+            Ultimate Generation: 10%
+
+            Ashe
+            {
+                Dynamite Cooldown Time: 75%
+            }
+
+            D.Va
+            {
+                Defense Matrix Maximum Time: 500%
+                Defense Matrix Recharge Rate: 500%
+                Micro Missiles Cooldown Time: 0%
+            }
+
+            Doomfist
+            {
+                Rising Uppercut Cooldown Time: 0%
+                Rocket Punch Cooldown Time: 0%
+                Rocket Punch Knockback Scalar: 200%
+                Seismic Slam Cooldown Time: 0%
+            }
+
+            Genji
+            {
+                Deflect Cooldown Time: 0%
+            }
+
+            Lúcio
+            {
+                Jump Vertical Speed: 115%
+                Movement Gravity: 80%
+                Soundwave Cooldown Time: 0%
+                Soundwave Knockback Scalar: 125%
+            }
+
+            McCree
+            {
+                No Ammunition Requirement: On
+            }
+
+            Moira
+            {
+                Biotic Orb Cooldown Time: 0%
+                Biotic Orb Max Damage Scalar: 25%
+            }
+
+            Reinhardt
+            {
+                Charge Cooldown Time: 0%
+                Charge Knockback Scalar: 300%
+            }
+
+            Roadhog
+            {
+                Healing Dealt: 25%
+                Healing Received: 150%
+                Take a Breather Cooldown Time: 0%
+            }
+
+            Sombra
+            {
+                Stealth Cooldown Time: 0%
+            }
+
+            Tracer
+            {
+                Blink Cooldown Time: 0%
+                No Ammunition Requirement: On
+            }
+
+            Widowmaker
+            {
+                No Ammunition Requirement: On
+                Venom Mine Cooldown Time: 45%
+            }
+
+            Winston
+            {
+                No Ammunition Requirement: On
+            }
+
+            Zarya
+            {
+                No Ammunition Requirement: On
+                Particle Barrier Cooldown Time: 0%
+                Particle Cannon Secondary Knockback Scalar: 150%
+            }
+        }
+
+        Team 2
+        {
+            Ashe
+            {
+                Ammunition Clip Size Scalar: 175%
+                Dynamite Cooldown Time: 75%
+            }
+
+            Bastion
+            {
+                Ammunition Clip Size Scalar: 40%
+                Self-Repair Maximum Time: 25%
+            }
+
+            D.Va
+            {
+                Boosters Knockback Scalar: 125%
+                Defense Matrix Maximum Time: 120%
+                Defense Matrix Recharge Rate: 150%
+                Micro Missiles Cooldown Time: 70%
+            }
+
+            Doomfist
+            {
+                Ammunition Regeneration Time Scalar: 200%
+                Rising Uppercut Cooldown Time: 80%
+                Rising Uppercut Knockback Scalar: 40%
+                Rocket Punch Cooldown Time: 80%
+                Seismic Slam Cooldown Time: 80%
+            }
+
+            Genji
+            {
+                Ammunition Clip Size Scalar: 200%
+                Swift Strike Cooldown Time: 60%
+            }
+
+            Hanzo
+            {
+                Lunge Cooldown Time: 75%
+                Storm Arrows Cooldown Time: 80%
+                Storm Arrows Quantity: 8
+            }
+
+            Junkrat
+            {
+                Ammunition Clip Size Scalar: 200%
+                Concussion Mine Knockback Scalar: 70%
+            }
+
+            McCree
+            {
+                Ammunition Clip Size Scalar: 150%
+                Flashbang Cooldown Time: 75%
+            }
+
+            Mei
+            {
+                Ammunition Clip Size Scalar: 150%
+                Blizzard Freeze Minimum: 40%
+                Ice Wall Cooldown Time: 70%
+                Weapon Freeze Duration Scalar: 125%
+                Weapon Freeze Minimum: 20%
+                Weapon Freeze Rate Scalar: 125%
+            }
+
+            Moira
+            {
+                Biotic Energy Recharge Rate: 200%
+                Biotic Orb Cooldown Time: 50%
+                Biotic Orb Max Damage Scalar: 150%
+                Fade Cooldown Time: 75%
+                Ultimate Duration: 133%
+            }
+
+            Orisa
+            {
+                Ammunition Clip Size Scalar: 150%
+                Halt! Cooldown Time: 70%
+                Protective Barrier Cooldown Time: 70%
+            }
+
+            Pharah
+            {
+                Ammunition Clip Size Scalar: 200%
+                Concussive Blast Cooldown Time: 75%
+                Hover Jets Recharge Rate: 125%
+            }
+
+            Reaper
+            {
+                Ammunition Clip Size Scalar: 150%
+                Shadow Step Cooldown Time: 50%
+                Wraith Form Cooldown Time: 70%
+            }
+
+            Reinhardt
+            {
+                Barrier Field Recharge Rate: 150%
+                Charge Knockback Scalar: 150%
+                Fire Strike Cooldown Time: 60%
+                Rocket Hammer Knockback Scalar: 125%
+            }
+
+            Roadhog
+            {
+                Ammunition Clip Size Scalar: 200%
+                Chain Hook Cooldown Time: 50%
+                Healing Received: 150%
+                Whole Hog Knockback Scalar: 150%
+            }
+
+            Sigma
+            {
+                Accretion Cooldown Time: 75%
+                Accretion Knockback Scalar: 150%
+                Experimental Barrier Recharge Rate: 150%
+                Kinetic Grasp Cooldown Time: 75%
+                Ultimate Generation - Combat Gravitic Flux: 0%
+                Ultimate Generation - Passive Gravitic Flux: 0%
+                Ultimate Generation Gravitic Flux: 10%
+            }
+
+            Soldier: 76
+            {
+                Ammunition Clip Size Scalar: 150%
+                Helix Rockets Cooldown Time: 50%
+            }
+
+            Sombra
+            {
+                Ammunition Clip Size Scalar: 170%
+                Hack Cooldown Time: 40%
+                Stealth Cooldown Time: 25%
+                Translocator Cooldown Time: 50%
+            }
+
+            Symmetra
+            {
+                Ammunition Clip Size Scalar: 125%
+            }
+
+            Torbjörn
+            {
+                Ammunition Clip Size Scalar: 70%
+                Deploy Turret Cooldown Time: 160%
+                Overload Cooldown Time: 120%
+                Ultimate Generation - Combat Molten Core: 0%
+            }
+
+            Tracer
+            {
+                Ammunition Clip Size Scalar: 150%
+                Blink Cooldown Time: 70%
+                Recall Cooldown Time: 70%
+            }
+
+            Widowmaker
+            {
+                Ammunition Clip Size Scalar: 175%
+                Grappling Hook Cooldown Time: 70%
+                No Ammunition Requirement: On
+                Venom Mine Cooldown Time: 45%
+            }
+
+            Winston
+            {
+                Ammunition Clip Size Scalar: 120%
+                Barrier Projector Cooldown Time: 75%
+                Jump Pack Cooldown Time: 90%
+                Jump Pack Knockback Scalar: 125%
+            }
+
+            Wrecking Ball
+            {
+                Adaptive Shield Cooldown Time: 80%
+                Ammunition Clip Size Scalar: 175%
+                Grappling Claw Cooldown Time: 50%
+                Grappling Claw Knockback Scalar: 125%
+                Minefield Knockback Scalar: 150%
+                Piledriver Cooldown Time: 65%
+            }
+
+            Zarya
+            {
+                Ammunition Clip Size Scalar: 175%
+                Particle Barrier Cooldown Time: 50%
+                Particle Cannon Secondary Knockback Scalar: 140%
+                Projected Barrier Cooldown Time: 70%
+            }
+
+            Zenyatta
+            {
+                Ammunition Clip Size Scalar: 175%
+            }
+        }
+
+        General
+        {
+            Ultimate Generation - Combat: 0%
+            Ultimate Generation - Passive: 0%
+
+            Echo
+            {
+                Ammunition Clip Size Scalar: 200%
+                Flight Cooldown Time: 80%
+                Focusing Beam Cooldown Time: 50%
+                Sticky Bombs Cooldown Time: 60%
+            }
+        }
+    }
+}

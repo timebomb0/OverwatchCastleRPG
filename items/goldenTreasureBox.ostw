@@ -1,0 +1,110 @@
+import "../vars.ostw";
+
+rule: "[Fbox] Main"
+{
+	ChaseVariableAtRate(FBoxtryopening, 0, 45, RateChaseReevaluation.DestinationAndRate);
+}
+
+rule: "[Fbox] Random"
+if (EnergyPoints >= EnergyToLvUp)
+if (FboxOpening == 0)
+{
+	FBoxChance = RandomInteger(1, 100);
+}
+
+rule: "[Fbox] Timed Out"
+if (FboxOpening == 1)
+{
+	if (BreakTime > 45)
+	{
+		Wait(45, WaitBehavior.AbortWhenFalse);
+	}
+	else
+	{
+		Wait(BreakTime - 5, WaitBehavior.AbortWhenFalse);
+	}
+	FboxOpening = 0;
+	DestroyEffect(FboxSave[0]);
+	DestroyInWorldText(FboxSave[1]);
+	DestroyEffect(FboxSave[2]);
+	FBoxChance = [];
+	FBoxtryopening = [];
+	BigMessage(AllPlayers(Team.All), "Aw, The Golden Treasure Box has vanished! (Timed out)");
+	DestroyIcon(GuideSave[0]);
+}
+
+rule: "[Fbox] Unknown Box Spawn"
+if (FBoxChance >= 85)
+{
+	FboxOpening = 1;
+	CreateEffect(AllPlayers(Team.All), Effect.LightShaft, Color.Orange, Vector(86.231, 0, -73.164), 6, EffectRev.VisibleToPositionAndRadius);
+	FboxSave[0] = LastCreatedEntity();
+	if (NumberOfPlayers(Team.Team2) == 2)
+	{
+		CreateInWorldText(AllPlayers(Team.All), <"<0>: <1>", "[The Golden Treasure Box] Press Reload Repeatedly To Open! [2+ Players Recommended]", FBoxtryopening>, Vector(86.231, 13.821, -73.164), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
+	}
+	else
+	{
+		CreateInWorldText(AllPlayers(Team.All), <"<0>: <1>", "[The Golden Treasure Box] Press Reload Repeatedly To Open! [3+ Players Recommended]", FBoxtryopening>, Vector(86.231, 13.821, -73.164), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
+	}
+	FboxSave[1] = LastTextID();
+	CreateEffect(AllPlayers(Team.All), Effect.Sparkles, Color.Orange, Vector(86.231, 13, -73.164), 6, EffectRev.VisibleToPositionAndRadius);
+	FboxSave[2] = LastCreatedEntity();
+	CreateIcon(AllPlayers(Team.Team2), Vector(86.231, 13.821, -73.164), Icon.QuestionMark, IconRev.VisibleToAndPosition, Color.Orange, true);
+	GuideSave[0] = LastCreatedEntity();
+	Wait(2.5, WaitBehavior.AbortWhenFalse);
+	BigMessage(AllPlayers(Team.Team2), "The Golden Treasure Box has spawned! Quick team, go open it!");
+}
+
+rule: "[Fbox] Opened Epic Box 4 3 pts"
+Event.OngoingPlayer
+Team.Team2
+if (DistanceBetween(EventPlayer(), Vector(86.231, 13.822, -73.164)) <= 6.5)
+if (FboxOpening == 1)
+if (FBoxChance >= 85)
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (IsAlive(EventPlayer()) == true)
+{
+	if (NumberOfPlayers(Team.Team2) == 2)
+	{
+		FBoxtryopening += 4.75;
+	}
+	else
+	{
+		FBoxtryopening += 3;
+	}
+}
+
+rule: "[Fbox] Get Items Epic Box"
+if (FboxOpening == 1)
+if (FBoxtryopening >= 100)
+if (FBoxChance >= 85)
+{
+	FboxOpening = 0;
+	DestroyEffect(FboxSave[0]);
+	DestroyInWorldText(FboxSave[1]);
+	DestroyEffect(FboxSave[2]);
+	FBoxChance = [];
+	FBoxtryopening = [];
+	AllPlayers(Team.Team2).Coins += RandomInteger(1000 * 10, 1000 * 30);
+	AllPlayers(Team.Team2).LootBox += RandomInteger(1, 3);
+	AllPlayers(Team.Team2).CursedBox += RandomInteger(0, 1);
+	AllPlayers(Team.Team2).Item_Oil += RandomInteger(0, 3);
+	AllPlayers(Team.Team2).TreasureMap += RandomInteger(36, 60);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, Vector(86.219, 14.193, -73.246), 40);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodPickupEffect, Color.Orange, Vector(86.219, 14.193, -73.246), 6);
+	BigMessage(AllPlayers(Team.Team2), "The Golden Treasure Box has been collected. Enjoy your spoils!");
+	DestroyIcon(GuideSave[0]);
+}
+
+rule: "[Fbox] Notify"
+Event.OngoingPlayer
+Team.Team2
+if (DistanceBetween(EventPlayer(), Vector(86.231, 13.822, -73.164)) <= 6.5)
+if (IsAlive(EventPlayer()) == true)
+if (FboxOpening == 1)
+{
+	SmallMessage(EventPlayer(), "Press Reload Repeatedly To Open It.");
+	Wait(5, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}

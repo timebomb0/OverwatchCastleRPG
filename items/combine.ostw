@@ -1,0 +1,27 @@
+import "../vars.ostw";
+
+rule: "[Combine] Treasure Map"
+Event.OngoingPlayer
+Team.Team2
+if (DistanceBetween(EventPlayer(), Vector(93.966, 12.074, -35.155)) <= 2.5)
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (TreasureMap >= 35)
+{
+	TreasureMap -= 35;
+	LootBox += 1;
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 75);
+}
+
+rule: "[Combine] The Cursed Treasure Map"
+Event.OngoingPlayer
+Team.Team2
+if (DistanceBetween(EventPlayer(), Vector(118.238, 10.07, -48.792)) <= 2.5)
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (TreasureMap >= 80)
+if (UnlockLevel >= 1)
+{
+	TreasureMap -= 80;
+	CursedBox += 1;
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 75);
+	BigMessage(EventPlayer(), <@"<0> <1> <2>", "[ ! ] ", EventPlayer(), "Obtains 1 Cursed Treasure Box from combining treasure maps!">);
+}

@@ -1,0 +1,56 @@
+import "../vars.ostw";
+
+rule: "[Magic Points] Cap"
+Event.OngoingPlayer
+Team.Team2
+if (MagicPts > 200)
+{
+	MagicPts = 200;
+	Wait(1, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Ultimate] Reset"
+Event.OngoingPlayer
+Team.Team2
+if (UltimateNumber >= 100)
+if (IsButtonHeld(EventPlayer(), Button.Ultimate) == true)
+{
+	UltimateNumber = 0;
+}
+
+rule: "[All World] Current Player Changed Hero Update Ammo"
+Event.OngoingPlayer
+Team.Team2
+if (HeroChanged == true)
+{
+	BaseMaxAmmo0 = MaxAmmo(EventPlayer(), 0);
+	BaseMaxAmmo1 = MaxAmmo(EventPlayer(), 1);
+	# Multiply max ammo * (ammo capacity / 100)
+	SetMaxAmmo(EventPlayer(), 1, BaseMaxAmmo1 * (AmmoCapacity / 100));
+	# Multiply max ammo * (ammo capacity / 100)
+	SetMaxAmmo(EventPlayer(), 0, BaseMaxAmmo0 * (AmmoCapacity / 100));
+	Wait(0.1, WaitBehavior.IgnoreCondition);
+	SetAmmo(EventPlayer(), 0, MaxAmmo(EventPlayer(), 0));
+	SetAmmo(EventPlayer(), 1, MaxAmmo(EventPlayer(), 1));
+	HeroChanged = false;
+}
+
+rule: "[All World] Current Player's Hero"
+Event.OngoingPlayer
+Team.Team2
+if (IsAlive(EventPlayer()) == true)
+{
+	if (CurrentHero != HeroOf(EventPlayer()))
+	{
+		HeroChanged = true;
+		CurrentHero = HeroOf(EventPlayer());
+	}
+}
+
+rule: "[Teleport] Base"
+Event.OngoingPlayer
+if (IsCommunicating(EventPlayer(), Communication.FallBack) == true)
+{
+	Teleport(EventPlayer(), Vector(39.575, 9.335, -87.635));
+}

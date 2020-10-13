@@ -1,0 +1,77 @@
+import "vars.ostw";
+
+rule: "[All World] Unlock 1 (Speed, Cursed Treasure Box)"
+if (UnlockLevel == 0)
+if (Level > 5)
+{
+	DestroyInWorldText(InWorldTextIds[0]);
+	DestroyInWorldText(InWorldTextIds[1]);
+	DestroyInWorldText(InWorldTextIds[2]);
+	CreateInWorldText(AllPlayers(Team.All), "[Press Reload to Upgrade] Speed +0.5% -500 Coins", Vector(66.035, 19.344, -73.005), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), "[Cursed Treasure Box] No One Knows What's Inside (Hold Reload)", Vector(56.444, 6.225, -87.247), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), "[Combine] 1 Cursed Treasure Box -80 Treasure Maps", Vector(118.238, 10.07, -48.792), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	UnlockLevel = 1;
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	BigMessage(AllPlayers(Team.All), "Beat Level 5! Unlocked: Speed Upgrade, Cursed Treasure Box, New Mob Spawns");
+}
+
+rule: "[All World] Unlock 2 (Max Ultimate, Dirt, Core Upgrade"
+if (UnlockLevel == 1)
+if (Level > 10)
+{
+	DestroyInWorldText(InWorldTextIds[4]);
+	DestroyInWorldText(InWorldTextIds[5]);
+	CreateInWorldText(AllPlayers(Team.All), "[Dig] -12 Treasure Maps (Hold Reload)", Vector(103.232, 13.842, -73.494), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1>", "[Core Capacity] -1 Oil Barrel (Reload) | Current Oil Barrel : ", <"<0> / <1>", InsertOil, 10>>, Vector(122.974, 12.007, -61.465), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Yellow, Spectators.DefaultVisibility);
+	UnlockLevel = 2;
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	BigMessage(AllPlayers(Team.All), "Beat Level 10! Unlocked: Instant Ultimate, Digging For Treasure, Core Upgrades, New Mob Spawns");
+}
+
+rule: "[All World] Unlock 3 (Force Enchant, Geode)"
+if (UnlockLevel == 2)
+if (Level > 15)
+{
+	DestroyInWorldText(InWorldTextIds[6]);
+	DestroyInWorldText(InWorldTextIds[7]);
+	CreateInWorldText(AllPlayers(Team.All), "[Force Enhancement] +All Status Except Damage Received -20,000 Pts (Hold Reload, Enhancement +7 and Above)", Vector(6.01, 6.213, -97.657), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), "[Process] -5 Geode (Hold Reload)", Vector(-1.364, 7.698, -72.803), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
+	UnlockLevel = 3;
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	BigMessage(AllPlayers(Team.All), "Beat Level 15! Unlocked: Force Enchant, Geode Processing, New Mob Spawns");
+}
+
+rule: "[All World] Unlock 4 (Selling Diamonds, Damage Received)"
+if (UnlockLevel == 3)
+if (Level > 20)
+{
+	DestroyInWorldText(InWorldTextIds[8]);
+	DestroyInWorldText(InWorldTextIds[9]);
+	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1>", "[Sell] -1 Diamond (Reload) | +", <@"<0> <1>", DiamondSellPrice, "Coins">>, Vector(-3.57, 3.176, -36.791), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Yellow, Spectators.DefaultVisibility);
+	UnlockLevel = 4;
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	BigMessage(AllPlayers(Team.All), "Beat Level 20! Unlocked: Selling Diamonds, Damage Received Upgrade");
+}
+
+rule: "[All World] Unlock 4 Player Specific (Damage Received)"
+Event.OngoingPlayer
+Team.Team2
+if (UnlockLevel >= 4)
+if (UnlockLevelInitialized[4] != true)
+{
+	CreateInWorldText(EventPlayer(), <"<0> -<1> <2>", "[Press Reload to Upgrade] Damage Received", DamageReceiveCost, "Coins">, Vector(56.592, 19.347, -79.917), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	UnlockLevelInitialized[4] = true;
+}
+
+rule: "[All World] Unlock 5 (Ult Upgrade, Ammo Capacity)"
+if (UnlockLevel == 4)
+if (Level > 25)
+{
+	DestroyInWorldText(InWorldTextIds[3]);
+	DestroyInWorldText(InWorldTextIds[10]);
+	CreateInWorldText(AllPlayers(Team.All), "[Press Reload to Purchase] Max Ultimate Charge -25,000 Coins", Vector(65.498, 17.167, -61.426), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), "[Press Reload to Upgrade] Ammo Capacity +5% -20,000 Coins", Vector(36.89, 14.021, -105.283), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	UnlockLevel = 5;
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	BigMessage(AllPlayers(Team.All), "Beat Level 25! Final Unlock: Ammo Capacity Upgrade, Purchase Max Ultimate Charge");
+}

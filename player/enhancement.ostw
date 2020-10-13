@@ -1,0 +1,198 @@
+import "../vars.ostw";
+
+rule: "[Enchant] Success"
+Event.OngoingPlayer
+Team.Team2
+if (EnchantChance <= 10)
+if (EnchantChance > 0)
+{
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, EventPlayer(), 40);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodPickupEffect, Color.Green, EventPlayer(), 1);
+	EnchantLevel += 1;
+	Wait(0.1, WaitBehavior.IgnoreCondition);
+	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Enhancement Success! All Status +", EnchantLevel, <@"<0> <1>", "for ", EventPlayer()>>);
+	Damage += EnchantLevel;
+	HP += EnchantLevel;
+	Speed += EnchantLevel / 4;
+	HealingDealt += EnchantLevel;
+	HealingReceive += EnchantLevel;
+	Wait(0.25, WaitBehavior.IgnoreCondition);
+	SetDamageDealt(EventPlayer(), Damage);
+	SetMaxHealth(EventPlayer(), HP);
+	if (IsBreakTime == true)
+	{
+		MinWait();
+		SetPlayerHealth(EventPlayer(), MaxHealth(EventPlayer()));
+	}
+	SetMoveSpeed(EventPlayer(), Speed);
+	SetHealingDealt(EventPlayer(), HealingDealt);
+	HealingReceive = HealingReceive;
+}
+
+rule: "[Enchant] 1-2 100%"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (EnchantLevel <= 2)
+if (DistanceBetween(EventPlayer(), Vector(96.735, 17.116, -22.764)) <= 2.5)
+if (Coins >= 3000)
+if (IsAlive(EventPlayer()) == true)
+{
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	EnchantChance = RandomInteger(1, 1);
+	Wait(0.05, WaitBehavior.IgnoreCondition);
+	EnchantChance = 0;
+	Coins -= 3000;
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Enchant] 3-4 66%"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (EnchantLevel >= 3)
+if (EnchantLevel <= 4)
+if (DistanceBetween(EventPlayer(), Vector(96.735, 17.116, -22.764)) <= 2.5)
+if (Coins >= 3000)
+if (IsAlive(EventPlayer()) == true)
+{
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	EnchantChance = RandomInteger(1, 15);
+	Wait(0.05, WaitBehavior.IgnoreCondition);
+	EnchantChance = 0;
+	Coins -= 3000;
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Enchant] 5-6 33%"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (EnchantLevel >= 5)
+if (EnchantLevel <= 6)
+if (DistanceBetween(EventPlayer(), Vector(96.735, 17.116, -22.764)) <= 2.5)
+if (Coins >= 3000)
+if (IsAlive(EventPlayer()) == true)
+{
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	EnchantChance = RandomInteger(1, 30);
+	Wait(0.05, WaitBehavior.IgnoreCondition);
+	EnchantChance = 0;
+	Coins -= 3000;
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Enchant] 7-10 25%"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (EnchantLevel >= 7)
+if (EnchantLevel <= 9)
+if (DistanceBetween(EventPlayer(), Vector(96.735, 17.116, -22.764)) <= 2.5)
+if (Coins >= 3000)
+if (IsAlive(EventPlayer()) == true)
+{
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	EnchantChance = RandomInteger(1, 40);
+	Wait(0.05, WaitBehavior.IgnoreCondition);
+	EnchantChance = 0;
+	Coins -= 3000;
+	Wait(1, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Enchant] Fail"
+Event.OngoingPlayer
+Team.Team2
+if (EnchantChance > 10)
+if (DistanceBetween(EventPlayer(), Vector(96.735, 17.116, -22.764)) <= 2.5)
+{
+	PlayEffect(AllPlayers(Team.All), PlayEffect.DebuffImpactSound, Color.White, EventPlayer(), 40);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BadPickupEffect, Color.Red, EventPlayer(), 1);
+	EnchantFail = [];
+	EnchantFail = RandomInteger(0, 1);
+	Wait(0.1, WaitBehavior.IgnoreCondition);
+	Damage -= EnchantLevel * EnchantFail;
+	HP -= EnchantLevel * EnchantFail;
+	HealingReceive -= EnchantLevel * EnchantFail;
+	Speed -= EnchantLevel / 4 * EnchantFail;
+	HealingDealt -= EnchantLevel * EnchantFail;
+	Wait(0.25, WaitBehavior.IgnoreCondition);
+	EnchantLevel -= EnchantFail;
+	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Failed, Enhancement Level -", EnchantFail, <@"<0> <1>", "for ", EventPlayer()>>);
+	SetDamageDealt(EventPlayer(), Damage);
+	SetMaxHealth(EventPlayer(), HP);
+	if (IsBreakTime == true)
+	{
+		MinWait();
+		SetPlayerHealth(EventPlayer(), MaxHealth(EventPlayer()));
+	}
+	SetMoveSpeed(EventPlayer(), Speed);
+	SetHealingDealt(EventPlayer(), HealingDealt);
+	HealingReceive = HealingReceive;
+}
+
+rule: "[Force Enhancement] 7-10 Force Enhance"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (EnchantLevel >= 7)
+if (EnchantLevel < 10)
+if (DistanceBetween(EventPlayer(), Vector(6.01, 6.213, -97.657)) <= 2.5)
+if (Coins >= 10000 + 10000)
+if (IsAlive(EventPlayer()) == true)
+if (UnlockLevel >= 3)
+{
+	SmallMessage(EventPlayer(), "Force Enhancing 1 (50%)!");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	EnchantChance = RandomInteger(1, 20);
+	Wait(0.05, WaitBehavior.IgnoreCondition);
+	EnchantChance = 0;
+	Coins -= 10000 + 10000;
+}
+
+rule: "[Enchant] Fail Force"
+Event.OngoingPlayer
+Team.Team2
+if (EnchantChance > 10)
+if (DistanceBetween(EventPlayer(), Vector(6.01, 6.213, -97.657)) <= 2.5)
+{
+	PlayEffect(AllPlayers(Team.All), PlayEffect.DebuffImpactSound, Color.White, EventPlayer(), 40);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BadPickupEffect, Color.Red, EventPlayer(), 1);
+	EnchantFail = [];
+	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Force Enhance Failed, Enhancement Level -", EnchantFail, <@"<0> <1>", "for ", EventPlayer()>>);
+	EnchantFail = RandomInteger(0, 0);
+	EnchantLevel -= EnchantFail;
+	Wait(0.1, WaitBehavior.IgnoreCondition);
+	Damage -= EnchantLevel * EnchantFail;
+	HP -= EnchantLevel * EnchantFail;
+	HealingReceive -= EnchantLevel * EnchantFail;
+	Speed -= EnchantLevel * EnchantFail;
+	HealingDealt -= EnchantLevel * EnchantFail;
+	Wait(0.25, WaitBehavior.IgnoreCondition);
+	SetDamageDealt(EventPlayer(), Damage);
+	SetMaxHealth(EventPlayer(), HP);
+	if (IsBreakTime == true)
+	{
+		MinWait();
+		SetPlayerHealth(EventPlayer(), MaxHealth(EventPlayer()));
+	}
+	SetMoveSpeed(EventPlayer(), Speed);
+	SetHealingDealt(EventPlayer(), HealingDealt);
+	HealingReceive = HealingReceive;
+}
+
+rule: "[Force Enhancement] 7-10 can't upgrade lv"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (EnchantLevel < 7)
+if (DistanceBetween(EventPlayer(), Vector(6.01, 6.213, -97.657)) <= 2.5)
+if (IsAlive(EventPlayer()) == true)
+{
+	SmallMessage(EventPlayer(), "You Need To Reach Enhancement Level 7 First.");
+}
+
+rule: "[Force Enhancement] 7-10 can't upgrade cost"
+Event.OngoingPlayer
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (DistanceBetween(EventPlayer(), Vector(6.01, 6.213, -97.657)) <= 2.5)
+if (IsAlive(EventPlayer()) == true)
+if (Coins < 10000 + 10000)
+{
+	SmallMessage(EventPlayer(), "You Don't Have Enough Coins.");
+}

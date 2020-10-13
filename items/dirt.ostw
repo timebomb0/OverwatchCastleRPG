@@ -1,0 +1,81 @@
+import "../vars.ostw";
+
+rule: "[Dirt] Main"
+Event.OngoingPlayer
+Team.Team2
+if (DistanceBetween(EventPlayer(), Vector(103.232, 13.842, -73.494)) <= 2.5)
+if (TreasureMap >= 12)
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (UnlockLevel >= 2)
+{
+	Wait(0.6, WaitBehavior.AbortWhenFalse);
+	TreasureMap -= 12;
+	DirtRandomItem = RandomInteger(1, 100);
+	Wait(0.05, WaitBehavior.IgnoreCondition);
+	DirtRandomItem = 0;
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 30);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Dirt] Diamond 1% 100"
+Event.OngoingPlayer
+Team.Team2
+if (DirtRandomItem == 100)
+{
+	SmallMessage(EventPlayer(), "What Amazing Luck! Dug up a Diamond!");
+	Item_Diamond += 1;
+	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", HeroIconString(HeroOf(EventPlayer())), EventPlayer(), "Found A Diamond While Digging For Treasure!">);
+}
+
+rule: "[Dirt] Cursed Treasure Box 5% 95-99"
+Event.OngoingPlayer
+Team.Team2
+if (DirtRandomItem >= 94)
+if (DirtRandomItem <= 99)
+{
+	SmallMessage(EventPlayer(), "Dug up a Cursed Treasure Box!");
+	CursedBox += 1;
+}
+
+rule: "[Dirt] Treasure Box 6% 89-94"
+Event.OngoingPlayer
+Team.Team2
+if (DirtRandomItem >= 86)
+if (DirtRandomItem <= 93)
+{
+	SmallMessage(EventPlayer(), "Dug up a Treasure Box!");
+	LootBox += 1;
+}
+
+rule: "[Dirt] Oil Barrel 14% 75-88"
+Event.OngoingPlayer
+Team.Team2
+if (DirtRandomItem >= 75)
+if (DirtRandomItem <= 88)
+{
+	Item_Oil += 1;
+	SmallMessage(EventPlayer(), "Dug up an Oil Barrel!");
+}
+
+rule: "[Dirt] Geode 46% 29-74"
+Event.OngoingPlayer
+Team.Team2
+if (DirtRandomItem >= 29)
+if (DirtRandomItem <= 74)
+{
+	GeodeGetReward += RandomInteger(1, 15);
+	Wait(0.2, WaitBehavior.IgnoreCondition);
+	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Dug Up", GeodeGetReward, "Geodes!">);
+	Item_Geode += GeodeGetReward;
+	Wait(0.2, WaitBehavior.IgnoreCondition);
+	GeodeGetReward = 0;
+}
+
+rule: "[Dirt] Nothing 28% 1-28"
+Event.OngoingPlayer
+Team.Team2
+if (DirtRandomItem >= 1)
+if (DirtRandomItem <= 28)
+{
+	SmallMessage(EventPlayer(), "Dug Up A Smelly Shoe, Try Again!");
+}

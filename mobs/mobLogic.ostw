@@ -1,0 +1,90 @@
+import "mobsList.ostw";
+import "../constants.ostw";
+
+rule: "[Mob] Settings"
+Event.OngoingPlayer
+Team.Team1
+if (IsBreakTime == false)
+{
+	SetRespawnMaxTime(EventPlayer(), RandomInteger(0.5, 4));
+}
+
+rule: "[Mob] Reward"
+Event.OnDeath
+Team.Team1
+if (YOf(PositionOf(EventPlayer())) >= 0)
+if (DistanceBetween(EventPlayer(), CoreLocation) >= 8)
+{
+	mobs[root.WaveSet].handleDead();
+}
+rule: "[Mob] Core Damage"
+Event.OngoingPlayer
+Team.Team1
+if (IsAlive(EventPlayer()) == true)
+if (DistanceBetween(EventPlayer(), CoreLocation) <= 8)
+{
+	mobs[root.WaveSet].handleDamage(EventPlayer());
+}
+
+rule: "[Mob] Spawn"
+if (IsBreakTime == true)
+{
+	mobs[root.WaveSet].spawn();
+}
+
+rule: "[Mob] Attack"
+Event.OngoingPlayer
+Team.Team1
+if (IsBreakTime == false)
+if (IsAlive(EventPlayer()) == true)
+{
+	Wait(mobs[root.WaveSet].AttackInterval, WaitBehavior.AbortWhenFalse);
+	mobs[root.WaveSet].attack(EventPlayer());
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Mob] Attack During Ult"
+Event.OngoingPlayer
+Team.Team1
+if (IsAlive(EventPlayer()) == true)
+if (IsUsingUltimate(EventPlayer()) == true)
+if (mobs[root.WaveSet].AttackDuringUlt == true)
+{
+	if (HeroOf(EventPlayer()) == Hero.Mccree || HeroOf(EventPlayer()) == Hero.Junkrat) {
+		Wait(RandomInteger(2, 5), WaitBehavior.AbortWhenFalse);
+	} 
+	StartHoldingButton(EventPlayer(), Button.PrimaryFire);
+	Wait(2, WaitBehavior.IgnoreCondition);
+	StopHoldingButton(EventPlayer(), Button.PrimaryFire);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Mob] Random Spawn"
+Event.OngoingPlayer
+Team.Team1
+if (IsInSpawnRoom(EventPlayer()) == true)
+{
+	Wait(0.125, WaitBehavior.IgnoreCondition);
+	Teleport(EventPlayer(), RandomValueInArray(MonsterSpawnRandom));
+}
+
+rule: "[Mob] Move"
+Event.OngoingPlayer
+Team.Team1
+{
+	StartThrottleInDirection(EventPlayer(), DirectionTowards(EventPlayer(), Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
+	StartFacing(EventPlayer(), DirectionTowards(EventPlayer(), ClosestPlayerTo(EyePosition(EventPlayer()), Team.Team2)), 300, Relative.ToWorld, FacingRev.DirectionAndTurnRate);
+}
+
+rule: "[Mob] Reposition"
+{
+	MonsterSpawnRandom = [];
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(71.305, 14.047, -104.584));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(76.944, 14.166, -103.278));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(80.213, 14.084, -101.059));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(81.024, 14.047, -98.273));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(81.489, 14.032, -95.587));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(72.116, 14.046, -97.168));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(69.029, 13.963, -100.525));
+	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(68.731, 13.953, -94.439));
+}
