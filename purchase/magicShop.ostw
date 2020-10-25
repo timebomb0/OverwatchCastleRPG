@@ -1,37 +1,38 @@
-import "../vars.ostw";
+// import "../utils/index.ostw";
 
-rule: "[MagicShop] Small 3000"
-Event.OngoingPlayer
-Team.Team2
-if (MagicPts < 200)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
-if (DistanceBetween(EventPlayer(), Vector(2.944, 7.173, -47.248)) <= 2)
-if (Coins >= 3000)
-{
-	MagicPts += 25;
-	Coins -= 3000;
-}
 
-rule: "[MagicShop] Medium 5000"
-Event.OngoingPlayer
-Team.Team2
-if (MagicPts < 200)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
-if (DistanceBetween(EventPlayer(), Vector(-3.872, 7.173, -48.876)) <= 2)
-if (Coins >= 5000)
-{
-	MagicPts += 50;
-	Coins -= 5000;
-}
+// rule: "[MagicShop] Small 3000"
+// Event.OngoingPlayer
+// Team.Team2
+// if (MagicPts < 200)
+// if (IsButtonHeld(Player, Button.Interact) == true)
+// if (DistanceBetween(Player, Vector(2.944, 7.173, -47.248)) <= 2)
+// if (Coins >= 3000)
+// {
+// 	MagicPts += 25;
+// 	Coins -= 3000;
+// }
 
-rule: "[MagicShop] Large 9000"
-Event.OngoingPlayer
-Team.Team2
-if (MagicPts < 200)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
-if (DistanceBetween(EventPlayer(), Vector(-3.023, 8.173, -41.795)) <= 2)
-if (Coins >= 9000)
-{
-	MagicPts += 100;
-	Coins -= 9000;
-}
+// rule: "[MagicShop] Medium 5000"
+// Event.OngoingPlayer
+// Team.Team2
+// if (MagicPts < 200)
+// if (IsButtonHeld(Player, Button.Interact) == true)
+// if (DistanceBetween(Player, Vector(-3.872, 7.173, -48.876)) <= 2)
+// if (Coins >= 5000)
+// {
+// 	MagicPts += 50;
+// 	Coins -= 5000;
+// }
+
+// rule: "[MagicShop] Large 9000"
+// Event.OngoingPlayer
+// Team.Team2
+// if (MagicPts < 200)
+// if (IsButtonHeld(Player, Button.Interact) == true)
+// if (DistanceBetween(Player, Vector(-3.023, 8.173, -41.795)) <= 2)
+// if (Coins >= 9000)
+// {
+// 	MagicPts += 100;
+// 	Coins -= 9000;
+// }

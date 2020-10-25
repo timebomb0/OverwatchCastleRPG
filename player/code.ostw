@@ -1,0 +1,101 @@
+import "../utils/index.ostw";
+
+disabled rule: "[Code] Load Effect"
+Event.OngoingPlayer
+{
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.White, Vector(-1.869, 7.75, -71.407), 2, EffectRev.VisibleToPositionAndRadius);
+    CreateInWorldText(Player, "Load", Vector(-2.108, 7.75, -70.871), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.White, Spectators.DefaultVisibility);
+}
+
+disabled rule: "[Code] Input UI"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (DistanceBetween(Vector(-1.869, 7.75, -71.407), Player) <= 20)
+{
+    CreateInWorldText(Player, "1", CodeInput1, 2.5, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[0] = LastTextID();
+   
+    CreateInWorldText(Player, "2", CodeInput2, 2.5, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[1] = LastTextID();
+ 
+    CreateInWorldText(Player, "3", CodeInput3, 2.5, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[2] = LastTextID();
+   
+    CreateInWorldText(Player, "4", CodeInput4, 2.5, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[3] = LastTextID();
+  
+    CreateInWorldText(Player, "5", CodeInput5, 2.5, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[4] = LastTextID();
+    
+    CreateInWorldText(Player, <"Your Code: <0>", InputtedCodeAsText>, Vector(-2.8, 7.25, -69.568), 2, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[5] = LastTextID();
+    
+    CreateInWorldText(Player, "Press Crouch to submit.", Vector(-2.8, 7, -69.568), 2, Clipping.DoNotClip, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+    CodeInWorldTextIds[6] = LastTextID();
+
+    IsEnteringCode = true;
+}
+
+rule: "[Code] Load Logic"
+{
+    CodeDictionary = new Dictionary();
+    CodeInput1 = Vector(-2.4, 7.75, -69.568);
+    CodeInput2 = Vector(-2.75, 7.75, -69.568);
+    CodeInput3 = Vector(-3.1, 7.75, -69.568);
+    CodeInput4 = Vector(-3.45, 7.75, -69.568);
+    CodeInput5 = Vector(-3.8, 7.75, -69.568);
+    CodeDictionary.Push(CodeInput1, 1);
+    CodeDictionary.Push(CodeInput2, 2);
+    CodeDictionary.Push(CodeInput3, 3);
+    CodeDictionary.Push(CodeInput4, 4);
+    CodeDictionary.Push(CodeInput5, 5);
+}
+
+rule: "[Code] Input Number"
+Event.OngoingPlayer
+if (IsFiringPrimary(Player) == true)
+if (DistanceBetween(Vector(-1.869, 7.75, -71.407), Player) <= 2.5)
+if (IsEnteringCode == true)
+{
+    define selectedVector! = FirstOf(SortedArray([CodeInput1, CodeInput2, CodeInput3, CodeInput4, CodeInput5], AngleBetweenVectors(FacingDirectionOf(Player), DirectionTowards(EyePosition(Player), ArrayElement()))));
+    InputtedCode = Append(InputtedCode, CodeDictionary.Of(selectedVector));
+    InputtedCodeAsText = "";
+    for (define i = 0; i < CountOf(InputtedCode); i++)
+    {
+        InputtedCodeAsText = <@"<0> <1>", InputtedCodeAsText, InputtedCode[i]>;
+    }
+    // TODO: Implement saving
+    // TODO: Finish implement loading - need to decode inputted code into variables.
+}
+
+rule: "[Code] Reset Input"
+Event.OngoingPlayer
+if (IsEnteringCode == true)
+if (DistanceBetween(Vector(-1.869, 7.75, -71.407), Player) > 2.5)
+{
+   for (define i = 0; i < CountOf(CodeInWorldTextIds); i++)
+    {
+       DestroyInWorldText(CodeInWorldTextIds[i]);
+    }
+    InputtedCode = "";
+    IsEnteringCode = false;
+}
+
+rule: "[Code] Submit Input"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Crouch) == true)
+if (DistanceBetween(Vector(-1.869, 7.75, -71.407), Player) <= 2.5)
+if (IsEnteringCode == true)
+{
+    SmallMessage(Player, <"TODO Load Inputted Code: <0>", InputtedCodeAsText>);
+    
+}
+
+define ConcatNumber(define a, define b) "[Subroutine] Concat Numbers"
+{
+    define pow! = 10;
+    while(b >= pow){
+        pow *= 10;
+    }
+    return a * pow + b;
+}

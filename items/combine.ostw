@@ -1,27 +1,28 @@
-import "../vars.ostw";
+import "../utils/index.ostw";
 
-rule: "[Combine] Treasure Map"
+
+rule: "[Combine] Treasure Box"
 Event.OngoingPlayer
 Team.Team2
-if (DistanceBetween(EventPlayer(), Vector(93.966, 12.074, -35.155)) <= 2.5)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
-if (TreasureMap >= 35)
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (DistanceBetween(Player, Vector(93.966, 12.074, -35.155)) <= 2.5)
+if (MobItem >= 35)
 {
-	TreasureMap -= 35;
+	MobItem -= 35;
 	LootBox += 1;
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 75);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 75);
 }
 
-rule: "[Combine] The Cursed Treasure Map"
+rule: "[Combine] The Cursed Treasure Box"
 Event.OngoingPlayer
 Team.Team2
-if (DistanceBetween(EventPlayer(), Vector(118.238, 10.07, -48.792)) <= 2.5)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
-if (TreasureMap >= 80)
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (MobItem >= 80)
 if (UnlockLevel >= 1)
+if (DistanceBetween(Player, Vector(118.238, 10.07, -48.792)) <= 2.5)
 {
-	TreasureMap -= 80;
+	MobItem -= 80;
 	CursedBox += 1;
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 75);
-	BigMessage(EventPlayer(), <@"<0> <1> <2>", "[ ! ] ", EventPlayer(), "Obtains 1 Cursed Treasure Box from combining treasure maps!">);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 75);
+	BigMessage(Player, <@"<0> <1> <2>", "[ ! ] ", Player, "Obtains 1 Cursed Treasure Box from combining treasure maps!">);
 }

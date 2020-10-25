@@ -1,29 +1,31 @@
 import "mobsList.ostw";
-import "../constants.ostw";
+
 
 rule: "[Mob] Settings"
 Event.OngoingPlayer
 Team.Team1
 if (IsBreakTime == false)
 {
-	SetRespawnMaxTime(EventPlayer(), RandomInteger(0.5, 4));
+	SetRespawnMaxTime(Player, RandomInteger(0.5, 4));
 }
 
 rule: "[Mob] Reward"
 Event.OnDeath
 Team.Team1
-if (YOf(PositionOf(EventPlayer())) >= 0)
-if (DistanceBetween(EventPlayer(), CoreLocation) >= 8)
+if (YOf(PositionOf(Player)) >= 0)
+if (DistanceBetween(Player, CoreLocation) >= 8)
 {
 	mobs[root.WaveSet].handleDead();
 }
-rule: "[Mob] Core Damage"
+rule: "[Mob] Reached End"
 Event.OngoingPlayer
 Team.Team1
-if (IsAlive(EventPlayer()) == true)
-if (DistanceBetween(EventPlayer(), CoreLocation) <= 8)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, CoreLocation) <= 8)
 {
-	mobs[root.WaveSet].handleDamage(EventPlayer());
+	
+	Wait(2, WaitBehavior.AbortWhenFalse);
+	mobs[root.WaveSet].despawn(Player);
 }
 
 rule: "[Mob] Spawn"
@@ -36,55 +38,57 @@ rule: "[Mob] Attack"
 Event.OngoingPlayer
 Team.Team1
 if (IsBreakTime == false)
-if (IsAlive(EventPlayer()) == true)
+if (IsAlive(Player) == true)
 {
 	Wait(mobs[root.WaveSet].AttackInterval, WaitBehavior.AbortWhenFalse);
-	mobs[root.WaveSet].attack(EventPlayer());
+	LoopIf(IsUsingUltimate(Player) == true);
+	mobs[root.WaveSet].attack(Player);
 	LoopIfConditionIsTrue();
 }
 
 rule: "[Mob] Attack During Ult"
 Event.OngoingPlayer
 Team.Team1
-if (IsAlive(EventPlayer()) == true)
-if (IsUsingUltimate(EventPlayer()) == true)
+if (IsAlive(Player) == true)
 if (mobs[root.WaveSet].AttackDuringUlt == true)
+if (IsUsingUltimate(Player) == true)
 {
-	if (HeroOf(EventPlayer()) == Hero.Mccree || HeroOf(EventPlayer()) == Hero.Junkrat) {
+	if (HeroOf(Player) == Hero.Mccree || HeroOf(Player) == Hero.Junkrat) {
 		Wait(RandomInteger(2, 5), WaitBehavior.AbortWhenFalse);
 	} 
-	StartHoldingButton(EventPlayer(), Button.PrimaryFire);
+	StartHoldingButton(Player, Button.PrimaryFire);
 	Wait(2, WaitBehavior.IgnoreCondition);
-	StopHoldingButton(EventPlayer(), Button.PrimaryFire);
+	StopHoldingButton(Player, Button.PrimaryFire);
 	LoopIfConditionIsTrue();
 }
 
 rule: "[Mob] Random Spawn"
 Event.OngoingPlayer
 Team.Team1
-if (IsInSpawnRoom(EventPlayer()) == true)
+if (IsInSpawnRoom(Player) == true)
 {
 	Wait(0.125, WaitBehavior.IgnoreCondition);
-	Teleport(EventPlayer(), RandomValueInArray(MonsterSpawnRandom));
+	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
 }
 
 rule: "[Mob] Move"
 Event.OngoingPlayer
 Team.Team1
 {
-	StartThrottleInDirection(EventPlayer(), DirectionTowards(EventPlayer(), Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
-	StartFacing(EventPlayer(), DirectionTowards(EventPlayer(), ClosestPlayerTo(EyePosition(EventPlayer()), Team.Team2)), 300, Relative.ToWorld, FacingRev.DirectionAndTurnRate);
+	StartThrottleInDirection(Player, DirectionTowards(Player, Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
+	StartFacing(Player, DirectionTowards(Player, ClosestPlayerTo(EyePosition(Player), Team.Team2)), 300, Relative.ToWorld, FacingRev.DirectionAndTurnRate);
 }
 
 rule: "[Mob] Reposition"
 {
-	MonsterSpawnRandom = [];
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(71.305, 14.047, -104.584));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(76.944, 14.166, -103.278));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(80.213, 14.084, -101.059));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(81.024, 14.047, -98.273));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(81.489, 14.032, -95.587));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(72.116, 14.046, -97.168));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(69.029, 13.963, -100.525));
-	ModifyVariable(MonsterSpawnRandom, Operation.AppendToArray, Vector(68.731, 13.953, -94.439));
+	MonsterSpawnRandom = [
+		Vector(71.305, 14.047, -104.584),
+		Vector(76.944, 14.166, -103.278),
+		Vector(80.213, 14.084, -101.059),
+		Vector(81.024, 14.047, -98.273),
+		Vector(81.489, 14.032, -95.587),
+		Vector(72.116, 14.046, -97.168),
+		Vector(69.029, 13.963, -100.525),
+		Vector(68.731, 13.953, -94.439)
+	];
 }

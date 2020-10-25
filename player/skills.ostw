@@ -1,653 +1,628 @@
-import "../vars.ostw";
+// import "../utils/index.ostw";
 
-rule: "[Special Ability] Torb"
-Event.OngoingPlayer
-Team.Team2
-Player.Torbjorn
-if (DistanceBetween(EventPlayer(), Vector(39.261, 9.47, -87.568)) <= 8)
-if (MagicPts >= 20)
-if (Heart < PowerCoreLevel)
-{
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(EventPlayer(), PlayEffect.RingExplosion, Color.Red, Vector(39.261, 8.1, -87.568), 3);
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(EventPlayer(), PlayEffect.RingExplosion, Color.Orange, Vector(39.261, 8.1, -87.568), 3);
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(EventPlayer(), PlayEffect.RingExplosion, Color.Yellow, Vector(39.261, 8.1, -87.568), 3);
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(EventPlayer(), PlayEffect.RingExplosion, Color.Green, Vector(39.261, 8.1, -87.568), 3);
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(EventPlayer(), PlayEffect.RingExplosion, Color.Blue, Vector(39.261, 8.1, -87.568), 16);
-	Heart += 1;
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Torbjorn), "Skill Activated (20 Mp) : Repaired the Point +1 Core">);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, EventPlayer(), 35);
-	MagicPts -= 20;
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Rein"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Reinhardt
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 125)
+// {
+// 	MagicPts -= 75;
+// 	SetSlowMotion(30);
+// 	Wait(0.2, WaitBehavior.IgnoreCondition);
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Reinhardt), "Skill Activated (125 Mp) : Knock Down Enemies for 6 Seconds">);
+// 	Teleport(AllPlayers(Team.Team1), Vector(77.7, 17, -99.693));
+// 	SetStatus(AllPlayers(Team.Team1), null, Status.KnockedDown, 6);
+// 	Wait(0.5, WaitBehavior.IgnoreCondition);
+// 	SetSlowMotion(100);
+// }
 
-rule: "[Special Ability] Rein"
-Event.OngoingPlayer
-Team.Team2
-Player.Reinhardt
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 125)
-{
-	MagicPts -= 75;
-	SetSlowMotion(30);
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Reinhardt), "Skill Activated (125 Mp) : Knock Down Enemies for 6 Seconds">);
-	Teleport(AllPlayers(Team.Team1), Vector(77.7, 17, -99.693));
-	SetStatus(AllPlayers(Team.Team1), null, Status.KnockedDown, 6);
-	Wait(0.5, WaitBehavior.IgnoreCondition);
-	SetSlowMotion(100);
-}
+// rule: "[Special Ability] Mei"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Mei
+// if (MagicPts >= 50)
+// if (IsUsingAbility1(Player) == true)
+// {
+// 	MagicPts -= 50;
+// 	SetStatus(PlayersWithinRadius(Player, 5, Team.Team1, RadiusLOS.Off), null, Status.Frozen, 6);
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Mei), "Skill Activated (50 Mp) : Freeze Enemies Within Radius 6 Meters">);
+// }
 
-rule: "[Special Ability] Mei"
-Event.OngoingPlayer
-Team.Team2
-Player.Mei
-if (MagicPts >= 50)
-if (IsUsingAbility1(EventPlayer()) == true)
-{
-	MagicPts -= 50;
-	SetStatus(PlayersWithinRadius(EventPlayer(), 5, Team.Team1, RadiusLOS.Off), null, Status.Frozen, 6);
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Mei), "Skill Activated (50 Mp) : Freeze Enemies Within Radius 6 Meters">);
-}
+// rule: "[Special Ability] Lucio"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Lucio
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 75)
+// {
+// 	Wait(0.2, WaitBehavior.IgnoreCondition);
+// 	MagicPts -= 75;
+// 	AllPlayers(Team.Team2).LucioBuff = 1;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Lucio), "Skill Activated (75 Mp) : Bonus Speed + 100 for 10 Seconds">);
+// }
 
-rule: "[Special Ability] Lucio"
-Event.OngoingPlayer
-Team.Team2
-Player.Lucio
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 75)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	MagicPts -= 75;
-	AllPlayers(Team.Team2).LucioBuff = 1;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Lucio), "Skill Activated (75 Mp) : Bonus Speed + 100 for 10 Seconds">);
-}
+// rule: "[Special Ability] Lucio2"
+// Event.OngoingPlayer
+// Team.Team2
+// if (LucioBuff == 1)
+// if (BuffPenalty == 2)
+// {
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, Player, 10);
+// 	MoveSpeed += 100;
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	Wait(10, WaitBehavior.IgnoreCondition);
+// 	AllPlayers(Team.Team2).LucioBuff = 2;
+// 	MoveSpeed -= 100;
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, Player, 10);
+// }
 
-rule: "[Special Ability] Lucio2"
-Event.OngoingPlayer
-Team.Team2
-if (LucioBuff == 1)
-if (BuffPenalty == 2)
-{
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, EventPlayer(), 10);
-	Speed += 100;
-	SetMoveSpeed(EventPlayer(), Speed);
-	Wait(10, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team2).LucioBuff = 2;
-	Speed -= 100;
-	SetMoveSpeed(EventPlayer(), Speed);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, EventPlayer(), 10);
-}
+// rule: "[Special Ability] Widow"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Widowmaker
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 60)
+// {
+// 	MagicPts -= 60;
+// 	AllPlayers(Team.Team2).WidowBuff = 1;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Widowmaker), "Skill Activated (60 Mp) :  Bonus (Team) Damage + 30 for 15 Seconds">);
+// }
 
-rule: "[Special Ability] Widow"
-Event.OngoingPlayer
-Team.Team2
-Player.Widowmaker
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 60)
-{
-	MagicPts -= 60;
-	AllPlayers(Team.Team2).WidowBuff = 1;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Widowmaker), "Skill Activated (60 Mp) :  Bonus (Team) Damage + 30 for 15 Seconds">);
-}
+// rule: "[Special Ability] Widow2"
+// Event.OngoingPlayer
+// Team.Team2
+// if (WidowBuff == 1)
+// if (BuffPenalty == 2)
+// {
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, Player, 10);
+// 	DamageDealt += 30;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	Wait(15, WaitBehavior.IgnoreCondition);
+// 	AllPlayers(Team.Team2).WidowBuff = 2;
+// 	DamageDealt -= 30;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, Player, 10);
+// }
 
-rule: "[Special Ability] Widow2"
-Event.OngoingPlayer
-Team.Team2
-if (WidowBuff == 1)
-if (BuffPenalty == 2)
-{
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, EventPlayer(), 10);
-	Damage += 30;
-	SetDamageDealt(EventPlayer(), Damage);
-	Wait(15, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team2).WidowBuff = 2;
-	Damage -= 30;
-	SetDamageDealt(EventPlayer(), Damage);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, EventPlayer(), 10);
-}
+// rule: "[Special Ability] Junkrat"
+// Event.OnFinalBlow
+// Team.Team2
+// Player.Junkrat
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 90)
+// {
+// 	MagicPts -= 90;
+// 	AllPlayers(Team.Team2).Pointloot = NumberOfDeadPlayers(Team.Team1) * 1500;
+// 	MinWait();
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1> <2>", HeroIconString(Hero.Junkrat), "Skill Activated (90 Mp) :  Earned Coins!", "(Number of Kills x 1,500 Coins)">);
+// 	AllPlayers(Team.Team2).Coins += AllPlayers(Team.Team2).Pointloot;
+// }
 
-rule: "[Special Ability] Junkrat"
-Event.OnFinalBlow
-Team.Team2
-Player.Junkrat
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 90)
-{
-	MagicPts -= 90;
-	AllPlayers(Team.Team2).Pointloot = NumberOfDeadPlayers(Team.Team1) * 1500;
-	MinWait();
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1> <2>", HeroIconString(Hero.Junkrat), "Skill Activated (90 Mp) :  Earned Coins!", "(Number of Kills x 1,500 Coins)">);
-	AllPlayers(Team.Team2).Coins += AllPlayers(Team.Team2).Pointloot;
-}
+// rule: "[Special Ability] Sombra"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Sombra
+// if (IsButtonHeld(Player, Button.Ultimate) == true)
+// if (MagicPts >= 140)
+// if (SombraUlt == 0)
+// if (IsUsingAbility1(Player) == false)
+// if (IsAlive(Player) == true)
+// {
+// 	SombraUlt = 1;
+// 	MagicPts -= 140;
+// 	SetUltimateCharge(Player, 100);
+// 	UltimateNumber = 100;
+// 	ClearStatus(AllPlayers(Team.Team2), Status.Hacked);
+// 	Wait(0.1, WaitBehavior.IgnoreCondition);
+// 	PressButton(Player, Button.Ultimate);
+// 	SetStatus(AllPlayers(Team.Team1), null, Status.Hacked, 10);
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Sombra), "Skill Activated (140 Mp) : Clear Hacked Status and Return to Enemies for 10 Seconds">);
+// 	Wait(2, WaitBehavior.IgnoreCondition);
+// 	SombraUlt = 0;
+// }
 
-rule: "[Special Ability] Sombra"
-Event.OngoingPlayer
-Team.Team2
-Player.Sombra
-if (IsButtonHeld(EventPlayer(), Button.Ultimate) == true)
-if (MagicPts >= 140)
-if (SombraUlt == 0)
-if (IsUsingAbility1(EventPlayer()) == false)
-if (IsAlive(EventPlayer()) == true)
-{
-	SombraUlt = 1;
-	MagicPts -= 140;
-	SetUltimateCharge(EventPlayer(), 100);
-	UltimateNumber = 100;
-	ClearStatus(AllPlayers(Team.Team2), Status.Hacked);
-	Wait(0.1, WaitBehavior.IgnoreCondition);
-	PressButton(EventPlayer(), Button.Ultimate);
-	SetStatus(AllPlayers(Team.Team1), null, Status.Hacked, 10);
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Sombra), "Skill Activated (140 Mp) : Clear Hacked Status and Return to Enemies for 10 Seconds">);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	SombraUlt = 0;
-}
+// rule: "[Special Ability] Moira"
+// Event.OnElimination
+// Team.Team2
+// Player.Moira
+// if (MagicPts < 100)
+// {
+// 	MagicPts += 10;
+// }
 
-rule: "[Special Ability] Moira"
-Event.OnElimination
-Team.Team2
-Player.Moira
-if (MagicPts < 100)
-{
-	MagicPts += 10;
-}
+// rule: "[Special Ability] Moira2"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Moira
+// if (MagicPts >= 100)
+// {
+// 	MagicPts -= 100;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Moira), "Passive Skill Activated (100 Mp) :  Transfer Moira 100 Mp to All Teammate 30 Mp">);
+// 	AllPlayers(Team.Team2).MagicPts += 30;
+// 	MagicPts -= 30;
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.BadPickupEffect, Color.Purple, AllPlayers(Team.Team2), 3);
+// }
 
-rule: "[Special Ability] Moira2"
-Event.OngoingPlayer
-Team.Team2
-Player.Moira
-if (MagicPts >= 100)
-{
-	MagicPts -= 100;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Moira), "Passive Skill Activated (100 Mp) :  Transfer Moira 100 Mp to All Teammate 30 Mp">);
-	AllPlayers(Team.Team2).MagicPts += 30;
-	MagicPts -= 30;
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BadPickupEffect, Color.Purple, AllPlayers(Team.Team2), 3);
-}
+// rule: "[Special Ability] Ashe"
+// Event.OnFinalBlow
+// Team.Team2
+// Player.Ashe
+// if (Victim() == EventWasCriticalHit())
+// {
+// 	AsheTreasureHunt += 10;
+// 	SmallMessage(Player, <@"<0> <1> <2>", HeroIconString(Hero.Ashe), "Passive Skill Activated (0 Mp) : Hunt Progression =  ", <@"<0> <1>", AsheTreasureHunt, "%">>);
+// }
 
-rule: "[Special Ability] Ashe"
-Event.OnFinalBlow
-Team.Team2
-Player.Ashe
-if (Victim() == EventWasCriticalHit())
-{
-	AsheTreasureHunt += 10;
-	SmallMessage(EventPlayer(), <@"<0> <1> <2>", HeroIconString(Hero.Ashe), "Passive Skill Activated (0 Mp) : Hunt Progression =  ", <@"<0> <1>", AsheTreasureHunt, "%">>);
-}
+// rule: "[Special Ability] Ashe2"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Ashe
+// if (AsheTreasureHunt >= 100)
+// if (MagicPts >= 100)
+// {
+// 	MagicPts -= 100;
+// 	AsheHuntGiveBox = RandomInteger(1, 10);
+// 	Wait(2, WaitBehavior.IgnoreCondition);
+// 	AsheTreasureHunt = 0;
+// 	AsheHuntGiveBox = 0;
+// }
 
-rule: "[Special Ability] Ashe2"
-Event.OngoingPlayer
-Team.Team2
-Player.Ashe
-if (AsheTreasureHunt >= 100)
-if (MagicPts >= 100)
-{
-	MagicPts -= 100;
-	AsheHuntGiveBox = RandomInteger(1, 10);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	AsheTreasureHunt = 0;
-	AsheHuntGiveBox = 0;
-}
+// rule: "[Special Ability] Ashe3"
+// if (AsheHuntGiveBox <= 7)
+// if (AsheHuntGiveBox != 0)
+// {
+// 	AllPlayers(Team.Team2).LootBox += RandomInteger(1, 2);
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Ashe), "Passive Skill Activated (100 Mp) : Give a Treasure Box to You!">);
+// }
 
-rule: "[Special Ability] Ashe3"
-if (AsheHuntGiveBox <= 7)
-if (AsheHuntGiveBox != 0)
-{
-	AllPlayers(Team.Team2).LootBox += RandomInteger(1, 2);
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Ashe), "Passive Skill Activated (100 Mp) : Give a Treasure Box to You!">);
-}
+// rule: "[Special Ability] Ashe4"
+// if (AsheHuntGiveBox > 8)
+// if (AsheHuntGiveBox != 0)
+// if (AsheHuntGiveBox <= 10)
+// {
+// 	AllPlayers(Team.Team2).CursedBox += 1;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Ashe), "Passive Skill Activated (100 Mp) : Give The Cursed Box to You!">);
+// }
 
-rule: "[Special Ability] Ashe4"
-if (AsheHuntGiveBox > 8)
-if (AsheHuntGiveBox != 0)
-if (AsheHuntGiveBox <= 10)
-{
-	AllPlayers(Team.Team2).CursedBox += 1;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Ashe), "Passive Skill Activated (100 Mp) : Give The Cursed Box to You!">);
-}
+// rule: "[Special Ability] Brig"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Brigitte
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 75)
+// {
+// 	Wait(0.2, WaitBehavior.IgnoreCondition);
+// 	MagicPts -= 75;
+// 	AllPlayers(Team.Team2).BrigBuff = 1;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Brigitte), "Skill Activated (75 Mp) : Bonus Damage Received -10% ,Health + 50 For 20 Seconds">);
+// }
 
-rule: "[Special Ability] Brig"
-Event.OngoingPlayer
-Team.Team2
-Player.Brigitte
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 75)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	MagicPts -= 75;
-	AllPlayers(Team.Team2).BrigBuff = 1;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Brigitte), "Skill Activated (75 Mp) : Bonus Damage Received -10% ,Health + 50 For 20 Seconds">);
-}
+// rule: "[Special Ability] Brig2"
+// Event.OngoingPlayer
+// Team.Team2
+// if (BrigBuff == 1)
+// if (BuffPenalty == 2)
+// {
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Yellow, Player, 10);
+// 	DamageReceive -= 10;
+// 	SetDamageReceived(Player, DamageReceive);
+// 	HP += 50;
+// 	SetMaxHealth(Player, HP);
+// 	Wait(20, WaitBehavior.IgnoreCondition);
+// 	AllPlayers(Team.Team2).BrigBuff = 2;
+// 	DamageReceive += 10;
+// 	SetDamageReceived(Player, DamageReceive);
+// 	HP -= 50;
+// 	SetMaxHealth(Player, HP);
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, Player, 10);
+// }
 
-rule: "[Special Ability] Brig2"
-Event.OngoingPlayer
-Team.Team2
-if (BrigBuff == 1)
-if (BuffPenalty == 2)
-{
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Yellow, EventPlayer(), 10);
-	DamageReceive -= 10;
-	SetDamageReceived(EventPlayer(), DamageReceive);
-	HP += 50;
-	SetMaxHealth(EventPlayer(), HP);
-	Wait(20, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team2).BrigBuff = 2;
-	DamageReceive += 10;
-	SetDamageReceived(EventPlayer(), DamageReceive);
-	HP -= 50;
-	SetMaxHealth(EventPlayer(), HP);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, EventPlayer(), 10);
-}
+// rule: "[Special Ability] Tracer"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Tracer
+// if (IsUsingAbility2(Player) == true)
+// if (MagicPts >= 90)
+// {
+// 	MagicPts -= 90;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Tracer), "Skill Activated (90 Mp) : Ultimate Ready!">);
+// 	SetUltimateCharge(AllPlayers(Team.Team2), 100);
+// 	AllPlayers(Team.Team2).UltimateNumber = 100;
+// }
 
-rule: "[Special Ability] Tracer"
-Event.OngoingPlayer
-Team.Team2
-Player.Tracer
-if (IsUsingAbility2(EventPlayer()) == true)
-if (MagicPts >= 90)
-{
-	MagicPts -= 90;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Tracer), "Skill Activated (90 Mp) : Ultimate Ready!">);
-	SetUltimateCharge(AllPlayers(Team.Team2), 100);
-	AllPlayers(Team.Team2).UltimateNumber = 100;
-}
+// rule: "[Special Ability] Mercy"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Mercy
+// if (MagicPts >= 180)
+// if (IsUsingUltimate(Player) == true)
+// {
+// 	Wait(0.2, WaitBehavior.IgnoreCondition);
+// 	MagicPts -= 180;
+// 	AllPlayers(Team.Team2).MercyBuff = 1;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Mercy), "Skill Activated (180 Mp) : Bonus (Team) All Status +25 except Damage Received for 60 Seconds">);
+// }
 
-rule: "[Special Ability] Mercy"
-Event.OngoingPlayer
-Team.Team2
-Player.Mercy
-if (MagicPts >= 180)
-if (IsUsingUltimate(EventPlayer()) == true)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	MagicPts -= 180;
-	AllPlayers(Team.Team2).MercyBuff = 1;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Mercy), "Skill Activated (180 Mp) : Bonus (Team) All Status +25 except Damage Received for 60 Seconds">);
-}
+// rule: "[Special Ability] Mercy2"
+// Event.OngoingPlayer
+// Team.Team2
+// if (MercyBuff == 1)
+// if (BuffPenalty == 2)
+// {
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Yellow, Player, 10);
+// 	HealingReceive += 25;
+// 	SetHealingReceived(Player, HealingReceive);
+// 	HP += 25;
+// 	SetMaxHealth(Player, HP);
+// 	DamageDealt += 25;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	MoveSpeed += 25;
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	HealingDealt += 25;
+// 	SetHealingDealt(Player, HealingDealt);
+// 	Wait(60, WaitBehavior.IgnoreCondition);
+// 	AllPlayers(Team.Team2).MercyBuff = 2;
+// 	HP -= 25;
+// 	SetMaxHealth(Player, HP);
+// 	DamageDealt -= 25;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	MoveSpeed -= 25;
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	HealingDealt -= 25;
+// 	SetHealingDealt(Player, HealingDealt);
+// 	HealingReceive -= 25;
+// 	SetHealingReceived(Player, HealingReceive);
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, Player, 10);
+// }
 
-rule: "[Special Ability] Mercy2"
-Event.OngoingPlayer
-Team.Team2
-if (MercyBuff == 1)
-if (BuffPenalty == 2)
-{
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Yellow, EventPlayer(), 10);
-	HealingReceive += 25;
-	SetHealingReceived(EventPlayer(), HealingReceive);
-	HP += 25;
-	SetMaxHealth(EventPlayer(), HP);
-	Damage += 25;
-	SetDamageDealt(EventPlayer(), Damage);
-	Speed += 25;
-	SetMoveSpeed(EventPlayer(), Speed);
-	HealingDealt += 25;
-	SetHealingDealt(EventPlayer(), HealingDealt);
-	Wait(60, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team2).MercyBuff = 2;
-	HP -= 25;
-	SetMaxHealth(EventPlayer(), HP);
-	Damage -= 25;
-	SetDamageDealt(EventPlayer(), Damage);
-	Speed -= 25;
-	SetMoveSpeed(EventPlayer(), Speed);
-	HealingDealt -= 25;
-	SetHealingDealt(EventPlayer(), HealingDealt);
-	HealingReceive -= 25;
-	SetHealingReceived(EventPlayer(), HealingReceive);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, EventPlayer(), 10);
-}
+// rule: "[Special Ability] Zenyatta"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Zenyatta
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 80)
+// {
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Zenyatta), "Skill Activated (80 Mp) : Heal Overtime for 10 Seconds">);
+// 	MagicPts -= 80;
+// 	StartHealOverTime(AllPlayers(Team.Team2), Player, 10, HealingDealt);
+// 	Wait(10, WaitBehavior.IgnoreCondition);
+// 	StopAllHealOverTime(AllPlayers(Team.Team2));
+// }
 
-rule: "[Special Ability] Zenyatta"
-Event.OngoingPlayer
-Team.Team2
-Player.Zenyatta
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 80)
-{
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Zenyatta), "Skill Activated (80 Mp) : Heal Overtime for 10 Seconds">);
-	MagicPts -= 80;
-	StartHealOverTime(AllPlayers(Team.Team2), EventPlayer(), 10, HealingDealt);
-	Wait(10, WaitBehavior.IgnoreCondition);
-	StopAllHealOverTime(AllPlayers(Team.Team2));
-}
+// disabled rule: "[Special Ability] 76"
+// Event.OnFinalBlow
+// Team.Team2
+// Player.Soldier76
+// if (MagicPts >= 20)
+// if (Victim() == EventWasCriticalHit())
+// {
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Soldier76), "Skill Activated (20 Mp) : Slow Down!">);
+// 	MagicPts -= 20;
+// 	SetSlowMotion(30);
+// 	Wait(0.75, WaitBehavior.IgnoreCondition);
+// 	SetSlowMotion(100);
+// }
 
-disabled rule: "[Special Ability] 76"
-Event.OnFinalBlow
-Team.Team2
-Player.Soldier76
-if (MagicPts >= 20)
-if (Victim() == EventWasCriticalHit())
-{
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Soldier76), "Skill Activated (20 Mp) : Slow Down!">);
-	MagicPts -= 20;
-	SetSlowMotion(30);
-	Wait(0.75, WaitBehavior.IgnoreCondition);
-	SetSlowMotion(100);
-}
+// rule: "[Special Ability] Ana 3-8"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Ana
+// if (MagicPts >= 45)
+// if (IsUsingAbility2(Player) == true)
+// if (NumberOfPlayers(Team.Team1) > 1)
+// {
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Ana), "Skill Activated (45 Mp) : Toxic Grenade!">);
+// 	MagicPts -= 45;
+// 	StartDamageOverTime(AllPlayers(Team.Team1), Player, 5, DamageDealt / 2);
+// 	Wait(5, WaitBehavior.IgnoreCondition);
+// }
 
-rule: "[Special Ability] Ana 3-8"
-Event.OngoingPlayer
-Team.Team2
-Player.Ana
-if (MagicPts >= 45)
-if (IsUsingAbility2(EventPlayer()) == true)
-if (NumberOfPlayers(Team.Team1) > 1)
-{
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Ana), "Skill Activated (45 Mp) : Toxic Grenade!">);
-	MagicPts -= 45;
-	StartDamageOverTime(AllPlayers(Team.Team1), EventPlayer(), 5, Damage / 2);
-	Wait(5, WaitBehavior.IgnoreCondition);
-}
+// rule: "[Special Ability] Genji 9"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Genji
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 70)
+// {
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Genji), "Skill Activated (70 Mp) : Invinsible for 6 Seconds + Bonus Damage +80">);
+// 	MagicPts -= 70;
+// 	CreateEffect(AllPlayers(Team.All), Effect.BadAura, Color.Green, Player, 1, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[9] = LastCreatedEntity();
+// 	DamageDealt += 80;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	SetStatus(Player, null, Status.PhasedOut, 7.5);
+// 	SetStatus(Player, null, Status.Invincible, 7.5);
+// 	Wait(7.5, WaitBehavior.IgnoreCondition);
+// 	DamageDealt -= 80;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	DestroyEffect(BuffEffect[9]);
+// }
 
-rule: "[Special Ability] Genji 9"
-Event.OngoingPlayer
-Team.Team2
-Player.Genji
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 70)
-{
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Genji), "Skill Activated (70 Mp) : Invinsible for 6 Seconds + Bonus Damage +80">);
-	MagicPts -= 70;
-	CreateEffect(AllPlayers(Team.All), Effect.BadAura, Color.Green, EventPlayer(), 1, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[9] = LastCreatedEntity();
-	Damage += 80;
-	SetDamageDealt(EventPlayer(), Damage);
-	SetStatus(EventPlayer(), null, Status.PhasedOut, 7.5);
-	SetStatus(EventPlayer(), null, Status.Invincible, 7.5);
-	Wait(7.5, WaitBehavior.IgnoreCondition);
-	Damage -= 80;
-	SetDamageDealt(EventPlayer(), Damage);
-	DestroyEffect(BuffEffect[9]);
-}
+// rule: "[Special Ability] Orisa"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Orisa
+// if (IsUsingAbility1(Player) == true)
+// if (MagicPts >= 30)
+// {
+// 	Wait(0.2, WaitBehavior.IgnoreCondition);
+// 	MagicPts -= 30;
+// 	AllPlayers(Team.Team2).OrisaBuff = 1;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Orisa), "Skill Activated (30 Mp) : Debuff Resistance For 4 Seconds">);
+// }
 
-rule: "[Special Ability] Orisa"
-Event.OngoingPlayer
-Team.Team2
-Player.Orisa
-if (IsUsingAbility1(EventPlayer()) == true)
-if (MagicPts >= 30)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	MagicPts -= 30;
-	AllPlayers(Team.Team2).OrisaBuff = 1;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Orisa), "Skill Activated (30 Mp) : Debuff Resistance For 4 Seconds">);
-}
+// rule: "[Special Ability] Orisa2"
+// Event.OngoingPlayer
+// Team.Team2
+// if (OrisaBuff == 1)
+// if (BuffPenalty == 2)
+// {
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, Player, 10);
+// 	Wait(4, WaitBehavior.IgnoreCondition);
+// 	AllPlayers(Team.Team2).OrisaBuff = 2;
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, Player, 10);
+// 	SetStatus(Player, null, Status.PhasedOut, 4);
+// }
 
-rule: "[Special Ability] Orisa2"
-Event.OngoingPlayer
-Team.Team2
-if (OrisaBuff == 1)
-if (BuffPenalty == 2)
-{
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, EventPlayer(), 10);
-	Wait(4, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team2).OrisaBuff = 2;
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, EventPlayer(), 10);
-	SetStatus(EventPlayer(), null, Status.PhasedOut, 4);
-}
+// rule: "[Special Ability] Hammond"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.WreckingBall
+// if (MagicPts >= 5)
+// if (IsUsingAbility1(Player) == true)
+// if (NumberOfPlayers(Team.Team1) > 1)
+// {
+// 	MagicPts -= 10;
+// 	Wait(1, WaitBehavior.IgnoreCondition);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Hammond"
-Event.OngoingPlayer
-Team.Team2
-Player.WreckingBall
-if (MagicPts >= 5)
-if (IsUsingAbility1(EventPlayer()) == true)
-if (NumberOfPlayers(Team.Team1) > 1)
-{
-	MagicPts -= 10;
-	Wait(1, WaitBehavior.IgnoreCondition);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Hammonds"
+// Event.OnDamageDealt
+// Team.Team2
+// Player.WreckingBall
+// if (IsUsingAbility1(Player) == true)
+// if (MagicPts >= 10)
+// if (DistanceBetween(Player, Victim()) <= 5)
+// {
+// 	SetStatus(Victim(), null, Status.KnockedDown, 3);
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.WreckingBall), "Skill Activated (10/sec Mp) : Knock Down Enemies Within Radius 5 Meters!">);
+// }
 
-rule: "[Special Ability] Hammonds"
-Event.OnDamageDealt
-Team.Team2
-Player.WreckingBall
-if (IsUsingAbility1(EventPlayer()) == true)
-if (MagicPts >= 10)
-if (DistanceBetween(EventPlayer(), Victim()) <= 5)
-{
-	SetStatus(Victim(), null, Status.KnockedDown, 3);
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.WreckingBall), "Skill Activated (10/sec Mp) : Knock Down Enemies Within Radius 5 Meters!">);
-}
+// rule: "[Special Ability] Reaper"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Reaper
+// if (IsDead(Player) == true)
+// if (MagicPts >= 50)
+// if (IsButtonHeld(Player, Button.Jump) == true)
+// {
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Reaper), "Skill Activated (50 Mp) : Self Revive!">);
+// 	MagicPts -= 50;
+// 	Respawn(Player);
+// 	SetStatus(AllPlayers(Team.Team1), null, Status.Asleep, 10);
+// }
 
-rule: "[Special Ability] Reaper"
-Event.OngoingPlayer
-Team.Team2
-Player.Reaper
-if (IsDead(EventPlayer()) == true)
-if (IsButtonHeld(EventPlayer(), Button.Jump) == true)
-if (MagicPts >= 50)
-{
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Reaper), "Skill Activated (50 Mp) : Self Revive!">);
-	MagicPts -= 50;
-	Respawn(EventPlayer());
-	SetStatus(AllPlayers(Team.Team1), null, Status.Asleep, 10);
-}
+// disabled rule: "[Special Ability] D.va"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Dva
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 200)
+// if (NumberOfHeroes(Hero.Reinhardt, Team.Team1) <= 0)
+// {
+// 	MagicPts -= 200;
+// 	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Dva), "Skill Activated (200 Mp) : Nuke! (Can't use during Nightmare Level)">);
+// 	Wait(3, WaitBehavior.IgnoreCondition);
+// 	Kill(AllPlayers(Team.Team1), Player);
+// }
 
-disabled rule: "[Special Ability] D.va"
-Event.OngoingPlayer
-Team.Team2
-Player.Dva
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 200)
-if (NumberOfHeroes(Hero.Reinhardt, Team.Team1) <= 0)
-{
-	MagicPts -= 200;
-	SmallMessage(AllPlayers(Team.Team2), <@"<0> <1>", HeroIconString(Hero.Dva), "Skill Activated (200 Mp) : Nuke! (Can't use during Nightmare Level)">);
-	Wait(3, WaitBehavior.IgnoreCondition);
-	Kill(AllPlayers(Team.Team1), EventPlayer());
-}
+// rule: "[Special Ability] Bastion"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Bastion
+// if (MagicPts >= 150)
+// if (IsUsingUltimate(Player) == true)
+// {
+// 	MagicPts -= 150;
+// 	SetStatus(Player, null, Status.PhasedOut, 2);
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Bastion), "Skill Activated (150 Mp) : Bonus Damage +175 Speed -500 for 8 Seconds">);
+// 	DamageDealt += 175;
+// 	MoveSpeed-= 500;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	Wait(9.5, WaitBehavior.IgnoreCondition);
+// 	DamageDealt -= 175;
+// 	MoveSpeed+= 500;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	SetMoveSpeed(Player, MoveSpeed);
+// }
 
-rule: "[Special Ability] Bastion"
-Event.OngoingPlayer
-Team.Team2
-Player.Bastion
-if (MagicPts >= 150)
-if (IsUsingUltimate(EventPlayer()) == true)
-{
-	MagicPts -= 150;
-	SetStatus(EventPlayer(), null, Status.PhasedOut, 2);
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Bastion), "Skill Activated (150 Mp) : Bonus Damage +175 Speed -500 for 8 Seconds">);
-	Damage += 175;
-	Speed -= 500;
-	SetDamageDealt(EventPlayer(), Damage);
-	SetMoveSpeed(EventPlayer(), Speed);
-	Wait(9.5, WaitBehavior.IgnoreCondition);
-	Damage -= 175;
-	Speed += 500;
-	SetDamageDealt(EventPlayer(), Damage);
-	SetMoveSpeed(EventPlayer(), Speed);
-}
+// rule: "[Special Ability] Hanzo"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Hanzo
+// if (IsUsingAbility1(Player) == true)
+// if (MagicPts >= 50)
+// {
+// 	MagicPts -= 50;
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Hanzo), "Skill Activated (50 Mp) : Bonus Damage +25 for 10 Seconds">);
+// 	DamageDealt += 30;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	Wait(10, WaitBehavior.IgnoreCondition);
+// 	DamageDealt -= 30;
+// 	SetDamageDealt(Player, DamageDealt);
+// }
 
-rule: "[Special Ability] Hanzo"
-Event.OngoingPlayer
-Team.Team2
-Player.Hanzo
-if (IsUsingAbility1(EventPlayer()) == true)
-if (MagicPts >= 50)
-{
-	MagicPts -= 50;
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Hanzo), "Skill Activated (50 Mp) : Bonus Damage +25 for 10 Seconds">);
-	Damage += 30;
-	SetDamageDealt(EventPlayer(), Damage);
-	Wait(10, WaitBehavior.IgnoreCondition);
-	Damage -= 30;
-	SetDamageDealt(EventPlayer(), Damage);
-}
+// rule: "[Special Ability] Mccree"
+// Event.OnFinalBlow
+// Team.Team2
+// Player.Mccree
+// if (MagicPts >= 25)
+// if (Victim() == EventWasCriticalHit())
+// {
+// 	MagicPts -= 25;
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Mccree), "Passive Skill Activated (25 Mp) : Critical Only Bonus Damage +1 (Permanent)">);
+// 	DamageDealt += 1;
+// 	SetDamageDealt(Player, DamageDealt);
+// }
 
-rule: "[Special Ability] Mccree"
-Event.OnFinalBlow
-Team.Team2
-Player.Mccree
-if (MagicPts >= 25)
-if (Victim() == EventWasCriticalHit())
-{
-	MagicPts -= 25;
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Mccree), "Passive Skill Activated (25 Mp) : Critical Only Bonus Damage +1 (Permanent)">);
-	Damage += 1;
-	SetDamageDealt(EventPlayer(), Damage);
-}
+// rule: "[Special Ability] Phara"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Pharah
+// if (IsUsingUltimate(Player) == true)
+// if (MagicPts >= 50)
+// {
+// 	MagicPts -= 50;
+// 	SetStatus(Player, null, Status.PhasedOut, 5);
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Pharah), "Skill Activated (50 Mp) : Increase Fire Rate and Bonus Damage +20  for 3 Seconds!">);
+// 	SetProjectileSpeed(Player, 500);
+// 	DamageDealt += 20;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	Wait(3, WaitBehavior.IgnoreCondition);
+// 	SetProjectileSpeed(Player, 100);
+// 	DamageDealt -= 20;
+// 	SetDamageDealt(Player, DamageDealt);
+// }
 
-rule: "[Special Ability] Phara"
-Event.OngoingPlayer
-Team.Team2
-Player.Pharah
-if (IsUsingUltimate(EventPlayer()) == true)
-if (MagicPts >= 50)
-{
-	MagicPts -= 50;
-	SetStatus(EventPlayer(), null, Status.PhasedOut, 5);
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Pharah), "Skill Activated (50 Mp) : Increase Fire Rate and Bonus Damage +20  for 3 Seconds!">);
-	SetProjectileSpeed(EventPlayer(), 500);
-	Damage += 20;
-	SetDamageDealt(EventPlayer(), Damage);
-	Wait(3, WaitBehavior.IgnoreCondition);
-	SetProjectileSpeed(EventPlayer(), 100);
-	Damage -= 20;
-	SetDamageDealt(EventPlayer(), Damage);
-}
+// rule: "[Special Ability] Echo"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Echo
+// if (MagicPts >= 35)
+// if (IsUsingAbility1(Player) == true)
+// {
+// 	MagicPts -= 35;
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Echo), "Passive Skill Activated (35 Mp) : (Echo Only) Bonus All Status +25 for 3 Seconds">);
+// 	PlayEffect(Player, PlayEffect.GoodExplosion, Color.Yellow, Player, 10);
+// 	HealingReceive += 25;
+// 	SetHealingReceived(Player, HealingReceive);
+// 	HP += 25;
+// 	SetMaxHealth(Player, HP);
+// 	DamageDealt += 25;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	MoveSpeed+= 25;
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	HealingDealt += 25;
+// 	SetHealingDealt(Player, HealingDealt);
+// 	Wait(3, WaitBehavior.IgnoreCondition);
+// 	HP -= 25;
+// 	SetMaxHealth(Player, HP);
+// 	DamageDealt -= 25;
+// 	SetDamageDealt(Player, DamageDealt);
+// 	MoveSpeed-= 25;
+// 	SetMoveSpeed(Player, MoveSpeed);
+// 	HealingDealt -= 25;
+// 	SetHealingDealt(Player, HealingDealt);
+// 	HealingReceive -= 25;
+// 	SetHealingReceived(Player, HealingReceive);
+// 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, Player, 10);
+// }
 
-rule: "[Special Ability] Echo"
-Event.OngoingPlayer
-Team.Team2
-Player.Echo
-if (MagicPts >= 35)
-if (IsUsingAbility1(EventPlayer()) == true)
-{
-	MagicPts -= 35;
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Echo), "Passive Skill Activated (35 Mp) : (Echo Only) Bonus All Status +25 for 3 Seconds">);
-	PlayEffect(EventPlayer(), PlayEffect.GoodExplosion, Color.Yellow, EventPlayer(), 10);
-	HealingReceive += 25;
-	SetHealingReceived(EventPlayer(), HealingReceive);
-	HP += 25;
-	SetMaxHealth(EventPlayer(), HP);
-	Damage += 25;
-	SetDamageDealt(EventPlayer(), Damage);
-	Speed += 25;
-	SetMoveSpeed(EventPlayer(), Speed);
-	HealingDealt += 25;
-	SetHealingDealt(EventPlayer(), HealingDealt);
-	Wait(3, WaitBehavior.IgnoreCondition);
-	HP -= 25;
-	SetMaxHealth(EventPlayer(), HP);
-	Damage -= 25;
-	SetDamageDealt(EventPlayer(), Damage);
-	Speed -= 25;
-	SetMoveSpeed(EventPlayer(), Speed);
-	HealingDealt -= 25;
-	SetHealingDealt(EventPlayer(), HealingDealt);
-	HealingReceive -= 25;
-	SetHealingReceived(EventPlayer(), HealingReceive);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Red, EventPlayer(), 10);
-}
+// rule: "[Special Ability] Symetra"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Symmetra
+// if (MagicPts >= 125)
+// if (IsUsingUltimate(Player) == true)
+// {
+// 	MagicPts -= 125;
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Symmetra), "Passive Skill Activated (125 Mp) : Rooted Enemies">);
+// 	SetStatus(AllPlayers(Team.Team1), Player, Status.Rooted, 9);
+// }
 
-rule: "[Special Ability] Symetra"
-Event.OngoingPlayer
-Team.Team2
-Player.Symmetra
-if (MagicPts >= 125)
-if (IsUsingUltimate(EventPlayer()) == true)
-{
-	MagicPts -= 125;
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Symmetra), "Passive Skill Activated (125 Mp) : Rooted Enemies">);
-	SetStatus(AllPlayers(Team.Team1), EventPlayer(), Status.Rooted, 9);
-}
+// rule: "[Special Ability] Winston"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Winston
+// if (MagicPts >= 100)
+// if (IsUsingUltimate(Player) == true)
+// {
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Winston), "Passive Skill Activated (125 Mp) : Make enemies walk backwards">);
+// 	MagicPts -= 100;
+// 	StopThrottleInDirection(AllPlayers(Team.Team1));
+// 	Wait(0.2, WaitBehavior.IgnoreCondition);
+// 	StartThrottleInDirection(AllPlayers(Team.Team1), DirectionTowards(AllPlayers(Team.Team1), Vector(86.45, 14.03, -102.088)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
+// 	Wait(10, WaitBehavior.IgnoreCondition);
+// 	StartThrottleInDirection(AllPlayers(Team.Team1), DirectionTowards(AllPlayers(Team.Team1), Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
+// }
 
-rule: "[Special Ability] Winston"
-Event.OngoingPlayer
-Team.Team2
-Player.Winston
-if (MagicPts >= 100)
-if (IsUsingUltimate(EventPlayer()) == true)
-{
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Winston), "Passive Skill Activated (125 Mp) : Make enemies walk backwards">);
-	MagicPts -= 100;
-	StopThrottleInDirection(AllPlayers(Team.Team1));
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	StartThrottleInDirection(AllPlayers(Team.Team1), DirectionTowards(AllPlayers(Team.Team1), Vector(86.45, 14.03, -102.088)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
-	Wait(10, WaitBehavior.IgnoreCondition);
-	StartThrottleInDirection(AllPlayers(Team.Team1), DirectionTowards(AllPlayers(Team.Team1), Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
-}
+// rule: "[Special Ability] Roadhog 13-18"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Roadhog
+// if (MagicPts >= 70)
+// if (IsUsingAbility2(Player) == true)
+// if (NumberOfPlayers(Team.Team1) > 1)
+// {
+// 	Wait(2, WaitBehavior.IgnoreCondition);
+// 	SmallMessage(Player, <@"<0> <1>", HeroIconString(Hero.Roadhog), "Skill Activated (70 Mp) : Toxic Gas!">);
+// 	MagicPts -= 70;
+// 	SetStatus(AllPlayers(Team.Team1), Player, Status.Stunned, 6);
+// 	Wait(6, WaitBehavior.IgnoreCondition);
+// }
 
-rule: "[Special Ability] Roadhog 13-18"
-Event.OngoingPlayer
-Team.Team2
-Player.Roadhog
-if (MagicPts >= 70)
-if (IsUsingAbility2(EventPlayer()) == true)
-if (NumberOfPlayers(Team.Team1) > 1)
-{
-	Wait(2, WaitBehavior.IgnoreCondition);
-	SmallMessage(EventPlayer(), <@"<0> <1>", HeroIconString(Hero.Roadhog), "Skill Activated (70 Mp) : Toxic Gas!">);
-	MagicPts -= 70;
-	SetStatus(AllPlayers(Team.Team1), EventPlayer(), Status.Stunned, 6);
-	Wait(6, WaitBehavior.IgnoreCondition);
-}
+// rule: "[Effect] Mercy 0"
+// Event.OngoingPlayer
+// if (MercyBuff == 1)
+// {
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Sparkles, Color.White, Player, 1, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[0] = LastCreatedEntity();
+// 	Wait(60, WaitBehavior.IgnoreCondition);
+// 	DestroyEffect(BuffEffect[0]);
+// }
 
-rule: "[Effect] Mercy 0"
-Event.OngoingPlayer
-if (MercyBuff == 1)
-{
-	CreateEffect(AllPlayers(Team.Team2), Effect.Sparkles, Color.White, EventPlayer(), 1, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[0] = LastCreatedEntity();
-	Wait(60, WaitBehavior.IgnoreCondition);
-	DestroyEffect(BuffEffect[0]);
-}
+// rule: "[Effect] Lucio 1"
+// Event.OngoingPlayer
+// if (LucioBuff == 1)
+// {
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Sparkles, Color.Green, Player, 1, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[1] = LastCreatedEntity();
+// 	Wait(10, WaitBehavior.IgnoreCondition);
+// 	DestroyEffect(BuffEffect[1]);
+// }
 
-rule: "[Effect] Lucio 1"
-Event.OngoingPlayer
-if (LucioBuff == 1)
-{
-	CreateEffect(AllPlayers(Team.Team2), Effect.Sparkles, Color.Green, EventPlayer(), 1, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[1] = LastCreatedEntity();
-	Wait(10, WaitBehavior.IgnoreCondition);
-	DestroyEffect(BuffEffect[1]);
-}
+// rule: "[Effect] Brig 2"
+// Event.OngoingPlayer
+// if (BrigBuff == 1)
+// {
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Sparkles, Color.Yellow, Player, 1, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[2] = LastCreatedEntity();
+// 	Wait(20, WaitBehavior.IgnoreCondition);
+// 	DestroyEffect(BuffEffect[2]);
+// }
 
-rule: "[Effect] Brig 2"
-Event.OngoingPlayer
-if (BrigBuff == 1)
-{
-	CreateEffect(AllPlayers(Team.Team2), Effect.Sparkles, Color.Yellow, EventPlayer(), 1, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[2] = LastCreatedEntity();
-	Wait(20, WaitBehavior.IgnoreCondition);
-	DestroyEffect(BuffEffect[2]);
-}
+// rule: "[Effect] Orisa 10"
+// Event.OngoingPlayer
+// if (OrisaBuff == 1)
+// {
+// 	CreateEffect(AllPlayers(Team.All), Effect.Sparkles, Color.LimeGreen, Player, 1, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[10] = LastCreatedEntity();
+// 	Wait(4, WaitBehavior.IgnoreCondition);
+// 	DestroyEffect(BuffEffect[10]);
+// }
 
-rule: "[Effect] Orisa 10"
-Event.OngoingPlayer
-if (OrisaBuff == 1)
-{
-	CreateEffect(AllPlayers(Team.All), Effect.Sparkles, Color.LimeGreen, EventPlayer(), 1, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[10] = LastCreatedEntity();
-	Wait(4, WaitBehavior.IgnoreCondition);
-	DestroyEffect(BuffEffect[10]);
-}
+// rule: "[Effect] Reaper 11-12"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Reaper
+// if (IsDead(Player) == true)
+// {
+// 	SmallMessage(Player, "Press Space to Self Revive (50 Mp)");
+// 	CreateEffect(Player, Effect.LightShaft, Color.White, Player, 1, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[11] = LastCreatedEntity();
+// 	CreateEffect(Player, Effect.BadAura, Color.Red, Player, 6, EffectRev.VisibleToPositionAndRadius);
+// 	BuffEffect[12] = LastCreatedEntity();
+// }
 
-rule: "[Effect] Reaper 11-12"
-Event.OngoingPlayer
-Team.Team2
-Player.Reaper
-if (IsDead(EventPlayer()) == true)
-{
-	SmallMessage(EventPlayer(), "Press Space to Self Revive (50 Mp)");
-	CreateEffect(EventPlayer(), Effect.LightShaft, Color.White, EventPlayer(), 1, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[11] = LastCreatedEntity();
-	CreateEffect(EventPlayer(), Effect.BadAura, Color.Red, EventPlayer(), 6, EffectRev.VisibleToPositionAndRadius);
-	BuffEffect[12] = LastCreatedEntity();
-}
-
-rule: "[Effect] Reaper 11-12"
-Event.OngoingPlayer
-Team.Team2
-if (IsAlive(EventPlayer()) == true)
-{
-	DestroyEffect(BuffEffect[11]);
-	DestroyEffect(BuffEffect[12]);
-}
+// rule: "[Effect] Reaper 11-12"
+// Event.OngoingPlayer
+// Team.Team2
+// if (IsAlive(Player) == true)
+// {
+// 	DestroyEffect(BuffEffect[11]);
+// 	DestroyEffect(BuffEffect[12]);
+// }

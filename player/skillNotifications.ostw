@@ -1,269 +1,258 @@
-import "../vars.ostw";
+// import "../utils/index.ostw";
 
-rule: "[Special Ability] Rein Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Reinhardt
-if (MagicPts >= 125)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Knock Down Enemies for 6 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
 
-rule: "[Special Ability] Mei Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Mei
-if (MagicPts >= 50)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Freeze Enemies Within Radius 6 Meters (Ability 1 near Enemies)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Rein Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Reinhardt
+// if (MagicPts >= 125)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Knock Down Enemies for 6 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Torb Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Torbjorn
-if (MagicPts >= 20)
-if (Heart < PowerCoreLevel)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Repaired the Base (Stay in the Base)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Mei Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Mei
+// if (MagicPts >= 50)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Freeze Enemies Within Radius 6 Meters (Ability 1 near Enemies)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Lucio Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Lucio
-if (MagicPts >= 75)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus Speed + 100 for 10 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Lucio Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Lucio
+// if (MagicPts >= 75)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus Speed + 100 for 10 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Widow Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Widowmaker
-if (MagicPts >= 60)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus (Team) Damage + 30 for 15 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Widow Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Widowmaker
+// if (MagicPts >= 60)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus (Team) Damage + 30 for 15 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Junkrat Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Junkrat
-if (MagicPts >= 90)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Earned Coins! (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Junkrat Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Junkrat
+// if (MagicPts >= 90)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Earned Coins! (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Sombra Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Sombra
-if (MagicPts >= 140)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Clear Hacked Status and Return to Enemies for 10 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Sombra Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Sombra
+// if (MagicPts >= 140)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Clear Hacked Status and Return to Enemies for 10 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Brig Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Brigitte
-if (MagicPts >= 75)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus Damage Received -10%, Health + 50 For 20 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Brig Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Brigitte
+// if (MagicPts >= 75)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus Damage Received -10%, Health + 50 For 20 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Tracer Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Tracer
-if (MagicPts >= 90)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Ultimate 100% for all allies (Ability 2)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Tracer Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Tracer
+// if (MagicPts >= 90)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Ultimate 100% for all allies (Ability 2)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Mercy Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Mercy
-if (MagicPts >= 180)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus All Status +25 except Damage Received all allies for 60 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Mercy Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Mercy
+// if (MagicPts >= 180)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus All Status +25 except Damage Received all allies for 60 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Zenyatta Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Zenyatta
-if (MagicPts >= 90)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Heal Overtime for 10 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Zenyatta Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Zenyatta
+// if (MagicPts >= 90)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Heal Overtime for 10 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Ana Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Ana
-if (MagicPts >= 45)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Toxic Grenade (Ability 2)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Ana Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Ana
+// if (MagicPts >= 45)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Toxic Grenade (Ability 2)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Genji Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Genji
-if (MagicPts >= 70)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Invinsible for 6 Seconds + Bonus Damage +80 (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Genji Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Genji
+// if (MagicPts >= 70)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Invinsible for 6 Seconds + Bonus Damage +80 (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Orisa Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Orisa
-if (MagicPts >= 30)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Debuff Resistance For 4 Seconds (Ability 1)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Orisa Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Orisa
+// if (MagicPts >= 30)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Debuff Resistance For 4 Seconds (Ability 1)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-disabled rule: "[Special Ability] D.va Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Dva
-if (MagicPts >= 200)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Nuke! (Can't use during Reinhardt Level) (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// disabled rule: "[Special Ability] D.va Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Dva
+// if (MagicPts >= 200)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Nuke! (Can't use during Reinhardt Level) (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Bastion Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Bastion
-if (MagicPts >= 150)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus Damage +175 Speed -500 for 8 Seconds (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Bastion Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Bastion
+// if (MagicPts >= 150)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus Damage +175 Speed -500 for 8 Seconds (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Hanzo Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Hanzo
-if (MagicPts >= 50)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus Damage +25 for 10 Seconds (Ability 1)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Hanzo Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Hanzo
+// if (MagicPts >= 50)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus Damage +25 for 10 Seconds (Ability 1)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Pharas Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Pharah
-if (MagicPts >= 50)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Increase Fire Rate and Bonus Damage +20  for 3 Seconds! (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Pharas Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Pharah
+// if (MagicPts >= 50)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Increase Fire Rate and Bonus Damage +20  for 3 Seconds! (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Mccree Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Mccree
-if (MagicPts >= 25)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus Damage +1 (Permanent) (Critical Hit)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Mccree Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Mccree
+// if (MagicPts >= 25)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus Damage +1 (Permanent) (Critical Hit)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Echo Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Echo
-if (MagicPts >= 35)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Bonus All Status +25 for 3 Seconds (Ability 1)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Echo Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Echo
+// if (MagicPts >= 35)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Bonus All Status +25 for 3 Seconds (Ability 1)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Symmetra Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Symmetra
-if (MagicPts >= 125)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Rooted Enemies (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Symmetra Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Symmetra
+// if (MagicPts >= 125)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Rooted Enemies (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Winston Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Winston
-if (MagicPts >= 100)
-if (UltimateChargePercent(EventPlayer()) == 100)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Make enemies walk backwards (Ultimate Ability)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Winston Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Winston
+// if (MagicPts >= 100)
+// if (UltimateChargePercent(Player) == 100)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Make enemies walk backwards (Ultimate Ability)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }
 
-rule: "[Special Ability] Roadhog Noti"
-Event.OngoingPlayer
-Team.Team2
-Player.Roadhog
-if (MagicPts >= 70)
-{
-	SmallMessage(EventPlayer(), "You have enough Mp to use skill : Toxic Gas (Ability 2)");
-	Wait(30, WaitBehavior.AbortWhenFalse);
-	LoopIfConditionIsTrue();
-}
+// rule: "[Special Ability] Roadhog Noti"
+// Event.OngoingPlayer
+// Team.Team2
+// Player.Roadhog
+// if (MagicPts >= 70)
+// {
+// 	SmallMessage(Player, "You have enough Mp to use skill : Toxic Gas (Ability 2)");
+// 	Wait(30, WaitBehavior.AbortWhenFalse);
+// 	LoopIfConditionIsTrue();
+// }

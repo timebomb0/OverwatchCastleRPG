@@ -1,0 +1,62 @@
+import "../utils/index.ostw";
+
+import "hud/chill.ostw";
+
+rule: "[Chill] Turn on"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (ChillModeEnabled != true)
+if (DistanceBetween(Player, ChillLocation) <= 2.5)
+{
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning on Chill Mode in 4...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning on Chill Mode in 3...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning on Chill Mode in 2...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning on Chill Mode in 1...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+
+    SetStatus(Player, null, Status.PhasedOut, 9999);
+	SetStatus(Player, null, Status.Hacked, 9999);
+	SetInvisible(Player, InvisibleTo.Enemies);
+    CreateEffect(Player, Effect.Cloud, Color.SkyBlue, Player, 0.03, EffectRev.VisibleToPositionAndRadius);
+	EffectEntityIds[0] = LastCreatedEntity();
+    SetJumpVerticalSpeed(Player, 300);
+    SetMoveSpeed(Player, 200);
+    SetDamageDealt(Player, 0);
+	SetHealingDealt(Player, 0);
+
+    ChillModeEnabled = true;
+    SmallMessage(Player, "Chilling!");
+}
+
+rule: "[Chill] Turn off"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (ChillModeEnabled == true)
+if (DistanceBetween(Player, ChillLocation) <= 2.5)
+{
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning off Chill Mode in 4...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning off Chill Mode in 3...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning off Chill Mode in 2...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+    SmallMessage(Player, "Turning off Chill Mode in 1...");
+    Wait(1.0, WaitBehavior.AbortWhenFalse);
+
+  	ClearStatus(Player,Status.PhasedOut);
+	ClearStatus(Player, Status.Hacked);
+	SetInvisible(Player, InvisibleTo.None);
+    DestroyEffect(EffectEntityIds[0]);
+    SetMoveSpeed(Player, MoveSpeed);
+	SetDamageDealt(Player, DamageDealt);
+	SetHealingDealt(Player, HealingDealt);
+    SetJumpVerticalSpeed(Player, JumpSpeed);
+
+    ChillModeEnabled = false;
+    SmallMessage(Player, "No Longer Chilling");
+}

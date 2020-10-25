@@ -1,25 +1,27 @@
-import "vars.ostw";
+import "customGameSettings.json";
+import "utils/index.ostw";
 import "mobs/index.ostw";
-import "worldUnlocks.ostw";
+// import "worldUnlocks.ostw";
 import "hud.ostw";
 import "items/index.ostw";
 import "player/index.ostw";
 import "purchase/index.ostw";
 import "guides.ostw";
+// import "player/code.ostw";
 
 rule: "[All World] Initialize Settings"
 if (IsGameInProgress() == true)
 {
-	InitialPowerCoreLevel = 50;
 	SetNewWave = true;
 	MobKills = 0;
-	BreakTime = 35;
+	BreakTime = 10;
 	InitialDifficultyModifier = 0.82;
 	DifficultyModifier = InitialDifficultyModifier;
-	Level = 1;
+	Stage = 1;
 	EnergyPoints = 0;
 	UnlockLevel = 0;
 	IsBreakTime = true;
+	TraitPointGainedEveryXLevels = 5;
 	InitialCursedBoxJackpot = 10000;
 	CursedBoxJackpot = InitialCursedBoxJackpot;
 	CoinsPerLevel = 2000;
@@ -27,18 +29,16 @@ if (IsGameInProgress() == true)
 	EnergyToLvUp = 1000;
 	MobSpeedModifier = 0.7;
 	CoinsOnKillMultiplier = 2.8;
-	PowerCorePerLevel = 2;
-	Heart = 50;
-	PowerCoreLevel = InitialPowerCoreLevel;
 	MobHealthModifier = 0.88;
-	TreasureMapModifier = 1.2;
-	DamageReceiveCostIncrement = 100;
-	HealthUpgradeCostIncrement = 10;
-	DamageUpgradeCostIncrement = 3;
-	AllPlayers(Team.Team2).MagicPts = 100;
-	AllPlayers(Team.Team2).DamageReceiveCost = 1000;
-	AllPlayers(Team.Team2).DamageUpgradeCost = 1000;
-	AllPlayers(Team.Team2).HealthUpgradeCost = 1000;
+	UltimateTickRate = 5;
+	MobItemModifier = 1.2;
+	Messages[0] = "";
+	Messages[1] = "";
+	Messages[2] = "";
+	Messages[3] = "";
+	Messages[4] = "";
+	AllPlayers(Team.Team2).EXP = 0;
+	AllPlayers(Team.Team2).PlayerLevel = 1;
 	SetRespawnMaxTime(AllPlayers(Team.Team2), 12);
 	AllPlayers(Team.Team2).AmmoCapacity = 100;
 	EnergyMultiplier = 1.4;
@@ -48,63 +48,65 @@ rule: "[All World] New Player Settings"
 Event.OnPlayerJoin
 Team.Team2
 {
-	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1> <2>", HeroIconString(HeroOf(EventPlayer())), EventPlayer(), <@"<0> <1> <2>", "Rank : ", Prestige, <"<0>: <1>", "Enhancement Level ", EnchantLevel>>>, EventPlayer(), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.SkyBlue, Spectators.DefaultVisibility);
+	CreateInWorldText(
+		AllPlayers(Team.All),
+		<@"<0> <1> <2>",
+			HeroIconString(HeroOf(Player)),
+			Player,
+			<@"<0> <1> <2>",
+				"Lv.",
+				PlayerLevel,
+				<"<0>: <1>",
+					"Enhancement Level ",
+					EnchantLevel
+				>
+			>
+		>,
+		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.SkyBlue, Spectators.DefaultVisibility);
 	Reseting = 0;
-	BaseMaxAmmo0 = MaxAmmo(EventPlayer(), 0);
-	BaseMaxAmmo1 = MaxAmmo(EventPlayer(), 1);
-	Damage = 15;
+	BaseMaxAmmo0 = MaxAmmo(Player, 0);
+	BaseMaxAmmo1 = MaxAmmo(Player, 1);
+	DamageDealt = 15;
 	HP = 15;
 	AmmoCapacity = 100;
 	DamageReceive = 100;
-	Speed = 100;
-	Prestige = 0;
+	MoveSpeed = 100;
 	HealingDealt = 20;
 	HealingReceive = 100;
+	JumpSpeed = 100;
+	UltimateGain = 2;
+	TraitsUnlocked[0] = false;
+	TraitsUnlocked[1] = false;
+	TraitsUnlocked[2] = false;
+	TraitsUnlocked[3] = false;
+	UltimateNumber = 0;
 	EnchantLevel = 0;
 	GeodeRandomItem = 0;
-	DamageReceiveCost = 1000;
-	DamageUpgradeCost = 1000;
-	HealthUpgradeCost = 1000;
+	StatPoints = 0;
+	EXP = 0;
+	EXPToLevelUp = 5000;
+	PlayerLevel = 1;
 	Wait(1, WaitBehavior.IgnoreCondition);
-	SetDamageDealt(EventPlayer(), Damage);
-	SetMaxHealth(EventPlayer(), HP);
-	SetDamageReceived(EventPlayer(), DamageReceive);
-	SetMoveSpeed(EventPlayer(), Speed);
-	SetHealingDealt(EventPlayer(), HealingDealt);
-	SetHealingReceived(EventPlayer(), HealingReceive);
+	SetDamageDealt(Player, DamageDealt);
+	SetMaxHealth(Player, HP);
+	SetDamageReceived(Player, DamageReceive);
+	SetMoveSpeed(Player, MoveSpeed);
+    SetJumpVerticalSpeed(Player, JumpSpeed);
+	SetHealingDealt(Player, HealingDealt);
+	SetHealingReceived(Player, HealingReceive);
 	BuffPenalty = 1;
-	CreateHudText(EventPlayer(), <@"<0> <1>", HeroIconString(HeroOf(EventPlayer())), "My Status">, null, null, Location.Left, 0, Color.SkyBlue, Color.White, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Damage % : ", Damage>, null, Location.Left, 1, Color.White, Color.Red, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Health % : ", HP>, null, Location.Left, 2, Color.White, Color.Green, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Magic Points : ", MagicPts>, null, Location.Left, 3, Color.White, Color.Aqua, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Damage Receive % : ", DamageReceive>, null, Location.Left, 4, Color.White, Color.Turquoise, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Speed % : ", Speed>, null, Location.Left, 5, Color.White, Color.SkyBlue, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Healing Dealt % : ", HealingDealt>, null, Location.Left, 6, Color.White, Color.Orange, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Ammo Capacity % : ", AmmoCapacity>, null, Location.Left, 7, Color.White, Color.Yellow, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Coins : ", Coins>, null, Location.Left, 8, Color.White, Color.Purple, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), "Inventory #1", <@"<0> <1> <2>", <@"<0> <1> <2>", <@"<0> <1>", "Cursed Treasure Box : ", CursedBox>, "Treasure Box : ", LootBox>, "Treasure Map : ", TreasureMap>, null, Location.Left, 9, Color.Turquoise, Color.Orange, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), "Inventory #2", <@"<0> <1> <2>", <@"<0> <1> <2>", <@"<0> <1>", "Diamond : ", Item_Diamond>, "Oil Barrel : ", Item_Oil>, "Geode : ", Item_Geode>, null, Location.Left, 10, Color.Turquoise, Color.Orange, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), <@"<0> <1>", "Enhancement Level : ", EnchantLevel>, null, null, Location.Left, 13, Color.Aqua, Color.White, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), <@"<0> <1>", "Prestige Rank : ", Prestige>, null, null, Location.Left, 14, Color.Aqua, Color.White, Color.White, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), <@"<0> <1>", "This Wave's Kills : ", MobKills>, null, null, Location.Right, 1, Color.Blue, Color.White, Color.Blue, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), <@"<0> <1>", "Unlock Level:", UnlockLevel>, null, null, Location.Right, 2, Color.LimeGreen, Color.White, Color.LimeGreen, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateHudText(EventPlayer(), null, <@"<0> <1>", "Next Unlock In:", UnlockLevel >= 5 ? "Maxed!" : <@"<0> <1>", UnlockLevel * 5 + 6 - Level, "Levels">>, null, Location.Right, 3, Color.Orange, Color.Orange, Color.Blue, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
-	CreateInWorldText(EventPlayer(), <"<0> -<1> <2>", "[Press Reload to Upgrade] Damage +0.4%", DamageUpgradeCost, "Coins">, Vector(54.827, 13.306, -80.989), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-	CreateInWorldText(EventPlayer(), <"<0> -<1> <2>", "[Press Reload to Upgrade] Health +0.4%", HealthUpgradeCost, "Coins">, Vector(56.802, 13.27, -74.084), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-	if (Level > 1)
-	{
-		Coins += 10000 * 2.5 * (Level - 1);
-	}
-	SetRespawnMaxTime(EventPlayer(), 12);
+	
+	// TODO: Set level+stat points for new players
+	SetRespawnMaxTime(Player, 12);
 	Wait(10, WaitBehavior.IgnoreCondition);
-	BigMessage(EventPlayer(), "Welcome. Kill the incoming mobs before they hit the Core, or they'll damage it!");
+	BigMessage(Player, "Welcome. Kill the incoming mobs before they hit the Core, or they'll damage it!");
 	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(EventPlayer(), "Be Careful! If the Core hits 0 health, your team gets penalized.");
+	BigMessage(Player, "Be Careful! If the Core hits 0 health, your team gets penalized.");
 	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(EventPlayer(), "Inbetween Waves, you can go find all the upgrades in the map. Have fun!");
+	BigMessage(Player, "Inbetween Waves, you can go find all the upgrades in the map. Have fun!");
 	Wait(90, WaitBehavior.IgnoreCondition);
 	BuffPenalty = 2;
-	SmallMessage(EventPlayer(), "Buff Penalty Disabled");
+	SmallMessage(Player, "Buff Penalty Disabled");
 	Wait(10, WaitBehavior.IgnoreCondition);
 }
 
@@ -148,96 +150,24 @@ if (MobHealthModifier != 0.72)
 	MobHealthModifier = 0.72;
 }
 
-rule: "[All World] Increase Match Time Level 5"
+rule: "[All World] Mob Health 7 Team Members"
 if (IsGameInProgress() == true)
-if (BreakTime < 40)
-if (Level >= 5)
+if (NumberOfPlayers(Team.Team2) == 7)
+if (MobHealthModifier != 0.69)
 {
-	BreakTime = 40;
-}
-
-rule: "[All World] Increase Match Time Level 10"
-if (IsGameInProgress() == true)
-if (BreakTime < 45)
-if (Level >= 10)
-{
-	BreakTime = 45;
-}
-
-rule: "[All World] Increase Match Time Level 15"
-if (IsGameInProgress() == true)
-if (BreakTime < 50)
-if (Level >= 15)
-{
-	BreakTime = 50;
-}
-
-rule: "[All World] Increase Match Time Level 20"
-if (IsGameInProgress() == true)
-if (BreakTime < 55)
-if (Level >= 20)
-{
-	BreakTime = 55;
-}
-
-rule: "[All World] Increase Match Time Level 25"
-if (IsGameInProgress() == true)
-if (BreakTime < 60)
-if (Level >= 25)
-{
-	BreakTime = 60;
-}
-
-rule: "[All World] Lower Energy Multiplier Level 10"
-if (IsGameInProgress() == true)
-if (EnergyMultiplier > 1.35)
-if (Level >= 10)
-{
-	EnergyMultiplier = 1.35;
-}
-
-rule: "[All World] Lower Energy Multiplier Level 20"
-if (IsGameInProgress() == true)
-if (EnergyMultiplier > 1.3)
-if (Level >= 20)
-{
-	EnergyMultiplier = 1.3;
-}
-
-rule: "[All World] Lower Energy Multiplier Level 30"
-if (IsGameInProgress() == true)
-if (EnergyMultiplier > 1.25)
-if (Level >= 30)
-{
-	EnergyMultiplier = 1.25;
-}
-
-rule: "[All World] Lower Energy Multiplier Level 40"
-if (IsGameInProgress() == true)
-if (EnergyMultiplier > 1.2)
-if (Level >= 40)
-{
-	EnergyMultiplier = 1.2;
-}
-
-rule: "[All World] Increase Difficulty Modifier Every 5 Levels"
-if (Level % 5 == 0)
-if (EnergyPoints >= EnergyToLvUp)
-{
-	DifficultyModifier += DifficultyIncreasePerXLv;
+	MobHealthModifier = 0.69;
 }
 
 disabled rule: "[All World] Debug ***********************************************************************************************"
 Event.OngoingPlayer
 Team.Team2
-if (IsButtonHeld(EventPlayer(), Button.Ultimate) == true)
-if (IsButtonHeld(EventPlayer(), Button.Crouch) == true)
+if (IsButtonHeld(Player, Button.Ultimate) == true)
+if (IsButtonHeld(Player, Button.Crouch) == true)
 if (HostPlayer() == true)
 {
 	EnergyPoints += 1050;
 	AllPlayers(Team.Team2).Coins += 10000 * 5;
-	AllPlayers(Team.Team2).TreasureMap += 200;
-	AllPlayers(Team.Team2).MagicPts += 100;
+	AllPlayers(Team.Team2).MobItem += 200;
 	AllPlayers(Team.Team2).Item_Geode += 50;
 	CursedBox += 2;
 	LootBox += 5;
@@ -246,22 +176,18 @@ if (HostPlayer() == true)
 rule: "[All World] Team 2 Respawn"
 Event.OngoingPlayer
 Team.Team2
-if (IsInSpawnRoom(EventPlayer()) == true)
+if (IsInSpawnRoom(Player) == true)
 {
-	Teleport(EventPlayer(), Vector(39.575, 9.335, -87.635));
+	Teleport(Player, Vector(39.575, 9.335, -87.635));
 }
 
 rule: "[Energy] Upgrade Lv Up Reward Etc"
 if (EnergyPoints >= EnergyToLvUp)
 {
-	DestroyHudText(LevelSave[0]);
-	DestroyHudText(LevelSave[1]);
 	Wait(0.25, WaitBehavior.IgnoreCondition);
 	WaveSet = 50;
 	EnergyPoints = 0;
-	Level += 1;
-	AllPlayers(Team.Team2).Coins += Level * CoinsPerLevel;
-	PowerCoreLevel += PowerCorePerLevel;
+	Stage += 1;
 	Wait(1, WaitBehavior.IgnoreCondition);
 	LoopIfConditionIsTrue();
 }
@@ -277,44 +203,14 @@ if (SetNewWave == true)
 {
 	IsBreakTime = true;
 	Wait(0.5, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team1).Damage = [];
+	AllPlayers(Team.Team1).DamageDealt = [];
 	AllPlayers(Team.Team1).HP = [];
-	AllPlayers(Team.Team1).Speed = [];
+	AllPlayers(Team.Team1).MoveSpeed = [];
 	Heal(AllPlayers(Team.Team2), null, 500);
-	if (Level <= 5)
-	{
-		WaveSet = RandomInteger(5,5);
-	}
-	else if (Level <= 10)
-	{
-		WaveSet = RandomInteger(5,5);
-	}
-	else if (Level <= 15)
-	{
-		WaveSet = RandomInteger(5,5);
-	}
-	else
-	{
-		WaveSet = RandomInteger(5,5);
-	}
+	WaveSet = RandomInteger(1,9);
 	if (WaveSet == LastWaveSet)
 	{
-		if (Level <= 5)
-		{
-			WaveSet = RandomInteger(5,5);
-		}
-		else if (Level <= 10)
-		{
-			WaveSet = RandomInteger(5,5);
-		}
-		else if (Level <= 15)
-		{
-			WaveSet = RandomInteger(5,5);
-		}
-		else
-		{
-			WaveSet = RandomInteger(5,5);
-		}
+		WaveSet = RandomInteger(1,9);
 		if (WaveSet == LastWaveSet)
 		{
 			if (LastWaveSet == 1)
@@ -329,7 +225,7 @@ if (SetNewWave == true)
 	}
 	LastWaveSet = WaveSet;
 	Wait(1.1, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team1).Damage = [];
+	AllPlayers(Team.Team1).DamageDealt = [];
 	SetNewWave = false;
 }
 
@@ -342,43 +238,4 @@ if (EnergyPoints > 0)
 rule: "[All World] Time"
 {
 	SetMatchTime(3600);
-}
-
-rule: "[All World] Defeat Core Health Drained To 0"
-if (Heart <= 0)
-{
-	DestroyHudText(LevelSave[0]);
-	DestroyHudText(LevelSave[1]);
-	Wait(0.25, WaitBehavior.IgnoreCondition);
-	WaveSet = 50;
-	DestroyAllDummyBots();
-	EnergyPoints = 0;
-	AllPlayers(Team.Team2).Coins = 0;
-	AllPlayers(Team.Team2).Item_Geode = 0;
-	AllPlayers(Team.Team2).Item_Diamond = 0;
-	AllPlayers(Team.Team2).Item_Oil = 0;
-	AllPlayers(Team.Team2).CursedBox = 0;
-	AllPlayers(Team.Team2).LootBox = 0;
-	AllPlayers(Team.Team2).TreasureMap = 0;
-	Level = Level - 5;
-	PowerCoreLevel -= PowerCorePerLevel * 5;
-	DifficultyModifier -= DifficultyIncreasePerXLv * 5;
-	if (Level <= 1)
-	{
-		Level = 1;
-		DifficultyModifier = InitialDifficultyModifier;
-		PowerCoreLevel = InitialPowerCoreLevel;
-	}
-	SetNewWave = true;
-	Heart = PowerCoreLevel;
-	BigMessage(AllPlayers(Team.All), "Oh No! Core Health Hit 0! PENALTY: All Currencies Removed, Moving Down 5 Levels");
-	Wait(4, WaitBehavior.IgnoreCondition);
-}
-
-disabled rule: "[All World*****************************] Lv.Beyond 21 and above"
-if (EnergyPoints >= EnergyToLvUp)
-if (Level >= 20)
-{
-	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", "Nightmare Level : ", Level - 20>);
 }

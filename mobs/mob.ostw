@@ -1,9 +1,9 @@
-import "../vars.ostw";
+import "../utils/index.ostw";
 
 class Mob {
 	private define RespawnTime;
 	private define CoinsOnKill;
-	private define TreasureMapOnKill;
+	private define MobItemOnKill;
 	private define EnergyOnKill;
 	private define CursedBoxLootChance;
 	private define TreasureBoxLootChance;
@@ -14,7 +14,7 @@ class Mob {
 	private define MaxHealth;
 	private define MoveSpeed;
 	private define HeroMob;
-
+	private define EXPOnKill;
 	private define AutoUltChance;
 	private define AutoPrimaryAtkChance;
 	private define AutoSecondaryAtkChance;
@@ -25,8 +25,8 @@ class Mob {
 	public define AttackDuringUlt;
 	public define AttackInterval;
 	
-	public Mob(ref define heroMob, ref define coinsOnKill, ref define treasureMapOnKill,
-				ref define energyOnKill, ref define cursedBoxLootChance, ref define treasureBoxLootChance,
+	public Mob(ref define heroMob, ref define coinsOnKill, ref define mobItemOnKill,
+				ref define energyOnKill, ref define cursedBoxLootChance, ref define treasureBoxLootChance, ref define expOnKill,
 				ref define objectiveDescription, ref define spawnMessage,
 				ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
 				ref define autoUltChance, ref define autoPrimaryAtkChance, ref define autoSecondaryAtkChance,
@@ -35,7 +35,7 @@ class Mob {
 	{
 		HeroMob = heroMob;
 		CoinsOnKill = coinsOnKill;
-		TreasureMapOnKill = treasureMapOnKill;
+		MobItemOnKill = mobItemOnKill;
 		EnergyOnKill = energyOnKill;
 		CursedBoxLootChance = cursedBoxLootChance;
 		TreasureBoxLootChance = treasureBoxLootChance;
@@ -54,23 +54,22 @@ class Mob {
 		AttackInterval = attackInterval;
 		HoldPrimaryFire = holdPrimaryFire;
 		HoldSecondaryFire = holdSecondaryFire;
+		EXPOnKill = expOnKill;
 	}
 
 	public void handleDead()
 	{
-		AllPlayers(Team.Team2).TreasureMap += RoundToInteger(root.TreasureMapModifier * TreasureMapOnKill, Rounding.Nearest);
-		AllPlayers(Team.Team2).Coins += RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * root.CoinsOnKillMultiplier;
+		AllPlayers(Team.Team2).MobItem += RoundToInteger(root.MobItemModifier * MobItemOnKill, Rounding.Nearest);
+		AllPlayers(Team.Team2).Coins += RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * root.CoinsOnKillMultiplier, Rounding.Nearest);
 		root.EnergyPoints += EnergyOnKill * root.EnergyMultiplier;
 		AllPlayers(Team.Team2).LootChance = RandomInteger(1, CursedBoxLootChance);
 		AllPlayers(Team.Team2).CurseLootChance = RandomInteger(1, TreasureBoxLootChance);
+		FilteredArray(AllPlayers(Team.All), IsAlive(ArrayElement())).EXP += RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1);
 		root.MobKills += 1;
 	}
 
-	public void handleDamage(ref define mob)
+	public void despawn(ref define mob)
 	{
-		root.Heart -= DamageDealt;
-		Wait(0.5, WaitBehavior.IgnoreCondition);
-		BigMessage(AllPlayers(Team.All), <@"<0> <1> <2> <3> <4> <5>", "Core Breached!!", DamageDealt, "Damage Taken From", HeroOf(HeroMob), root.Heart, "Core Health Remaining">);
 		Kill(mob, null);
 		PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, mob, 100);
 	}
@@ -80,7 +79,7 @@ class Mob {
 		SetObjectiveDescription(AllPlayers(Team.All), ObjectiveDescription, ObjectiveRev.VisibleToAndString);
 		SetMatchTime(0.1 + root.BreakTime);
 		DestroyAllDummyBots();
-		BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", "Break Time", root.BreakTime, "Seconds">);
+		BigMessage(AllPlayers(Team.All), <"<0>s defeated! Next wave in <1> seconds.", HeroMob, root.BreakTime>);
 		Wait(root.BreakTime, WaitBehavior.AbortWhenFalse);
 		root.IsBreakTime = false;
 		root.MobKills = 0;
@@ -91,18 +90,15 @@ class Mob {
 		CreateDummyBot(HeroMob, Team.Team1, 2, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 3, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 4, Vector(0, 0, 0), Vector(0, 0, 0));
-		CreateDummyBot(HeroMob, Team.Team1, 5, Vector(0, 0, 0), Vector(0, 0, 0));
 		Wait(1, WaitBehavior.IgnoreCondition);
-		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Level * root.DifficultyModifier * NumberOfPlayers(Team.Team2) * DamageDealt);
-		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), root.Level * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
-		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Level * root.MobSpeedModifier * NumberOfPlayers(Team.Team2) * MoveSpeed);
-		SetObjectiveDescription(AllPlayers(Team.All), <@"<0> <1> <2>", "Protect the Core!", IconString(Icon.Heart), <@"<0> <1>", "", root.Heart>>, ObjectiveRev.VisibleToAndString);
+		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * NumberOfPlayers(Team.Team2) * DamageDealt);
+		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
+		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.MobSpeedModifier * NumberOfPlayers(Team.Team2) * MoveSpeed);
+		SetObjectiveDescription(AllPlayers(Team.All), <"Quick, defeat the <0>s!", HeroMob>, ObjectiveRev.VisibleToAndString);
 	}
 
-	public void attack(ref define mob)
-	{
-		LoopIf(IsUsingUltimate(mob) == true);
-
+public void attack(ref define mob)
+{
 		define randomChance = RandomInteger(1, 100);
 		Wait(0.1, WaitBehavior.IgnoreCondition);
 		
@@ -124,7 +120,7 @@ class Mob {
 			}
 			
 			PressButton(mob, Button.Ability2);
-			if (HeroOf(mob) == Hero.Moira) {
+			if (HeroMob == Hero.Moira) {
 				Wait(1, WaitBehavior.IgnoreCondition);
 				PressButton(mob, Button.SecondaryFire);
 			}

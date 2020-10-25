@@ -1,0 +1,8 @@
+globalvar define JumpSpeedTraitEffectLoc = Vector(54.679, 19.296, -78.67);
+globalvar define MoveSpeedTraitEffectLoc = Vector(53.796, 19.296, -82.06);
+globalvar define AmmoCapacityTraitEffectLoc = Vector(57.326, 19.296, -83.016);
+globalvar define UltimateGenTraitEffectLoc = Vector(58.214, 19.296, -79.596);
+globalvar define DamageStatEffectLoc = Vector(53.993, 12.975, -81.314);
+globalvar define HealthStatEffectLoc = Vector(56.398, 12.975, -81.814);
+globalvar define DamageReceivedStatEffectLoc = Vector(54.539, 12.975, -77.976);
+globalvar define HealingStatEffectLoc = Vector(56.873, 12.975, -78.476);

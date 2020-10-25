@@ -1,0 +1,135 @@
+
+import "../utils/index.ostw";
+import "hud/traitUpgrades.ostw";
+
+rule: "[Trait] Unlock Move Speed Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[0] != true)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
+if (Coins >= 20000)
+{
+	Coins -= 20000;
+	NewMessage("Unlocked Move Speed Trait");
+	SmallMessage(Player, "Unlocked Move Speed Trait");
+	TraitsUnlocked[0] = true;
+}
+
+rule: "[Trait] Move Speed Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[0] == true)
+if (TraitPoints > 1)
+if (MoveSpeed < 500)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
+{
+	Coins -= 500;
+	MoveSpeed += 10;
+	SetMoveSpeed(Player, MoveSpeed);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	Wait(2, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Trait] Unlock Jump Speed Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[1] != true)
+if (Coins >= 20000)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
+{
+	Coins -= 20000;
+	NewMessage("Unlocked Jump Height Trait");
+	SmallMessage(Player, "Unlocked Jump Height Trait");
+	TraitsUnlocked[1] = true;
+}
+
+rule: "[Trait] Jump Speed Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[1] == true)
+if (TraitPoints > 1)
+if (JumpSpeed < 300)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
+{
+	Coins -= 500;
+	JumpSpeed += 10;
+	SetJumpVerticalSpeed(Player, JumpSpeed);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	Wait(2, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Trait] Unlock Ammo Capacity Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[2] != true)
+if (Coins >= 20000)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
+{
+	Coins -= 20000;
+	NewMessage("Unlocked Ammo Capacity Trait");
+	SmallMessage(Player, "Unlocked Ammo Capacity Trait");
+	TraitsUnlocked[2] = true;
+}
+
+rule: "[Trait] Ammo Capacity Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[2] == true)
+if (TraitPoints > 1)
+if (AmmoCapacity < 200)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
+{
+	// If user hasn't switched heroes, they wont have base ammo set
+	if (AmmoCapacity == 100)
+	{
+		BaseMaxAmmo0 = MaxAmmo(Player, 0);
+		BaseMaxAmmo1 = MaxAmmo(Player, 1);
+	}
+	Coins -= 10000 * 2;
+	AmmoCapacity += 5;
+	SetMaxAmmo(Player, 1, BaseMaxAmmo1 * (AmmoCapacity / 100));
+	SetMaxAmmo(Player, 0, BaseMaxAmmo0 * (AmmoCapacity / 100));
+	Wait(0.1, WaitBehavior.IgnoreCondition);
+	SetAmmo(Player, 0, MaxAmmo(Player, 0));
+	SetAmmo(Player, 1, MaxAmmo(Player, 1));
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	Wait(2, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}
+
+rule: "[Trait] Unlock Ultimate Gen Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[3] != true)
+if (Coins >= 20000)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
+{
+	Coins -= 20000;
+	NewMessage("Unlocked Passive Ultimate Generation Trait");
+	SmallMessage(Player, "Unlocked Passive Ultimate Generation Trait");
+	TraitsUnlocked[3] = true;
+}
+
+rule: "[Trait] Ultimate Gen Upgrade"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[3] == true)
+if (TraitPoints > 1)
+if (UltimateGain < 10)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
+{	
+	UltimateGain += 1;
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	Wait(2, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
+}

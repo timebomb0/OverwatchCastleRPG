@@ -1,0 +1,21 @@
+import "../../utils/index.ostw";
+
+rule: "[World Effect] Trait upgrades text"
+Event.OngoingPlayer
+Team.Team2
+{
+    CreateInWorldText(Player, TraitsUnlocked[0] != true ? "Unlock Jump Height Trait [-20,000 Coins]" : "Jump Height +10% [-1 Trait Point]", JumpSpeedTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, TraitsUnlocked[1] != true ? "Unlock Move Speed Trait [-20,000 Coins]" :"Move Speed +10% [-1 Trait Point]", MoveSpeedTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, TraitsUnlocked[2] != true ? "Unlock Ammo Capacity Trait [-20,000 Coins]" :"Ammo Capacity +5% [-1 Trait Point]", AmmoCapacityTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, TraitsUnlocked[3] != true ? "Unlock Passive Ultimate Generation Trait [-20,000 Coins]" :<"Passive Ultimate Generation +1% / <0>sec [-1 Trait Point]", TraitPointGainedEveryXLevels>, UltimateGenTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+}
+
+rule: "[World Effect] Trait upgrades"
+Event.OngoingPlayer
+Team.Team2
+{
+    CreateEffect(Player, Effect.Ring, Color.Yellow, JumpSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(Player, Effect.Ring, Color.White, MoveSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(Player, Effect.Ring, Color.Purple, AmmoCapacityTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(Player, Effect.Ring, Color.Rose, UltimateGenTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+}

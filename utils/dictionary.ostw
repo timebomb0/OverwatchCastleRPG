@@ -1,0 +1,18 @@
+// From https://github.com/Protowalker/OSTW-Fragments/blob/main/little_libraries/dictionary.del
+class Dictionary {
+    private define keys = [];
+    private define values = [];
+
+    public Dictionary() {}
+    
+    public define Of(define key): values[IndexOfArrayValue(keys, key)];
+
+    public define Count: CountOf(values);
+
+    public define Push(ref define key, ref define value) {
+        if(ArrayContains(keys, key)) return false;
+        keys = Append(keys, key);
+        values = Append(values, value);
+        return true;
+    } 
+}

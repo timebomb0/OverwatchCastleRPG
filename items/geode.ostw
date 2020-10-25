@@ -1,19 +1,20 @@
-import "../vars.ostw";
+import "../utils/index.ostw";
+
 
 rule: "[Geode] Main (Process)"
 Event.OngoingPlayer
 Team.Team2
-if (DistanceBetween(EventPlayer(), Vector(-1.364, 7.698, -72.803)) <= 2.5)
+if (IsButtonHeld(Player, Button.Interact) == true)
 if (Item_Geode >= 5)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
 if (UnlockLevel >= 3)
 if (GeodeRandomItem == 0)
+if (DistanceBetween(Player, Vector(-1.364, 7.698, -72.803)) <= 2.5)
 {
 	Wait(0.8, WaitBehavior.AbortWhenFalse);
 	Item_Geode -= 5;
 	GeodeRandomItem = RandomInteger(1, 100);
 	Wait(0.05, WaitBehavior.IgnoreCondition);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 30);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 30);
 	LoopIfConditionIsTrue();
 }
 
@@ -22,9 +23,9 @@ Event.OngoingPlayer
 Team.Team2
 if (GeodeRandomItem >= 99)
 {
-	SmallMessage(EventPlayer(), "Lucky!! Discovered A Diamond!");
+	SmallMessage(Player, "Lucky!! Discovered A Diamond!");
 	Item_Diamond += 1;
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", HeroIconString(HeroOf(EventPlayer())), EventPlayer(), "Found A Diamond While Processing Geode!">);
+	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", HeroIconString(HeroOf(Player)), Player, "Found A Diamond While Processing Geode!">);
 	GeodeRandomItem = 0;
 }
 
@@ -34,7 +35,7 @@ Team.Team2
 if (GeodeRandomItem >= 96)
 if (GeodeRandomItem <= 98)
 {
-	SmallMessage(EventPlayer(), "Look At That, Discovered A Cursed Treasure Box!");
+	SmallMessage(Player, "Look At That, Discovered A Cursed Treasure Box!");
 	CursedBox += 1;
 	GeodeRandomItem = 0;
 }
@@ -45,7 +46,7 @@ Team.Team2
 if (GeodeRandomItem >= 80)
 if (GeodeRandomItem <= 95)
 {
-	SmallMessage(EventPlayer(), "Nice, Discovered A Treasure Box!");
+	SmallMessage(Player, "Nice, Discovered A Treasure Box!");
 	LootBox += 1;
 	GeodeRandomItem = 0;
 }
@@ -59,7 +60,7 @@ if (GeodeRandomItem <= 79)
 	Wait(0.2, WaitBehavior.IgnoreCondition);
 	Pointloot = RandomInteger(2000, 5000);
 	MinWait();
-	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Cha-ching! Discovered ", Pointloot, "Coins!">);
+	SmallMessage(Player, <@"<0> <1> <2>", "Cha-ching! Discovered ", Pointloot, "Coins!">);
 	Coins += Pointloot;
 	GeodeRandomItem = 0;
 }
@@ -73,7 +74,7 @@ if (GeodeRandomItem <= 59)
 	Wait(0.2, WaitBehavior.IgnoreCondition);
 	Pointloot = RandomInteger(0, 1000);
 	MinWait();
-	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Discovered", Pointloot, "Coins!">);
+	SmallMessage(Player, <@"<0> <1> <2>", "Discovered", Pointloot, "Coins!">);
 	Coins += Pointloot;
 	GeodeRandomItem = 0;
 }

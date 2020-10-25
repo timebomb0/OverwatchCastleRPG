@@ -1,0 +1,2 @@
+define CoreLocation: Vector(39.261, 9.47, -87.568);
+define Player: EventPlayer();

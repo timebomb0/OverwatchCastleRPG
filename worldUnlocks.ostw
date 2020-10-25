@@ -1,8 +1,9 @@
-import "vars.ostw";
+import "utils/index.ostw";
+
 
 rule: "[All World] Unlock 1 (Speed, Cursed Treasure Box)"
 if (UnlockLevel == 0)
-if (Level > 5)
+if (Stage > 5)
 {
 	DestroyInWorldText(InWorldTextIds[0]);
 	DestroyInWorldText(InWorldTextIds[1]);
@@ -17,20 +18,19 @@ if (Level > 5)
 
 rule: "[All World] Unlock 2 (Max Ultimate, Dirt, Core Upgrade"
 if (UnlockLevel == 1)
-if (Level > 10)
+if (Stage > 10)
 {
 	DestroyInWorldText(InWorldTextIds[4]);
 	DestroyInWorldText(InWorldTextIds[5]);
 	CreateInWorldText(AllPlayers(Team.All), "[Dig] -12 Treasure Maps (Hold Reload)", Vector(103.232, 13.842, -73.494), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
-	CreateInWorldText(AllPlayers(Team.All), <@"<0> <1>", "[Core Capacity] -1 Oil Barrel (Reload) | Current Oil Barrel : ", <"<0> / <1>", InsertOil, 10>>, Vector(122.974, 12.007, -61.465), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Yellow, Spectators.DefaultVisibility);
 	UnlockLevel = 2;
 	Wait(0.5, WaitBehavior.IgnoreCondition);
-	BigMessage(AllPlayers(Team.All), "Beat Level 10! Unlocked: Instant Ultimate, Digging For Treasure, Core Upgrades, New Mob Spawns");
+	BigMessage(AllPlayers(Team.All), "Beat Level 10! Unlocked: Instant Ultimate, Digging For Treasure, New Mob Spawns");
 }
 
 rule: "[All World] Unlock 3 (Force Enchant, Geode)"
 if (UnlockLevel == 2)
-if (Level > 15)
+if (Stage > 15)
 {
 	DestroyInWorldText(InWorldTextIds[6]);
 	DestroyInWorldText(InWorldTextIds[7]);
@@ -43,7 +43,7 @@ if (Level > 15)
 
 rule: "[All World] Unlock 4 (Selling Diamonds, Damage Received)"
 if (UnlockLevel == 3)
-if (Level > 20)
+if (Stage > 20)
 {
 	DestroyInWorldText(InWorldTextIds[8]);
 	DestroyInWorldText(InWorldTextIds[9]);
@@ -53,19 +53,9 @@ if (Level > 20)
 	BigMessage(AllPlayers(Team.All), "Beat Level 20! Unlocked: Selling Diamonds, Damage Received Upgrade");
 }
 
-rule: "[All World] Unlock 4 Player Specific (Damage Received)"
-Event.OngoingPlayer
-Team.Team2
-if (UnlockLevel >= 4)
-if (UnlockLevelInitialized[4] != true)
-{
-	CreateInWorldText(EventPlayer(), <"<0> -<1> <2>", "[Press Reload to Upgrade] Damage Received", DamageReceiveCost, "Coins">, Vector(56.592, 19.347, -79.917), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-	UnlockLevelInitialized[4] = true;
-}
-
 rule: "[All World] Unlock 5 (Ult Upgrade, Ammo Capacity)"
 if (UnlockLevel == 4)
-if (Level > 25)
+if (Stage > 25)
 {
 	DestroyInWorldText(InWorldTextIds[3]);
 	DestroyInWorldText(InWorldTextIds[10]);

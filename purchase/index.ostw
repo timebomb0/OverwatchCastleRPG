@@ -1,4 +1,3 @@
 import "diamond.ostw";
-import "magicShop.ostw";
-import "playerUpgrades.ostw";
-import "core.ostw";
+import "statUpgrades.ostw";
+import "traitUpgrades.ostw";

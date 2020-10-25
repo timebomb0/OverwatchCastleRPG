@@ -1,19 +1,19 @@
-import "../vars.ostw";
+import "../utils/index.ostw";
 
 rule: "[Dirt] Main"
 Event.OngoingPlayer
 Team.Team2
-if (DistanceBetween(EventPlayer(), Vector(103.232, 13.842, -73.494)) <= 2.5)
-if (TreasureMap >= 12)
-if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (MobItem >= 12)
 if (UnlockLevel >= 2)
+if (DistanceBetween(Player, Vector(103.232, 13.842, -73.494)) <= 2.5)
 {
 	Wait(0.6, WaitBehavior.AbortWhenFalse);
-	TreasureMap -= 12;
+	MobItem -= 12;
 	DirtRandomItem = RandomInteger(1, 100);
 	Wait(0.05, WaitBehavior.IgnoreCondition);
 	DirtRandomItem = 0;
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, EventPlayer(), 30);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 30);
 	LoopIfConditionIsTrue();
 }
 
@@ -22,9 +22,9 @@ Event.OngoingPlayer
 Team.Team2
 if (DirtRandomItem == 100)
 {
-	SmallMessage(EventPlayer(), "What Amazing Luck! Dug up a Diamond!");
+	SmallMessage(Player, "What Amazing Luck! Dug up a Diamond!");
 	Item_Diamond += 1;
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", HeroIconString(HeroOf(EventPlayer())), EventPlayer(), "Found A Diamond While Digging For Treasure!">);
+	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", HeroIconString(HeroOf(Player)), Player, "Found A Diamond While Digging For Treasure!">);
 }
 
 rule: "[Dirt] Cursed Treasure Box 5% 95-99"
@@ -33,7 +33,7 @@ Team.Team2
 if (DirtRandomItem >= 94)
 if (DirtRandomItem <= 99)
 {
-	SmallMessage(EventPlayer(), "Dug up a Cursed Treasure Box!");
+	SmallMessage(Player, "Dug up a Cursed Treasure Box!");
 	CursedBox += 1;
 }
 
@@ -43,29 +43,19 @@ Team.Team2
 if (DirtRandomItem >= 86)
 if (DirtRandomItem <= 93)
 {
-	SmallMessage(EventPlayer(), "Dug up a Treasure Box!");
+	SmallMessage(Player, "Dug up a Treasure Box!");
 	LootBox += 1;
 }
 
-rule: "[Dirt] Oil Barrel 14% 75-88"
-Event.OngoingPlayer
-Team.Team2
-if (DirtRandomItem >= 75)
-if (DirtRandomItem <= 88)
-{
-	Item_Oil += 1;
-	SmallMessage(EventPlayer(), "Dug up an Oil Barrel!");
-}
-
-rule: "[Dirt] Geode 46% 29-74"
+rule: "[Dirt] Geode 59% 29-88"
 Event.OngoingPlayer
 Team.Team2
 if (DirtRandomItem >= 29)
-if (DirtRandomItem <= 74)
+if (DirtRandomItem <= 88)
 {
 	GeodeGetReward += RandomInteger(1, 15);
 	Wait(0.2, WaitBehavior.IgnoreCondition);
-	SmallMessage(EventPlayer(), <@"<0> <1> <2>", "Dug Up", GeodeGetReward, "Geodes!">);
+	SmallMessage(Player, <@"<0> <1> <2>", "Dug Up", GeodeGetReward, "Geodes!">);
 	Item_Geode += GeodeGetReward;
 	Wait(0.2, WaitBehavior.IgnoreCondition);
 	GeodeGetReward = 0;
@@ -77,5 +67,5 @@ Team.Team2
 if (DirtRandomItem >= 1)
 if (DirtRandomItem <= 28)
 {
-	SmallMessage(EventPlayer(), "Dug Up A Smelly Shoe, Try Again!");
+	SmallMessage(Player, "Dug Up A Smelly Shoe, Try Again!");
 }

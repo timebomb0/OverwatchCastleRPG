@@ -1,0 +1,19 @@
+import "../../utils/index.ostw";
+
+rule: "[World Effect] Stat upgrades text"
+Event.OngoingPlayer
+Team.Team2
+{
+    CreateInWorldText(Player, "Damage +1% [-1 Stat Point]", Vector(53.993, 12.975, -81.313), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, "Health +1% [-1 Stat Point]", Vector(56.398, 13.005, -81.814), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, "Damage Recieved -0.25% [-1 Stat Point]", Vector(54.539, 12.975, -77.976), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, "Healing +1% [-1 Stat Point]", Vector(56.873, 12.975, -78.476), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+}
+
+rule: "[World Effect] Stat upgrades"
+{
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Red, DamageStatEffectLoc, 1.2, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Green, HealthStatEffectLoc, 1.2, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, DamageReceivedStatEffectLoc, 1.2, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, HealingStatEffectLoc, 1.2, EffectRev.VisibleToPositionAndRadius);
+}

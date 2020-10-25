@@ -1,0 +1,11 @@
+import "../utils/index.ostw";
+
+rule: "[Ultimate] Passive Ultimate Generation"
+Event.OngoingPlayer
+Team.Team2
+{
+	Wait(UltimateTickRate, WaitBehavior.AbortWhenFalse);
+	UltimateNumber += UltimateGain;
+	SetUltimateCharge(Player, UltimateNumber);
+	Loop();
+}
