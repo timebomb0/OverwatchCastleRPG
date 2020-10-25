@@ -6,7 +6,7 @@ import "hud.ostw";
 import "items/index.ostw";
 import "player/index.ostw";
 import "purchase/index.ostw";
-import "guides.ostw";
+// import "guides.ostw";
 // import "player/code.ostw";
 
 rule: "[All World] Initialize Settings"
@@ -39,7 +39,6 @@ if (IsGameInProgress() == true)
 	Messages[4] = "";
 	AllPlayers(Team.Team2).EXP = 0;
 	AllPlayers(Team.Team2).PlayerLevel = 1;
-	SetRespawnMaxTime(AllPlayers(Team.Team2), 12);
 	AllPlayers(Team.Team2).AmmoCapacity = 100;
 	EnergyMultiplier = 1.4;
 }
@@ -84,7 +83,7 @@ Team.Team2
 	GeodeRandomItem = 0;
 	StatPoints = 0;
 	EXP = 0;
-	EXPToLevelUp = 5000;
+	EXPToLevelUp = 3000;
 	PlayerLevel = 1;
 	Wait(1, WaitBehavior.IgnoreCondition);
 	SetDamageDealt(Player, DamageDealt);
@@ -97,7 +96,7 @@ Team.Team2
 	BuffPenalty = 1;
 	
 	// TODO: Set level+stat points for new players
-	SetRespawnMaxTime(Player, 12);
+	SetRespawnMaxTime(Player, 4);
 	Wait(10, WaitBehavior.IgnoreCondition);
 	BigMessage(Player, "Welcome. Kill the incoming mobs before they hit the Core, or they'll damage it!");
 	Wait(4, WaitBehavior.IgnoreCondition);

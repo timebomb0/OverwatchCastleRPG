@@ -23,7 +23,7 @@ Team.Team1
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, CoreLocation) <= 8)
 {
-	
+	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	Wait(2, WaitBehavior.AbortWhenFalse);
 	mobs[root.WaveSet].despawn(Player);
 }
@@ -40,25 +40,8 @@ Team.Team1
 if (IsBreakTime == false)
 if (IsAlive(Player) == true)
 {
-	Wait(mobs[root.WaveSet].AttackInterval, WaitBehavior.AbortWhenFalse);
-	LoopIf(IsUsingUltimate(Player) == true);
+	Wait(mobs[root.WaveSet].AttackInterval + 0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	mobs[root.WaveSet].attack(Player);
-	LoopIfConditionIsTrue();
-}
-
-rule: "[Mob] Attack During Ult"
-Event.OngoingPlayer
-Team.Team1
-if (IsAlive(Player) == true)
-if (mobs[root.WaveSet].AttackDuringUlt == true)
-if (IsUsingUltimate(Player) == true)
-{
-	if (HeroOf(Player) == Hero.Mccree || HeroOf(Player) == Hero.Junkrat) {
-		Wait(RandomInteger(2, 5), WaitBehavior.AbortWhenFalse);
-	} 
-	StartHoldingButton(Player, Button.PrimaryFire);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	StopHoldingButton(Player, Button.PrimaryFire);
 	LoopIfConditionIsTrue();
 }
 
@@ -67,7 +50,7 @@ Event.OngoingPlayer
 Team.Team1
 if (IsInSpawnRoom(Player) == true)
 {
-	Wait(0.125, WaitBehavior.IgnoreCondition);
+	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
 }
 
@@ -75,6 +58,7 @@ rule: "[Mob] Move"
 Event.OngoingPlayer
 Team.Team1
 {
+	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	StartThrottleInDirection(Player, DirectionTowards(Player, Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
 	StartFacing(Player, DirectionTowards(Player, ClosestPlayerTo(EyePosition(Player), Team.Team2)), 300, Relative.ToWorld, FacingRev.DirectionAndTurnRate);
 }

@@ -101,12 +101,24 @@ public void attack(ref define mob)
 {
 		define randomChance = RandomInteger(1, 100);
 		Wait(0.1, WaitBehavior.IgnoreCondition);
-		
-		if (AutoUltChance != false && randomChance <= AutoUltChance) {
+	
+		if (AutoUltChance != false && randomChance <= AutoUltChance && IsUsingUltimate(mob) != true) {
 			SetUltimateCharge(mob, 100);
 			Wait(0.1, WaitBehavior.IgnoreCondition);
 			PressButton(mob, Button.Ultimate);
-			LoopIfConditionIsTrue();
+		}
+
+		if (IsUsingUltimate(mob)) {
+			if (HeroOf(mob) == Hero.Mccree || HeroOf(mob) == Hero.Junkrat) {
+				Wait(RandomInteger(2, 5), WaitBehavior.AbortWhenFalse);
+			} 
+			StartHoldingButton(mob, Button.PrimaryFire);
+			Wait(2, WaitBehavior.IgnoreCondition);
+			StopHoldingButton(mob, Button.PrimaryFire);
+			
+			if (IsUsingUltimate(mob)) {
+				LoopIfConditionIsTrue();
+			}
 		}
 
 		if (AutoAbility1Chance != false && randomChance <= AutoAbility1Chance) {

@@ -4,7 +4,6 @@ import "../../utils/index.ostw";
 rule: "[HUD] Top Player HUD"
 Event.OngoingPlayer
 {
-    LeftHUDHeader(Player,  <@"<0> <1>", HeroIconString(HeroOf(Player)), "My Status">, null, Color.SkyBlue, Color.White, 0);
 	LeftHUDHeader(Player, <@"<0> <1>", "Level : ", PlayerLevel>, null, Color.Blue, Color.White, 1);
 	CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), "Experience", Location.Left, 2,  Color.Green, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor);
 	LeftHUDHeader(Player, <"Stat Points : <0>", StatPoints>, null, Color.LimeGreen, Color.White, 3);
@@ -14,19 +13,13 @@ Event.OngoingPlayer
 	LeftHUDSubheader(Player, <@"<0> <1>", "Health % : ", HP>, Color.Green, 7);
 	LeftHUDSubheader(Player, <@"<0> <1>", "Damage Receive % : ", DamageReceive>, Color.Turquoise, 8);
 	LeftHUDSubheader(Player, <@"<0> <1>", "Healing Dealt % : ", HealingDealt>, Color.Orange, 9);
-	LeftHUDHeader(Player, "Inventory #1", <@"<0> <1> <2> <3> <4> <5>", "Cursed Treasure Box : ", CursedBox, "Treasure Box : ", LootBox, "Treasure Map : ", MobItem>, Color.Turquoise, Color.Orange, 10);
-	LeftHUDHeader(Player, "Inventory #2", <@"<0> <1> <2> <3>", "Diamond : ", Item_Diamond, "Geode : ", Item_Geode>, Color.Turquoise, Color.Orange, 11);
 
-    RightHUDHeader(Player, <@"<0> <1>", "Enhancement Level : ", EnchantLevel>, null, Color.Aqua, Color.White, 1);
 	RightHUDHeader(Player, <@"<0> <1>", "This Wave's Kills : ", MobKills>, null, Color.Blue, Color.White, 3);
-	RightHUDHeader(Player, <@"<0> <1>", "Unlock Level:", UnlockLevel>, null, Color.LimeGreen, Color.White, 4);
-	RightHUDSubheader(Player, <@"<0> <1>", "Next Unlock In:", UnlockLevel >= 5 ? "Maxed!" : <@"<0> <1>", UnlockLevel * 5 + 6 - Stage, "Levels">>, Color.Orange, 5);
 	RightHUDSubheader(Player, Messages[0], Color.White, 6);
     RightHUDSubheader(Player, Messages[1], Color.White, 7);
     RightHUDSubheader(Player, Messages[2], Color.White, 8);
     RightHUDSubheader(Player, Messages[3], Color.White, 9);
     RightHUDSubheader(Player, Messages[4], Color.White, 10);
 
-	RightHUDSubheader(Player, <"Avg Load: <0>", ServerLoadAverage()>, Color.Red, 0);
-	RightHUDSubheader(Player, <"Peak Load: <0>", ServerLoadPeak()>, Color.Red, 0);
+	RightHUDSubheader(Player, <"Avg Load: <0> || Peak Load: <1>", ServerLoadAverage(), ServerLoadPeak()>, Color.Red, 0);
 }

@@ -11,11 +11,9 @@ Team.Team2
 }
 
 rule: "[World Effect] Trait upgrades"
-Event.OngoingPlayer
-Team.Team2
 {
-    CreateEffect(Player, Effect.Ring, Color.Yellow, JumpSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(Player, Effect.Ring, Color.White, MoveSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(Player, Effect.Ring, Color.Purple, AmmoCapacityTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(Player, Effect.Ring, Color.Rose, UltimateGenTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Yellow, JumpSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.White, MoveSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, AmmoCapacityTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Rose, UltimateGenTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
 }

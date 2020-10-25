@@ -1,3 +1,2 @@
-import "diamond.ostw";
 import "statUpgrades.ostw";
 import "traitUpgrades.ostw";
