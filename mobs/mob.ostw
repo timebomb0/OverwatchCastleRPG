@@ -3,7 +3,7 @@ import "../utils/index.ostw";
 class Mob {
 	private define RespawnTime;
 	private define CoinsOnKill;
-	private define MobItemOnKill;
+	private define TrinketOnKill;
 	private define EnergyOnKill;
 	private define CursedBoxLootChance;
 	private define TreasureBoxLootChance;
@@ -25,7 +25,7 @@ class Mob {
 	public define AttackDuringUlt;
 	public define AttackInterval;
 	
-	public Mob(ref define heroMob, ref define coinsOnKill, ref define mobItemOnKill,
+	public Mob(ref define heroMob, ref define coinsOnKill, ref define trinketOnKill,
 				ref define energyOnKill, ref define cursedBoxLootChance, ref define treasureBoxLootChance, ref define expOnKill,
 				ref define objectiveDescription, ref define spawnMessage,
 				ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
@@ -35,7 +35,7 @@ class Mob {
 	{
 		HeroMob = heroMob;
 		CoinsOnKill = coinsOnKill;
-		MobItemOnKill = mobItemOnKill;
+		TrinketOnKill = trinketOnKill;
 		EnergyOnKill = energyOnKill;
 		CursedBoxLootChance = cursedBoxLootChance;
 		TreasureBoxLootChance = treasureBoxLootChance;
@@ -59,7 +59,7 @@ class Mob {
 
 	public void handleDead()
 	{
-		AllPlayers(Team.Team2).MobItem += RoundToInteger(root.MobItemModifier * MobItemOnKill, Rounding.Nearest);
+		AllPlayers(Team.Team2).Item_Trinket += RoundToInteger(root.Item_TrinketModifier * TrinketOnKill, Rounding.Nearest);
 		AllPlayers(Team.Team2).Coins += RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * root.CoinsOnKillMultiplier, Rounding.Nearest);
 		root.EnergyPoints += EnergyOnKill * root.EnergyMultiplier;
 		AllPlayers(Team.Team2).LootChance = RandomInteger(1, CursedBoxLootChance);
@@ -91,9 +91,9 @@ class Mob {
 		CreateDummyBot(HeroMob, Team.Team1, 3, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 4, Vector(0, 0, 0), Vector(0, 0, 0));
 		Wait(1, WaitBehavior.IgnoreCondition);
-		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * NumberOfPlayers(Team.Team2) * DamageDealt);
 		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
-		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.MobSpeedModifier * NumberOfPlayers(Team.Team2) * MoveSpeed);
+		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * DamageDealt);
+		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.MobSpeedModifier * MoveSpeed);
 		SetObjectiveDescription(AllPlayers(Team.All), <"Quick, defeat the <0>s!", HeroMob>, ObjectiveRev.VisibleToAndString);
 	}
 

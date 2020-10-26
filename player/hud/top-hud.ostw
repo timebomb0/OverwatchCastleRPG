@@ -13,6 +13,7 @@ Event.OngoingPlayer
 	LeftHUDSubheader(Player, <@"<0> <1>", "Health % : ", HP>, Color.Green, 7);
 	LeftHUDSubheader(Player, <@"<0> <1>", "Damage Receive % : ", DamageReceive>, Color.Turquoise, 8);
 	LeftHUDSubheader(Player, <@"<0> <1>", "Healing Dealt % : ", HealingDealt>, Color.Orange, 9);
+	LeftHUDHeader(Player, "Inventory", <"Trinket : <0> | Experience Potion : <1> | Money Bag : <2> | Wishing Star : <3>", Item_Trinket, Item_ExperiencePotion, Item_MoneyBag, Item_WishingStar>, Color.Orange, Color.Turquoise, 10);
 
 	RightHUDHeader(Player, <@"<0> <1>", "This Wave's Kills : ", MobKills>, null, Color.Blue, Color.White, 3);
 	RightHUDSubheader(Player, Messages[0], Color.White, 6);

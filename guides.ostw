@@ -93,7 +93,7 @@ if (EnchantLevel == 10)
 rule: "[Guide 4] Have Mob Items to combine Treasure box"
 Event.OngoingPlayer
 Team.Team2
-if (MobItem >= 40)
+if (Item_Trinket >= 40)
 {
 	// Wait(1, WaitBehavior.IgnoreCondition);
 	CreateIcon(Player, Vector(93.966, 12.074, -35.155), Icon.Recycle, IconRev.VisibleToAndPosition, Color.Yellow, true);
@@ -103,7 +103,7 @@ if (MobItem >= 40)
 rule: "[Guide 4] Delete"
 Event.OngoingPlayer
 Team.Team2
-if (MobItem < 30)
+if (Item_Trinket < 30)
 {
 	DestroyIcon(p_GuideSave[4]);
 }
@@ -111,7 +111,7 @@ if (MobItem < 30)
 rule: "[Guide 5] Have Mob Items to combine Cursed Treasure box"
 Event.OngoingPlayer
 Team.Team2
-if (MobItem >= 80)
+if (Item_Trinket >= 80)
 if (UnlockLevel >= 1)
 {
 	CreateIcon(Player, Vector(118.238, 10.07, -48.792), Icon.Recycle, IconRev.VisibleToAndPosition, Color.Purple, true);
@@ -121,7 +121,7 @@ if (UnlockLevel >= 1)
 rule: "[Guide 5] Delete"
 Event.OngoingPlayer
 Team.Team2
-if (MobItem < 80)
+if (Item_Trinket < 80)
 {
 	DestroyIcon(p_GuideSave[5]);
 }
@@ -192,7 +192,7 @@ if (IsBreakTime == true)
 rule: "[Guide 12] Have Mob Items To Spend"
 Event.OngoingPlayer
 Team.Team2
-if (MobItem >= 35)
+if (Item_Trinket >= 35)
 if (IsBreakTime == true)
 {
 	Wait(6, WaitBehavior.AbortWhenFalse);

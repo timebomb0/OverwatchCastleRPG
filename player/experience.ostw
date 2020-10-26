@@ -5,17 +5,16 @@ Event.OngoingPlayer
 Team.Team2
 if (EXP >= EXPToLevelUp)
 {
-    EXP = 0;
+    EXP = EXP - EXPToLevelUp;
     PlayerLevel += 1;
     StatPoints += 5;
     if (PlayerLevel % TraitPointGainedEveryXLevels == 0) {
         TraitPoints += 1;
     }
-    EXPToLevelUp *= 1.05;
+    EXPToLevelUp *= MaxXPGrowthPerLevel;
     PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffImpactSound, Color.White, Player, 5);
 	PlayEffect(AllPlayers(Team.Team2), PlayEffect.GoodPickupEffect, Color.Green, Player, 5);
     
     define message! = <"Ding! You leveled up to <0>!", PlayerLevel>;
-    NewMessage(message);
-    SmallMessage(Player, message);
+    NewMessage(Player, message);
 }

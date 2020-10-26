@@ -4,12 +4,12 @@ rule: "[Dirt] Main"
 Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
-if (MobItem >= 12)
+if (Item_Trinket >= 12)
 if (UnlockLevel >= 2)
 if (DistanceBetween(Player, Vector(103.232, 13.842, -73.494)) <= 2.5)
 {
 	Wait(0.6, WaitBehavior.AbortWhenFalse);
-	MobItem -= 12;
+	Item_Trinket -= 12;
 	DirtRandomItem = RandomInteger(1, 100);
 	Wait(0.05, WaitBehavior.IgnoreCondition);
 	DirtRandomItem = 0;

@@ -1,204 +1,91 @@
 import "../utils/index.ostw";
 
 
-rule: "[Loot] TreasureBox"
+rule: "[Use Item] Experience Potion"
 Event.OngoingPlayer
 Team.Team2
-if (LootBox > 0)
+if (Item_ExperiencePotion > 0)
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
-if (DistanceBetween(Player, Vector(59.776, 6.175, -95.982)) <= 2.5)
+if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 {
-	SmallMessage(Player, "Opening Treasure Box! ...2");
+	SmallMessage(Player, "Consuming Experience Potion! ...2");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Opening Treasure Box! ...1");
+	SmallMessage(Player, "Consuming Experience Potion! ...1");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	Pointloot = RandomInteger(3000, 8000);
-	LootBox -= 1;
+	Pointloot = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
+	Item_ExperiencePotion -= 1;
 	MinWait();
-	SmallMessage(Player, <@"<0> <1> <2>", "You Got ", Pointloot, "Coins From Treasure Box!">);
-	Coins += Pointloot;
-	LoopIfConditionIsTrue();
-}
-
-rule: "[Loot] Got Cursedbox"
-Event.OngoingPlayer
-Team.Team2
-if (CurseLootChance == 3)
-{
-	CursedBox += 1;
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", "Congratulations! ", Player, "Looted Cursed Treasure Box!">);
-}
-
-rule: "[Loot] Got Lootbox"
-Event.OngoingPlayer
-Team.Team2
-if (LootChance == 4)
-{
-	LootBox += 1;
-	BigMessage(Player, <@"<0> <1> <2>", "Congratulations! ", Player, "Looted Treasure Box!">);
-}
-
-rule: "[Loot] CursedTreasureBox 1-11"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBox > 0)
-if (DistanceBetween(Player, Vector(56.444, 6.225, -87.247)) <= 2.5)
-if (IsButtonHeld(Player, Button.Interact) == true)
-if (IsAlive(Player) == true)
-if (UnlockLevel >= 1)
-{
-	SmallMessage(Player, "Analyzing Cursed Treasure Box! ...3");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Analyzing Cursed Treasure Box! ...2");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Analyzing Cursed Treasure Box! ...1");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	CursedBoxReward = RandomInteger(1, 11);
-	CursedBox -= 1;
+	NewMessage(Player, <"Gained <0> Experience Points!", Pointloot>);
+	EXP += Pointloot;
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
 }
 
-rule: "[Loot] CTB 1 4 Free TreasureBoxes"
+rule: "[Use Item] Money Bag"
 Event.OngoingPlayer
 Team.Team2
-if (CursedBoxReward == 1)
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (Item_MoneyBag > 0)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 {
-	LootBox += 4;
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Obtains 4 Treasure Boxes From Cursed Treasure Box!">);
-	CursedBoxReward = 0;
-}
-
-rule: "[Loot] CTB 2 15k - 40k Pts 1 person"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 2)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	Pointloot = RandomInteger(10000 * 1.5, 10000 * 4);
+	SmallMessage(Player, "Opening Money Bag! ...2");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Opening Money Bag! ...1");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	Pointloot = RandomInteger(500, 10000);
+	Item_MoneyBag -= 1;
 	MinWait();
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", Player, "Obtains ", <@"<0> <1>", Pointloot, "Coins From Cursed Treasure Box!">>);
 	Coins += Pointloot;
-	CursedBoxReward = 0;
+	NewMessage(Player, <"Received <0> Coins from Opening Money Bag", Pointloot>);
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	LoopIfConditionIsTrue();
 }
 
-rule: "[Loot] CTB 3 Poison"
+rule: "[Use Item] Wishing Star"
 Event.OngoingPlayer
 Team.Team2
-if (CursedBoxReward == 3)
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (Item_WishingStar > 0)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 {
-	BigMessage(AllPlayers(Team.All), "The Darkness Consumes All! (Cursed By Cursed Treasure Box)");
-	StartDamageOverTime(AllPlayers(Team.Team2), null, 6, 1.5 * HP);
-	CursedBoxReward = 0;
-	CursedBoxJackpot += 10000;
-}
-
-rule: "[Loot] CTB 4 6k - 14k Pts 6 person"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 4)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team2).Pointloot = RandomInteger(6000 * 1, 10000 * 1.4);
+	SmallMessage(Player, "Tossing Wishing Star! ...3");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Tossing Wishing Star! ...2");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Tossing Wishing Star! ...1");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	define randomNum = RandomInteger(1,1);
+	Item_WishingStar -= 1;
 	MinWait();
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", Player, "Obtains ", <@"<0> <1>", Pointloot, "Coins And Shared Them With Everyone!">>);
-	AllPlayers(Team.Team2).Coins += Pointloot;
-	CursedBoxReward = 0;
+	
+	if (randomNum == 1) {
+		define randomLevels = RandomInteger(1, 4);
+		MinWait();
+		NewMessage(Player, <"Wishing Star has granted you <0> Free Level(s)", randomLevels>);
+		BigMessage(AllPlayers(Team.Team2), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, randomLevels>);
+		PlayerLevel += randomLevels;
+		EXPToLevelUp = EXPToLevelUp * (1.05 ^ randomLevels);
+	}
 }
 
-rule: "[Loot] CTB 6 Hack"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 5)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Let's Not Do That Again. (Hacked For 45 Seconds)">);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	SetStatus(AllPlayers(Team.Team2), null, Status.Hacked, 45);
-	CursedBoxReward = 0;
-	CursedBoxJackpot += 10000;
-}
+// TODO: Replace these below rules with new loot items from mobs
+// rule: "[Loot] Got Cursedbox"
+// Event.OngoingPlayer
+// Team.Team2
+// if (CurseLootChance == 3)
+// {
+// 	CursedBox += 1;
+// 	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", "Congratulations! ", Player, "Looted Cursed Treasure Box!">);
+// }
 
-rule: "[Loot] CTB 7 Mob Item"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 6)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Found Many Treasure Maps!">);
-	MobItem += RandomInteger(100, 200);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	CursedBoxReward = 0;
-}
-
-rule: "[Loot] CTB 8 Nap"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 7)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Oh, you look tired. (Sleep for 3 seconds)">);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	SetStatus(AllPlayers(Team.Team2), null, Status.Asleep, 3);
-	Teleport(AllPlayers(Team.Team2), Vector(123.298, 10.02, -27.348));
-	CursedBoxReward = 0;
-	CursedBoxJackpot += 10000;
-}
-
-rule: "[Loot] CTB 9 Free Enhancement"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 8)
-if (EnchantLevel < 10)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Received free enhancement level!">);
-	EnchantChance = RandomInteger(1, 1);
-	Wait(0.05, WaitBehavior.IgnoreCondition);
-	EnchantChance = 0;
-	Wait(1, WaitBehavior.IgnoreCondition);
-	CursedBoxReward = 0;
-}
-
-rule: "[Loot] CTB 9 Max Enchant Nothing"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 8)
-if (EnchantLevel == 10)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Almost received free enhancement level! (Already +10)">);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	CursedBoxReward = 0;
-}
-
-rule: "[Loot] CTB 10 Nothing"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 9)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1>", Player, "Received absolutely nothing! Better luck next time.">);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	CursedBoxReward = 0;
-}
-
-rule: "[Loot] CTB 11 Jackpot"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 10)
-{
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", Player, "Benefits From Everyone Else's Misfortune. Cursed J A C K P O T Is:", <@"<0> <1>", CursedBoxJackpot, "Coins!!!">>);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	CursedBoxJackpot = InitialCursedBoxJackpot;
-	CursedBoxReward = 0;
-}
-
-rule: "[Loot] CTB 12 Geodes"
-Event.OngoingPlayer
-Team.Team2
-if (CursedBoxReward == 11)
-{
-	Wait(0.2, WaitBehavior.IgnoreCondition);
-	Pointloot = RandomInteger(20, 100);
-	MinWait();
-	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", Player, "Ran Into An Avalanche! Obtains ", <@"<0> <1>", Pointloot, "Geodes From Cursed Treasure Box!">>);
-	Wait(1, WaitBehavior.IgnoreCondition);
-	Item_Geode += Pointloot;
-	CursedBoxReward = 0;
-}
+// rule: "[Loot] Got Lootbox"
+// Event.OngoingPlayer
+// Team.Team2
+// if (LootChance == 4)
+// {
+// 	LootBox += 1;
+// 	BigMessage(Player, <@"<0> <1> <2>", "Congratulations! ", Player, "Looted Treasure Box!">);
+// }

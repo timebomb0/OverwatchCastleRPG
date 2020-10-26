@@ -15,8 +15,7 @@ if (IsGameInProgress() == true)
 	SetNewWave = true;
 	MobKills = 0;
 	BreakTime = 10;
-	InitialDifficultyModifier = 0.82;
-	DifficultyModifier = InitialDifficultyModifier;
+	DifficultyModifier = 1;
 	Stage = 1;
 	EnergyPoints = 0;
 	UnlockLevel = 0;
@@ -25,13 +24,13 @@ if (IsGameInProgress() == true)
 	InitialCursedBoxJackpot = 10000;
 	CursedBoxJackpot = InitialCursedBoxJackpot;
 	CoinsPerLevel = 2000;
-	DifficultyIncreasePerXLv = 0.09;
 	EnergyToLvUp = 1000;
 	MobSpeedModifier = 0.7;
-	CoinsOnKillMultiplier = 2.8;
+	MaxXPGrowthPerLevel = 1.05;
+	CoinsOnKillMultiplier = 4;
 	MobHealthModifier = 0.88;
 	UltimateTickRate = 5;
-	MobItemModifier = 1.2;
+	Item_TrinketModifier = 2;
 	Messages[0] = "";
 	Messages[1] = "";
 	Messages[2] = "";
@@ -74,6 +73,10 @@ Team.Team2
 	HealingReceive = 100;
 	JumpSpeed = 100;
 	UltimateGain = 2;
+	Item_Trinket = 0;
+	Item_ExperiencePotion = 0;
+	Item_MoneyBag = 0;
+	Item_WishingStar = 0;
 	TraitsUnlocked[0] = false;
 	TraitsUnlocked[1] = false;
 	TraitsUnlocked[2] = false;
@@ -166,7 +169,7 @@ if (HostPlayer() == true)
 {
 	EnergyPoints += 1050;
 	AllPlayers(Team.Team2).Coins += 10000 * 5;
-	AllPlayers(Team.Team2).MobItem += 200;
+	AllPlayers(Team.Team2).Item_Trinket += 200;
 	AllPlayers(Team.Team2).Item_Geode += 50;
 	CursedBox += 2;
 	LootBox += 5;

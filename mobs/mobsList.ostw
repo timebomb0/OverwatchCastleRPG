@@ -1,7 +1,7 @@
 
 import "mob.ostw";
 
-	// public Mob(ref define heroMob, ref define coinsOnKill, ref define mobItemOnKill,
+	// public Mob(ref define heroMob, ref define coinsOnKill, ref define Item_TrinketOnKill,
 	// 			ref define energyOnKill, ref define cursedBoxLootChance, ref define treasureBoxLootChance, ref define expOnKill
 	// 			ref define objectiveDescription, ref define spawnMessage,
 	// 			ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
@@ -10,54 +10,54 @@ import "mob.ostw";
 	// 			ref define attackDuringUlt, ref define holdPrimaryFire, ref define holdSecondaryFire, ref define attackInterval)
 globalvar Mob[] mobs! = [
 	false, // WaveSet starts at 1, no 0
-	// new Mob(Hero.Mccree, 50, 1, 50,
-	// 	50, 350, 400,
-	// 	"Justice ain't gonna dispense itself", "Well, it's high noon somewhere in the world",
-	// 	3, 1.4, 10.5, 0.4,
-	// 	5, 20, false,
-	// 	false, 10,
-	// 	true, false, false, 1
-	// ),
-	// new Mob(Hero.Moira, 150, 1, 50,
-	// 	40, 350, 200,
-	// 	"Science will reveal the truth", "The true struggle is for the superiority of ideas",
-	// 	5, 1.7, 6, 0.5,
-	// 	false, false, false,
-	// 	false, 25,
-	// 	false, false, false, 1
-	// ),
-	// new Mob(Hero.Reaper, 90, 1, 60,
-	// 	55, 350, 400,
-	// 	"Death walks among you", "Time to kill",
-	// 	6, 8, 8.5, 0.37,
-	// 	85, false, false,
-	// 	false, false,
-	// 	false, false, false, 1
-	// ),
-	// new Mob(Hero.Tracer, 90, 1, 30,
-	// 	27, 400, 500,
-	// 	"Cheers, love! The cavalry's here!", "Oi! This is no time for standin' around",
-	// 	1, 0.65, 5, 0.55,
-	// 	0, 25, false,
-	// 	20, false,
-	// 	false, true, false, 1
-	// ),
-	// new Mob(Hero.Doomfist, 180, 2, 55,
-	// 	45, 350, 400,
-	// 	"Only through conflict do we evolve", "Once the mission starts, no more messing around",
-	// 	5, 1.5, 9, 0.4,
-	// 	false, 30, 20,
-	// 	false, 15,
-	// 	false, false, true, 1.5
-	// ),
-	// new Mob(Hero.Junkrat, 230, 2, 75,
-	// 	90, 370, 450,
-	// 	"It's a perfect day for some mayhem", "C'mon, c'mon, c'mon, I hate waiting!",
-	// 	5, 0.97, 12.5, 0.45,
-	// 	20, 25, false,
-	// 	false, false,	
-	// 	true, false, false, 1
-	// ),
+	new Mob(Hero.Mccree, 50, 1, 50,
+		50, 350, 400,
+		"Justice ain't gonna dispense itself", "Well, it's high noon somewhere in the world",
+		3, 1.4, 10.5, 0.4,
+		5, 20, false,
+		false, 10,
+		true, false, false, 1
+	),
+	new Mob(Hero.Moira, 150, 1, 50,
+		40, 350, 200,
+		"Science will reveal the truth", "The true struggle is for the superiority of ideas",
+		5, 1.7, 6, 0.5,
+		false, false, false,
+		false, 25,
+		false, false, false, 1
+	),
+	new Mob(Hero.Reaper, 90, 1, 60,
+		55, 350, 400,
+		"Death walks among you", "Time to kill",
+		6, 8, 8.5, 0.37,
+		85, false, false,
+		false, false,
+		false, false, false, 1
+	),
+	new Mob(Hero.Tracer, 90, 1, 30,
+		27, 400, 500,
+		"Cheers, love! The cavalry's here!", "Oi! This is no time for standin' around",
+		1, 0.65, 5, 0.55,
+		0, 25, false,
+		20, false,
+		false, true, false, 1
+	),
+	new Mob(Hero.Doomfist, 180, 2, 55,
+		45, 350, 400,
+		"Only through conflict do we evolve", "Once the mission starts, no more messing around",
+		5, 1.5, 9, 0.4,
+		false, 30, 20,
+		false, 15,
+		false, false, true, 1.5
+	),
+	new Mob(Hero.Junkrat, 230, 2, 75,
+		90, 370, 450,
+		"It's a perfect day for some mayhem", "C'mon, c'mon, c'mon, I hate waiting!",
+		5, 0.97, 12.5, 0.45,
+		20, 25, false,
+		false, false,	
+		true, false, false, 1
+	),
 	new Mob(Hero.Torbjorn, 90, 1, 40,
 		33, 350, 400,
 		"Build 'em up, break 'em down", "There's work to be done",
@@ -65,21 +65,21 @@ globalvar Mob[] mobs! = [
 		80, false, false,
 		false, false,	
 		true, false, false, 1
+	),
+	new Mob(Hero.Mei, 90, 2, 80,
+		90, 350, 400,
+		"Our world is worth fighting for", "It's good to get out of the lab",
+		8, 0.5, 10, 0.2,
+		60, false, false,
+		false, false,	
+		false, false, false, 1.5
+	),
+	new Mob(Hero.Hanzo, 90, 2, 55,
+		55, 350, 400,
+		"With every death, comes honor. With honor, redemption", "The dragon awakens",
+		5, 0.4, 8, 0.3,
+		50, false, false,
+		false, false,	
+		false, false, false, 1.5
 	)
-	// new Mob(Hero.Mei, 90, 2, 80,
-	// 	90, 350, 400,
-	// 	"Our world is worth fighting for", "It's good to get out of the lab",
-	// 	8, 0.5, 10, 0.2,
-	// 	60, false, false,
-	// 	false, false,	
-	// 	false, false, false, 1.5
-	// ),
-	// new Mob(Hero.Hanzo, 90, 2, 55,
-	// 	55, 350, 400,
-	// 	"With every death, comes honor. With honor, redemption", "The dragon awakens",
-	// 	5, 0.4, 8, 0.3,
-	// 	50, false, false,
-	// 	false, false,	
-	// 	false, false, false, 1.5
-	// )
 ];

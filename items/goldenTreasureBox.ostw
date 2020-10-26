@@ -90,7 +90,7 @@ if (FBoxChance >= 85)
 	AllPlayers(Team.Team2).Coins += RandomInteger(1000 * 10, 1000 * 30);
 	AllPlayers(Team.Team2).LootBox += RandomInteger(1, 3);
 	AllPlayers(Team.Team2).CursedBox += RandomInteger(0, 1);
-	AllPlayers(Team.Team2).MobItem += RandomInteger(36, 60);
+	AllPlayers(Team.Team2).Item_Trinket += RandomInteger(36, 60);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, Vector(86.219, 14.193, -73.246), 40);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodPickupEffect, Color.Orange, Vector(86.219, 14.193, -73.246), 6);
 	BigMessage(AllPlayers(Team.Team2), "The Golden Treasure Box has been collected. Enjoy your spoils!");

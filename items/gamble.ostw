@@ -1,0 +1,63 @@
+import "../utils/index.ostw";
+
+
+rule: "[Gamble] Slot Machine"
+Event.OngoingPlayer
+Team.Team2
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (DistanceBetween(Player, SlotMachineLoc) <= 2.5)
+if (Coins >= 5000)
+{
+	SmallMessage(Player, "Spinning slot machine... 3");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Spinning slot machine... 2");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Spinning slot machine... 1");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	Coins -= 5000;
+	
+	define randomNumber = RandomInteger(1, 100);
+	if (randomNumber < 25) {
+		NewMessage(Player, "Lucky! Received 1x Experience Potion");
+		Item_ExperiencePotion += 1;
+	} else if (randomNumber < 70) {
+		NewMessage(Player, "Received 1x Money Bag");
+		Item_MoneyBag += 1;
+	} else {
+		NewMessage(Player, "Zilcho, nada, nothing, zero, you have received nothing. Better luck next time!");
+	}
+
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 75);
+}
+
+rule: "[Gamble] Celestial Slot Machine"
+Event.OngoingPlayer
+Team.Team2
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (Item_Trinket >= 100)
+if (DistanceBetween(Player, CelestialSlotMachineLoc) <= 2.5)
+{
+	SmallMessage(Player, "Spinning celestial slot machine... 3");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Spinning celestial slot machine... 2");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Spinning celestial slot machine... 1");
+	Wait(1, WaitBehavior.AbortWhenFalse);
+	Item_Trinket -= 100;
+
+	define randomNumber = RandomInteger(1, 100);
+	if (randomNumber < 40) {
+		NewMessage(Player, "Lucky! Received 1x Experience Potion");
+		Item_ExperiencePotion += 1;
+	} else if (randomNumber < 75) {
+		NewMessage(Player, "Received 1x Money Bag");
+		Item_MoneyBag += 1;
+	} else if (randomNumber < 90) {
+		NewMessage(Player, "Zilcho, nada, nothing, zero, you have received nothing. Better luck next time!");
+	} else {
+		NewMessage(Player, "Wow! Received a Wishing Star!");
+		Item_WishingStar += 1;
+	}
+
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 75);
+}

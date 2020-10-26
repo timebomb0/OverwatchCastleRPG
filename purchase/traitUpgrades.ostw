@@ -9,11 +9,10 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[0] == false)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
-if (Coins >= 20000)
+if (Coins >= 50000)
 {
-	Coins -= 20000;
-	NewMessage("Unlocked Move Speed Trait");
-	SmallMessage(Player, "Unlocked Move Speed Trait");
+	Coins -= 50000;
+	NewMessage(Player, "Unlocked Move Speed Trait");
 	TraitsUnlocked[0] = true;
 }
 
@@ -40,12 +39,12 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[1] == false)
-if (Coins >= 20000)
+if (Coins >= 50000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
-	Coins -= 20000;
-	NewMessage("Unlocked Jump Height Trait");
+	Coins -= 50000;
+	NewMessage(Player, "Unlocked Jump Height Trait");
 	SmallMessage(Player, "Unlocked Jump Height Trait");
 	TraitsUnlocked[1] = true;
 }
@@ -73,12 +72,12 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[2] == false)
-if (Coins >= 20000)
+if (Coins >= 200000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
-	Coins -= 20000;
-	NewMessage("Unlocked Ammo Capacity Trait");
+	Coins -= 200000;
+	NewMessage(Player, "Unlocked Ammo Capacity Trait");
 	SmallMessage(Player, "Unlocked Ammo Capacity Trait");
 	TraitsUnlocked[2] = true;
 }
@@ -116,12 +115,12 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[3] == false)
-if (Coins >= 20000)
+if (Coins >= 150000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
 {
-	Coins -= 20000;
-	NewMessage("Unlocked Passive Ultimate Generation Trait");
+	Coins -= 150000;
+	NewMessage(Player, "Unlocked Passive Ultimate Generation Trait");
 	SmallMessage(Player, "Unlocked Passive Ultimate Generation Trait");
 	TraitsUnlocked[3] = true;
 }
