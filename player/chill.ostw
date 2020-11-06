@@ -20,7 +20,6 @@ if (DistanceBetween(Player, ChillLocation) <= 2.5)
 
     SetStatus(Player, null, Status.PhasedOut, 9999);
 	SetStatus(Player, null, Status.Hacked, 9999);
-	SetInvisible(Player, InvisibleTo.Enemies);
     CreateEffect(Player, Effect.Cloud, Color.SkyBlue, Player, 0.03, EffectRev.VisibleToPositionAndRadius);
 	EffectEntityIds[0] = LastCreatedEntity();
     SetJumpVerticalSpeed(Player, 300);
@@ -50,7 +49,6 @@ if (DistanceBetween(Player, ChillLocation) <= 2.5)
 
   	ClearStatus(Player,Status.PhasedOut);
 	ClearStatus(Player, Status.Hacked);
-	SetInvisible(Player, InvisibleTo.None);
     DestroyEffect(EffectEntityIds[0]);
     SetMoveSpeed(Player, MoveSpeed);
 	SetDamageDealt(Player, DamageDealt);

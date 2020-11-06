@@ -60,7 +60,27 @@ Team.Team1
 {
 	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	StartThrottleInDirection(Player, DirectionTowards(Player, Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
-	StartFacing(Player, DirectionTowards(Player, ClosestPlayerTo(EyePosition(Player), Team.Team2)), 300, Relative.ToWorld, FacingRev.DirectionAndTurnRate);
+	StartFacing(
+		Player,
+		DirectionTowards(
+			Player,
+			FirstOf(
+				SortedArray(
+					FilteredArray(
+						AllPlayers(Team.Team2),
+						ArrayElement().ChillModeEnabled != true
+					),
+					AngleBetweenVectors(
+						EyePosition(ArrayElement()),
+						EyePosition(Player)
+					)
+				),
+			),
+		),
+		300,
+		Relative.ToWorld,
+		FacingRev.DirectionAndTurnRate
+	);
 }
 
 rule: "[Mob] Reposition"

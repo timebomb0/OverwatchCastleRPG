@@ -1,4 +1,5 @@
 import "customGameSettings.json";
+import "initialSettings.ostw";
 import "utils/index.ostw";
 import "mobs/index.ostw";
 // import "worldUnlocks.ostw";
@@ -8,109 +9,6 @@ import "player/index.ostw";
 import "purchase/index.ostw";
 // import "guides.ostw";
 // import "player/code.ostw";
-
-rule: "[All World] Initialize Settings"
-if (IsGameInProgress() == true)
-{
-	SetNewWave = true;
-	MobKills = 0;
-	BreakTime = 10;
-	DifficultyModifier = 1;
-	Stage = 1;
-	EnergyPoints = 0;
-	UnlockLevel = 0;
-	IsBreakTime = true;
-	TraitPointGainedEveryXLevels = 5;
-	InitialCursedBoxJackpot = 10000;
-	CursedBoxJackpot = InitialCursedBoxJackpot;
-	CoinsPerLevel = 2000;
-	EnergyToLvUp = 1000;
-	MobSpeedModifier = 0.7;
-	MaxXPGrowthPerLevel = 1.05;
-	CoinsOnKillMultiplier = 4;
-	MobHealthModifier = 0.88;
-	UltimateTickRate = 5;
-	Item_TrinketModifier = 2;
-	Messages[0] = "";
-	Messages[1] = "";
-	Messages[2] = "";
-	Messages[3] = "";
-	Messages[4] = "";
-	AllPlayers(Team.Team2).EXP = 0;
-	AllPlayers(Team.Team2).PlayerLevel = 1;
-	AllPlayers(Team.Team2).AmmoCapacity = 100;
-	EnergyMultiplier = 1.4;
-}
-
-rule: "[All World] New Player Settings"
-Event.OnPlayerJoin
-Team.Team2
-{
-	CreateInWorldText(
-		AllPlayers(Team.All),
-		<@"<0> <1> <2>",
-			HeroIconString(HeroOf(Player)),
-			Player,
-			<@"<0> <1> <2>",
-				"Lv.",
-				PlayerLevel,
-				<"<0>: <1>",
-					"Enhancement Level ",
-					EnchantLevel
-				>
-			>
-		>,
-		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.SkyBlue, Spectators.DefaultVisibility);
-	Reseting = 0;
-	BaseMaxAmmo0 = MaxAmmo(Player, 0);
-	BaseMaxAmmo1 = MaxAmmo(Player, 1);
-	DamageDealt = 15;
-	HP = 15;
-	AmmoCapacity = 100;
-	DamageReceive = 100;
-	MoveSpeed = 100;
-	HealingDealt = 20;
-	HealingReceive = 100;
-	JumpSpeed = 100;
-	UltimateGain = 2;
-	Item_Trinket = 0;
-	Item_ExperiencePotion = 0;
-	Item_MoneyBag = 0;
-	Item_WishingStar = 0;
-	TraitsUnlocked[0] = false;
-	TraitsUnlocked[1] = false;
-	TraitsUnlocked[2] = false;
-	TraitsUnlocked[3] = false;
-	UltimateNumber = 0;
-	EnchantLevel = 0;
-	GeodeRandomItem = 0;
-	StatPoints = 0;
-	EXP = 0;
-	EXPToLevelUp = 3000;
-	PlayerLevel = 1;
-	Wait(1, WaitBehavior.IgnoreCondition);
-	SetDamageDealt(Player, DamageDealt);
-	SetMaxHealth(Player, HP);
-	SetDamageReceived(Player, DamageReceive);
-	SetMoveSpeed(Player, MoveSpeed);
-    SetJumpVerticalSpeed(Player, JumpSpeed);
-	SetHealingDealt(Player, HealingDealt);
-	SetHealingReceived(Player, HealingReceive);
-	BuffPenalty = 1;
-	
-	// TODO: Set level+stat points for new players
-	SetRespawnMaxTime(Player, 4);
-	Wait(10, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Welcome. Kill the incoming mobs before they hit the Core, or they'll damage it!");
-	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Be Careful! If the Core hits 0 health, your team gets penalized.");
-	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Inbetween Waves, you can go find all the upgrades in the map. Have fun!");
-	Wait(90, WaitBehavior.IgnoreCondition);
-	BuffPenalty = 2;
-	SmallMessage(Player, "Buff Penalty Disabled");
-	Wait(10, WaitBehavior.IgnoreCondition);
-}
 
 rule: "[All World] Mob Health 1-2 Team Members"
 if (IsGameInProgress() == true)
@@ -160,19 +58,22 @@ if (MobHealthModifier != 0.69)
 	MobHealthModifier = 0.69;
 }
 
-disabled rule: "[All World] Debug ***********************************************************************************************"
+// TODO: DISABLE THIS
+rule: "[All World] Debug ***********************************************************************************************"
 Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Ultimate) == true)
 if (IsButtonHeld(Player, Button.Crouch) == true)
 if (HostPlayer() == true)
 {
-	EnergyPoints += 1050;
-	AllPlayers(Team.Team2).Coins += 10000 * 5;
-	AllPlayers(Team.Team2).Item_Trinket += 200;
-	AllPlayers(Team.Team2).Item_Geode += 50;
-	CursedBox += 2;
-	LootBox += 5;
+	AllPlayers(Team.Team2).Coins += 10000 * 100;
+	AllPlayers(Team.Team2).Item_Trinket += 10000 * 10;
+	AllPlayers(Team.Team2).Item_WishingStar += 10000;
+	AllPlayers(Team.Team2).Item_MoneyBag += 10000;
+	AllPlayers(Team.Team2).Item_ExperiencePotion += 10000;
+	AllPlayers(Team.Team2).PlayerLevel = 999;
+	AllPlayers(Team.Team2).TraitPoints = 999;
+	AllPlayers(Team.Team2).StatPoints = 999;
 	BigMessage(AllPlayers(Team.Team2), "Cheat Mode activated by Host - Enjoy your free currencies!");
 }
 rule: "[All World] Team 2 Respawn"

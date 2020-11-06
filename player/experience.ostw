@@ -12,9 +12,8 @@ if (EXP >= EXPToLevelUp)
         TraitPoints += 1;
     }
     EXPToLevelUp *= MaxXPGrowthPerLevel;
-    PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffImpactSound, Color.White, Player, 5);
-	PlayEffect(AllPlayers(Team.Team2), PlayEffect.GoodPickupEffect, Color.Green, Player, 5);
+    PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosion, Color.Green, Player, 12);
     
-    define message! = <"Ding! You leveled up to <0>!", PlayerLevel>;
-    NewMessage(Player, message);
+    NewMessage(<"Ding! You leveled up to <0>!", PlayerLevel>);
 }

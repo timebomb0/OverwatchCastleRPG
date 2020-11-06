@@ -5,8 +5,6 @@ class Mob {
 	private define CoinsOnKill;
 	private define TrinketOnKill;
 	private define EnergyOnKill;
-	private define CursedBoxLootChance;
-	private define TreasureBoxLootChance;
 	private define CoreDamage;
 	private define ObjectiveDescription;
 	private define SpawnMessage;
@@ -26,7 +24,7 @@ class Mob {
 	public define AttackInterval;
 	
 	public Mob(ref define heroMob, ref define coinsOnKill, ref define trinketOnKill,
-				ref define energyOnKill, ref define cursedBoxLootChance, ref define treasureBoxLootChance, ref define expOnKill,
+				ref define energyOnKill, ref define expOnKill,
 				ref define objectiveDescription, ref define spawnMessage,
 				ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
 				ref define autoUltChance, ref define autoPrimaryAtkChance, ref define autoSecondaryAtkChance,
@@ -37,8 +35,6 @@ class Mob {
 		CoinsOnKill = coinsOnKill;
 		TrinketOnKill = trinketOnKill;
 		EnergyOnKill = energyOnKill;
-		CursedBoxLootChance = cursedBoxLootChance;
-		TreasureBoxLootChance = treasureBoxLootChance;
 		CoreDamage = coreDamage;
 		ObjectiveDescription = objectiveDescription;
 		SpawnMessage = spawnMessage;
@@ -59,13 +55,46 @@ class Mob {
 
 	public void handleDead()
 	{
-		AllPlayers(Team.Team2).Item_Trinket += RoundToInteger(root.Item_TrinketModifier * TrinketOnKill, Rounding.Nearest);
-		AllPlayers(Team.Team2).Coins += RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * root.CoinsOnKillMultiplier, Rounding.Nearest);
+		root.playerItr[SlotOf(root.Player)] = 0;
+		while (root.playerItr[SlotOf(root.Player)] < CountOf(AllPlayers(Team.Team2)))
+		{
+			define aPlayer = AllPlayers(Team.Team2)[root.playerItr[SlotOf(root.Player)]];
+			MinWait();
+
+			define _chillingMobRewardModifier = aPlayer.ChillModeEnabled ? 0.5 : 1;
+			aPlayer._MobVars[0] = RoundToInteger(RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1) * aPlayer.EXPGainRate, Rounding.Nearest);
+			aPlayer._MobVars[1] = RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * aPlayer.CoinGainRate  * _chillingMobRewardModifier * root.CoinsOnKillMultiplier, Rounding.Nearest);
+			aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * _chillingMobRewardModifier, Rounding.Nearest);
+			MinWait();
+
+			aPlayer.EXP += aPlayer._MobVars[0];
+			aPlayer.Coins += aPlayer._MobVars[1];
+			aPlayer.Item_Trinket += aPlayer._MobVars[2];
+
+			root.playerItr[SlotOf(root.Player)] += 1;
+			MinWait();
+		}
+
+		PlayEffect(AllPlayers(Team.Team2), PlayEffect.BadPickupEffect, Color.Red, PositionOf(root.Player), 2);
 		root.EnergyPoints += EnergyOnKill * root.EnergyMultiplier;
-		AllPlayers(Team.Team2).LootChance = RandomInteger(1, CursedBoxLootChance);
-		AllPlayers(Team.Team2).CurseLootChance = RandomInteger(1, TreasureBoxLootChance);
-		FilteredArray(AllPlayers(Team.All), IsAlive(ArrayElement())).EXP += RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1);
 		root.MobKills += 1;
+		
+		if (root.MobLootWorldText[SlotOf(root.Player)] > 0) {
+			DestroyInWorldText(root.MobLootWorldText[SlotOf(root.Player)]);
+		}
+
+		CreateInWorldText(
+			AllPlayers(Team.Team2),
+				<"+<0> XP & +<1> Coins & +<2> Trinkets",
+				AllPlayers(Team.Team2)._MobVars[0],
+				AllPlayers(Team.Team2)._MobVars[1],
+				AllPlayers(Team.Team2)._MobVars[2]
+			>,
+			PositionOf(EvaluateOnce(root.Player) + Vector(0, (RandomInteger(1, 15) / 10), 0)), 1.2, Clipping.DoNotClip, InworldTextRev.VisibleTo, Color.Yellow, Spectators.DefaultVisibility);
+		root.MobLootWorldText[SlotOf(root.Player)] = LastTextID();
+
+		Wait(3, WaitBehavior.IgnoreCondition);
+		DestroyInWorldText(root.MobLootWorldText[SlotOf(root.Player)]);
 	}
 
 	public void despawn(ref define mob)

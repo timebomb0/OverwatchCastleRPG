@@ -11,8 +11,9 @@ if (IsAlive(Player) == true)
 if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
 if (Coins >= 50000)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 50000;
-	NewMessage(Player, "Unlocked Move Speed Trait");
+	NewMessage("Unlocked Move Speed Trait");
 	TraitsUnlocked[0] = true;
 }
 
@@ -21,17 +22,17 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[0] == true)
-if (TraitPoints > 1)
+if (TraitPoints >= 1)
 if (MoveSpeed < 500)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	TraitPoints -= 1;
 	MoveSpeed += 10;
 	SetMoveSpeed(Player, MoveSpeed);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	LoopIfConditionIsTrue();
+	NewMessage("Upgraded +10% Move Speed Trait");
 }
 
 rule: "[Trait] Unlock Jump Speed Upgrade"
@@ -43,9 +44,9 @@ if (Coins >= 50000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 50000;
-	NewMessage(Player, "Unlocked Jump Height Trait");
-	SmallMessage(Player, "Unlocked Jump Height Trait");
+	NewMessage("Unlocked Jump Height Trait");
 	TraitsUnlocked[1] = true;
 }
 
@@ -54,17 +55,17 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[1] == true)
-if (TraitPoints > 1)
+if (TraitPoints >= 1)
 if (JumpSpeed < 300)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	TraitPoints -= 1;
 	JumpSpeed += 10;
 	SetJumpVerticalSpeed(Player, JumpSpeed);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	LoopIfConditionIsTrue();
+	NewMessage("Upgraded +10% Jump Height Trait");
 }
 
 rule: "[Trait] Unlock Ammo Capacity Upgrade"
@@ -74,11 +75,11 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[2] == false)
 if (Coins >= 200000)
 if (IsAlive(Player) == true)
-if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
+if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 200000;
-	NewMessage(Player, "Unlocked Ammo Capacity Trait");
-	SmallMessage(Player, "Unlocked Ammo Capacity Trait");
+	NewMessage("Unlocked Ammo Capacity Trait");
 	TraitsUnlocked[2] = true;
 }
 
@@ -87,11 +88,12 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[2] == true)
-if (TraitPoints > 1)
+if (TraitPoints >= 1)
 if (AmmoCapacity < 200)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	// If user hasn't switched heroes, they wont have base ammo set
 	if (AmmoCapacity == 100)
 	{
@@ -106,8 +108,7 @@ if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 	SetAmmo(Player, 0, MaxAmmo(Player, 0));
 	SetAmmo(Player, 1, MaxAmmo(Player, 1));
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	LoopIfConditionIsTrue();
+	NewMessage("Upgraded +5% Ammo Capacity Trait");
 }
 
 rule: "[Trait] Unlock Ultimate Gen Upgrade"
@@ -119,9 +120,9 @@ if (Coins >= 150000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
 {
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 150000;
-	NewMessage(Player, "Unlocked Passive Ultimate Generation Trait");
-	SmallMessage(Player, "Unlocked Passive Ultimate Generation Trait");
+	NewMessage("Unlocked Passive Ultimate Generation Trait");
 	TraitsUnlocked[3] = true;
 }
 
@@ -130,13 +131,13 @@ Event.OngoingPlayer
 Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[3] == true)
-if (TraitPoints > 1)
+if (TraitPoints >= 1)
 if (UltimateGain < 10)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
-{	
+{
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	UltimateGain += 1;
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
-	Wait(2, WaitBehavior.IgnoreCondition);
-	LoopIfConditionIsTrue();
+	NewMessage("Upgraded +1% Ultimate Generation Trait");
 }

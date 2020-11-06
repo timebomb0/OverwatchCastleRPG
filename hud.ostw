@@ -41,41 +41,36 @@ rule: "[HUD] Combine"
 
 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Aqua, CelestialSlotMachineLoc, 2, EffectRev.VisibleToPositionAndRadius);
 	CreateInWorldText(AllPlayers(Team.Team2), "Spin Celestial Slot Machine [-100 Trinkets]", CelestialSlotMachineLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
-	// process geode
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Green, Vector(-1.364, 7.698, -72.803), 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(-1.364, 7.698, -72.803), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
-	InWorldTextIds[7] = LastTextID();
-	// sell diamond
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.57, 3.176, -36.791), 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(-3.57, 3.176, -36.791), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
-	InWorldTextIds[9] = LastTextID();
+	// // process geode
+	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Green, Vector(-1.364, 7.698, -72.803), 2, EffectRev.VisibleToPositionAndRadius);
+	// CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(-1.364, 7.698, -72.803), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	// InWorldTextIds[7] = LastTextID();
+	// // sell diamond
+	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.57, 3.176, -36.791), 2, EffectRev.VisibleToPositionAndRadius);
+	// CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(-3.57, 3.176, -36.791), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	// InWorldTextIds[9] = LastTextID();
 }
 
-rule: "[HUD] Enchant"
-{
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Blue, Vector(96.735, 17.116, -22.764), 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Enhancement] +All Status Except Damage Received -3,000 Coins (Hold Reload)", Vector(96.735, 17.116, -22.764), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
-	// force enchant
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Blue, Vector(6.01, 6.213, -97.657), 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(6.01, 6.213, -97.657), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
-	InWorldTextIds[6] = LastTextID();
-}
+// rule: "[HUD] Enchant"
+// {
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Blue, Vector(96.735, 17.116, -22.764), 2, EffectRev.VisibleToPositionAndRadius);
+// 	CreateInWorldText(AllPlayers(Team.Team2), "[Enhancement] +All Status Except Damage Received -3,000 Coins (Hold Reload)", Vector(96.735, 17.116, -22.764), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
+// 	// force enchant
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Blue, Vector(6.01, 6.213, -97.657), 2, EffectRev.VisibleToPositionAndRadius);
+// 	CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(6.01, 6.213, -97.657), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+// 	InWorldTextIds[6] = LastTextID();
+// }
 
-rule: "[HUD] Magic Shop"
-{
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(2.944, 7.173, -47.248), 1.5, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] S.Magic Potion Restore 25 MP -3,000 Coins (Maximum 200 Mp)", Vector(2.944, 7.173, -47.248), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.872, 7.173, -48.876), 1.5, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] M.Magic Potion Restore 50 MP -5,000 Coins (Maximum 200 Mp)", Vector(-3.872, 7.173, -48.876), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.018, 8.177, -41.844), 1.5, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] L.Magic Potion Restore 100 MP -9,000 Coins (Maximum 200 Mp)", Vector(-3.018, 8.177, -41.844), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-}
+// rule: "[HUD] Magic Shop"
+// {
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(2.944, 7.173, -47.248), 1.5, EffectRev.VisibleToPositionAndRadius);
+// 	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] S.Magic Potion Restore 25 MP -3,000 Coins (Maximum 200 Mp)", Vector(2.944, 7.173, -47.248), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.872, 7.173, -48.876), 1.5, EffectRev.VisibleToPositionAndRadius);
+// 	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] M.Magic Potion Restore 50 MP -5,000 Coins (Maximum 200 Mp)", Vector(-3.872, 7.173, -48.876), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+// 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.018, 8.177, -41.844), 1.5, EffectRev.VisibleToPositionAndRadius);
+// 	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] L.Magic Potion Restore 100 MP -9,000 Coins (Maximum 200 Mp)", Vector(-3.018, 8.177, -41.844), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+// }
 rule: "[HUD] Stage Energy"
 {
 	CreateInWorldText(AllPlayers(Team.Team2), <@"<0> <1> <2>", "Stage : ", Stage, <@"<0> <1> <2>", "", AbilityIconString(Hero.Zarya, Button.Ultimate), <"<0> / <1>", EnergyPoints, "1000">>>, Vector(76.665, 17, -99.649), 2, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
-}
-
-rule: "[HUD] Heart"
-{
-	CreateInWorldText(AllPlayers(Team.Team2), <@"<0> <1>", "Press Reload (R) to Upgrade or Buy Something.", EnergyPoints>, Vector(48.671, 9, -72.659), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Aqua, Spectators.DefaultVisibility);
 }

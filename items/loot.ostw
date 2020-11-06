@@ -16,7 +16,7 @@ if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 	Pointloot = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
 	Item_ExperiencePotion -= 1;
 	MinWait();
-	NewMessage(Player, <"Gained <0> Experience Points!", Pointloot>);
+	NewMessage(<"Gained <0> Experience Points!", Pointloot>);
 	EXP += Pointloot;
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
@@ -38,7 +38,7 @@ if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 	Item_MoneyBag -= 1;
 	MinWait();
 	Coins += Pointloot;
-	NewMessage(Player, <"Received <0> Coins from Opening Money Bag", Pointloot>);
+	NewMessage(<"Received <0> Coins from Opening Money Bag", Pointloot>);
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
 }
@@ -64,7 +64,7 @@ if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 	if (randomNum == 1) {
 		define randomLevels = RandomInteger(1, 4);
 		MinWait();
-		NewMessage(Player, <"Wishing Star has granted you <0> Free Level(s)", randomLevels>);
+		NewMessage(<"Wishing Star has granted you <0> Free Level(s)", randomLevels>);
 		BigMessage(AllPlayers(Team.Team2), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, randomLevels>);
 		PlayerLevel += randomLevels;
 		EXPToLevelUp = EXPToLevelUp * (1.05 ^ randomLevels);

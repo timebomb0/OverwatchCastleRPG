@@ -1,13 +1,12 @@
 import "index.ostw";
 
 // TODO: Any way to stabilize this? Sometimes wrong message appears in small message
-void NewMessage(define player, define message) "[Subroutine] Append New Message"
+void NewMessage(define message) playervar "[Subroutine] Append New Message"
 {
     Messages[4] = Messages[3];
     Messages[3] = Messages[2];
     Messages[2] = Messages[1];
     Messages[1] = Messages[0];
     Messages[0] = message;
-    MinWait();
-    SmallMessage(player, Messages[0]);
+    SmallMessage(Player, message);
 }

@@ -85,6 +85,9 @@
             }
         },
         "Team 2": {
+            "General": {
+                "Ultimate Generation - Passive": 0
+            },
             "Ashe": {
                 "Ammunition Clip Size Scalar": 175,
                 "Dynamite Cooldown Time": 75

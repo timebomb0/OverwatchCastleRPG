@@ -3,24 +3,35 @@ import "../../utils/index.ostw";
 
 rule: "[HUD] Top Player HUD"
 Event.OngoingPlayer
+Team.Team2
 {
-	LeftHUDHeader(Player, <@"<0> <1>", "Level : ", PlayerLevel>, null, Color.Blue, Color.White, 1);
-	CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), "Experience", Location.Left, 2,  Color.Green, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor);
-	LeftHUDHeader(Player, <"Stat Points : <0>", StatPoints>, null, Color.LimeGreen, Color.White, 3);
-	LeftHUDHeader(Player, <"Trait Points : <0>", TraitPoints>, null, Color.Green, Color.White, 4);
-	LeftHUDHeader(Player, <@"<0> <1>", "Coins : ", Coins>, null, Color.Yellow, Color.White, 5);
-    LeftHUDSubheader(Player, <@"<0> <1>", "Damage % : ", DamageDealt>, Color.Red, 6);
-	LeftHUDSubheader(Player, <@"<0> <1>", "Health % : ", HP>, Color.Green, 7);
-	LeftHUDSubheader(Player, <@"<0> <1>", "Damage Receive % : ", DamageReceive>, Color.Turquoise, 8);
-	LeftHUDSubheader(Player, <@"<0> <1>", "Healing Dealt % : ", HealingDealt>, Color.Orange, 9);
-	LeftHUDHeader(Player, "Inventory", <"Trinket : <0> | Experience Potion : <1> | Money Bag : <2> | Wishing Star : <3>", Item_Trinket, Item_ExperiencePotion, Item_MoneyBag, Item_WishingStar>, Color.Orange, Color.Turquoise, 10);
+	LeftHUDHeader(Player, <"Level : <0>
+		Stat Points : <1>
+		Trait Points : <2>
+		Coins : <3>
+		Damage % : <4>
+		Health % : <5>
+		Damage Receive % : <6>
+		Healing Dealt % : <7>",
+	PlayerLevel, StatPoints, TraitPoints, Coins, DamageDealt, HP, DamageReceive, HealingDealt>, null, Color.LimeGreen, Color.White, 0);
+	
+	// TODO: Reenable progress bar
+	// CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), "Experience", Location.Left, 1, Color.Green, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor);
+	
+	LeftHUDHeader(Player, "Inventory", <"Trinket : <0> | Experience Potion : <1>
+		Money Bag : <2> | Wishing Star : <3>",
+	Item_Trinket, Item_ExperiencePotion, Item_MoneyBag, Item_WishingStar>, Color.Orange, Color.Turquoise, 2);
 
-	RightHUDHeader(Player, <@"<0> <1>", "This Wave's Kills : ", MobKills>, null, Color.Blue, Color.White, 3);
-	RightHUDSubheader(Player, Messages[0], Color.White, 6);
-    RightHUDSubheader(Player, Messages[1], Color.White, 7);
-    RightHUDSubheader(Player, Messages[2], Color.White, 8);
-    RightHUDSubheader(Player, Messages[3], Color.White, 9);
-    RightHUDSubheader(Player, Messages[4], Color.White, 10);
+	RightHUDSubheader(Player, <"<0>
+		<1>
+		<2>
+		<3>
+		<4>",
+	Messages[0], Messages[1], Messages[2], Messages[3], Messages[4]>, Color.White, 1);
+}
 
-	RightHUDSubheader(Player, <"Avg Load: <0> || Peak Load: <1>", ServerLoadAverage(), ServerLoadPeak()>, Color.Red, 0);
+rule: "[HUD for all] Top Player HUD"
+Event.OngoingGlobal
+{
+	RightHUDSubheader(AllPlayers(Team.Team2), <"Avg Load: <0> || Peak Load: <1>", ServerLoadAverage(), ServerLoadPeak()>, Color.Red, 0);
 }
