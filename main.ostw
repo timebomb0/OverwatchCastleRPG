@@ -9,6 +9,7 @@ import "player/index.ostw";
 import "purchase/index.ostw";
 // import "guides.ostw";
 // import "player/code.ostw";
+import "quests/index.ostw";
 
 rule: "[All World] Mob Health 1-2 Team Members"
 if (IsGameInProgress() == true)
@@ -136,9 +137,4 @@ rule: "[Energy] Inactivity Energy Drain"
 if (EnergyPoints > 0)
 {
 	ChaseVariableAtRate(EnergyPoints, 0, NumberOfPlayers(Team.Team2) * 2, RateChaseReevaluation.DestinationAndRate);
-}
-
-rule: "[All World] Time"
-{
-	SetMatchTime(3600);
 }

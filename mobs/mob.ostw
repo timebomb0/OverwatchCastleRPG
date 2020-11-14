@@ -1,12 +1,10 @@
 import "../utils/index.ostw";
 
 class Mob {
-	private define RespawnTime;
 	private define CoinsOnKill;
 	private define TrinketOnKill;
 	private define EnergyOnKill;
 	private define CoreDamage;
-	private define ObjectiveDescription;
 	private define SpawnMessage;
 	private define DamageDealt;
 	private define MaxHealth;
@@ -25,7 +23,7 @@ class Mob {
 	
 	public Mob(ref define heroMob, ref define coinsOnKill, ref define trinketOnKill,
 				ref define energyOnKill, ref define expOnKill,
-				ref define objectiveDescription, ref define spawnMessage,
+				ref define spawnMessage,
 				ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
 				ref define autoUltChance, ref define autoPrimaryAtkChance, ref define autoSecondaryAtkChance,
 				ref define autoAbility1Chance, ref define autoAbility2Chance,
@@ -36,7 +34,6 @@ class Mob {
 		TrinketOnKill = trinketOnKill;
 		EnergyOnKill = energyOnKill;
 		CoreDamage = coreDamage;
-		ObjectiveDescription = objectiveDescription;
 		SpawnMessage = spawnMessage;
 		DamageDealt = damageDealt;
 		MaxHealth = maxHealth;
@@ -101,33 +98,34 @@ class Mob {
 	{
 		Kill(mob, null);
 		PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, mob, 100);
+		
+		if (root.CurrentQuest == 1 && root.CoreHealth > 0) {
+			root.CoreHealth -= 1;
+		}
 	}
 
 	public void spawn()
 	{
-		SetObjectiveDescription(AllPlayers(Team.All), ObjectiveDescription, ObjectiveRev.VisibleToAndString);
-		SetMatchTime(0.1 + root.BreakTime);
 		DestroyAllDummyBots();
 		BigMessage(AllPlayers(Team.All), <"<0>s defeated! Next wave in <1> seconds.", HeroMob, root.BreakTime>);
 		Wait(root.BreakTime, WaitBehavior.AbortWhenFalse);
 		root.IsBreakTime = false;
 		root.MobKills = 0;
-		SetMatchTime(3599);
 		BigMessage(AllPlayers(Team.All), SpawnMessage);
 		CreateDummyBot(HeroMob, Team.Team1, 0, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 1, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 2, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 3, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 4, Vector(0, 0, 0), Vector(0, 0, 0));
+		AllPlayers(Team.Team1).IsMob = true;
 		Wait(1, WaitBehavior.IgnoreCondition);
 		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
 		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * DamageDealt);
 		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.MobSpeedModifier * MoveSpeed);
-		SetObjectiveDescription(AllPlayers(Team.All), <"Quick, defeat the <0>s!", HeroMob>, ObjectiveRev.VisibleToAndString);
 	}
 
-public void attack(ref define mob)
-{
+	public void attack(ref define mob)
+	{
 		define randomChance = RandomInteger(1, 100);
 		Wait(0.1, WaitBehavior.IgnoreCondition);
 	

@@ -10,3 +10,13 @@ void NewMessage(define message) playervar "[Subroutine] Append New Message"
     Messages[0] = message;
     SmallMessage(Player, message);
 }
+
+void NewMessageToAll(define message) "[Subroutine] Append New Message All Players"
+{
+    AllPlayers(Team.Team2).Messages[4] = AllPlayers(Team.Team2).Messages[3];
+    AllPlayers(Team.Team2).Messages[3] = AllPlayers(Team.Team2).Messages[2];
+    AllPlayers(Team.Team2).Messages[2] = AllPlayers(Team.Team2).Messages[1];
+    AllPlayers(Team.Team2).Messages[1] = AllPlayers(Team.Team2).Messages[0];
+    AllPlayers(Team.Team2).Messages[0] = message;
+    SmallMessage(AllPlayers(Team.Team2), message);
+}

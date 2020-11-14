@@ -1,0 +1,13 @@
+import "../../utils/index.ostw";
+
+public void UpdateAmmoOnHeroChange() {
+    BaseMaxAmmo0 = MaxAmmo(Player, 0);
+	BaseMaxAmmo1 = MaxAmmo(Player, 1);
+	// Multiply max ammo * (ammo capacity / 100)
+	SetMaxAmmo(Player, 1, BaseMaxAmmo1 * (AmmoCapacity / 100));
+	// Multiply max ammo * (ammo capacity / 100)
+	SetMaxAmmo(Player, 0, BaseMaxAmmo0 * (AmmoCapacity / 100));
+	Wait(0.1, WaitBehavior.IgnoreCondition);
+	SetAmmo(Player, 0, MaxAmmo(Player, 0));
+	SetAmmo(Player, 1, MaxAmmo(Player, 1));
+}

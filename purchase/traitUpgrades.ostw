@@ -11,10 +11,10 @@ if (IsAlive(Player) == true)
 if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
 if (Coins >= 50000)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 50000;
 	NewMessage("Unlocked Move Speed Trait");
 	TraitsUnlocked[0] = true;
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Move Speed Upgrade"
@@ -27,12 +27,12 @@ if (MoveSpeed < 500)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	TraitPoints -= 1;
 	MoveSpeed += 10;
 	SetMoveSpeed(Player, MoveSpeed);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
 	NewMessage("Upgraded +10% Move Speed Trait");
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Unlock Jump Speed Upgrade"
@@ -44,10 +44,10 @@ if (Coins >= 50000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 50000;
 	NewMessage("Unlocked Jump Height Trait");
 	TraitsUnlocked[1] = true;
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Jump Speed Upgrade"
@@ -60,12 +60,12 @@ if (JumpSpeed < 300)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	TraitPoints -= 1;
 	JumpSpeed += 10;
 	SetJumpVerticalSpeed(Player, JumpSpeed);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
 	NewMessage("Upgraded +10% Jump Height Trait");
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Unlock Ammo Capacity Upgrade"
@@ -77,10 +77,10 @@ if (Coins >= 200000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 200000;
 	NewMessage("Unlocked Ammo Capacity Trait");
 	TraitsUnlocked[2] = true;
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Ammo Capacity Upgrade"
@@ -93,7 +93,6 @@ if (AmmoCapacity < 200)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	// If user hasn't switched heroes, they wont have base ammo set
 	if (AmmoCapacity == 100)
 	{
@@ -109,6 +108,7 @@ if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 	SetAmmo(Player, 1, MaxAmmo(Player, 1));
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
 	NewMessage("Upgraded +5% Ammo Capacity Trait");
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Unlock Ultimate Gen Upgrade"
@@ -120,10 +120,10 @@ if (Coins >= 150000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	Coins -= 150000;
 	NewMessage("Unlocked Passive Ultimate Generation Trait");
 	TraitsUnlocked[3] = true;
+	Wait(1, WaitBehavior.IgnoreCondition);
 }
 
 rule: "[Trait] Ultimate Gen Upgrade"
@@ -136,8 +136,73 @@ if (UltimateGain < 10)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
 {
-	Wait(1, WaitBehavior.AbortWhenFalse);
 	UltimateGain += 1;
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
 	NewMessage("Upgraded +1% Ultimate Generation Trait");
+	Wait(1, WaitBehavior.IgnoreCondition);
+}
+
+rule: "[Trait] Unlock Projectile Speed Upgrade"
+Event.OngoingPlayer
+Team.Team2
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[4] == false)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, ProjectileSpeedTraitEffectLoc) <= 2.5)
+if (Coins >= 100000)
+{
+	Coins -= 100000;
+	NewMessage("Unlocked Projectile Speed Trait");
+	TraitsUnlocked[4] = true;
+	Wait(1, WaitBehavior.IgnoreCondition);
+}
+
+rule: "[Trait] Projectile Speed Upgrade"
+Event.OngoingPlayer
+Team.Team2
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[4] == true)
+if (TraitPoints >= 1)
+if (ProjectileSpeed < 500)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, ProjectileSpeedTraitEffectLoc) <= 2.5)
+{
+	TraitPoints -= 1;
+	ProjectileSpeed += 10;
+	SetProjectileSpeed(Player, ProjectileSpeed);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	NewMessage("Upgraded +10% Projectile Speed Trait");
+	Wait(1, WaitBehavior.IgnoreCondition);
+}
+
+rule: "[Trait] Unlock Cooldown Reduction Upgrade"
+Event.OngoingPlayer
+Team.Team2
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[5] == false)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, CooldownReductionTraitEffectLoc) <= 2.5)
+if (Coins >= 250000)
+{
+	Coins -= 250000;
+	NewMessage("Unlocked Cooldown Reduction Trait");
+	TraitsUnlocked[5] = true;
+	Wait(1, WaitBehavior.IgnoreCondition);
+}
+
+rule: "[Trait] Cooldown Reduction Upgrade"
+Event.OngoingPlayer
+Team.Team2
+if (IsButtonHeld(Player, Button.Interact) == true)
+if (TraitsUnlocked[5] == true)
+if (TraitPoints >= 1)
+if (CooldownReduction < 50)
+if (IsAlive(Player) == true)
+if (DistanceBetween(Player, CooldownReductionTraitEffectLoc) <= 2.5)
+{
+	TraitPoints -= 1;
+	CooldownReduction += 5;
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	NewMessage("Upgraded +5% Cooldown Reduction Trait");
+	Wait(1, WaitBehavior.IgnoreCondition);
 }

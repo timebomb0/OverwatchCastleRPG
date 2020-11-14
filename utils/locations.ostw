@@ -2,6 +2,9 @@ globalvar define JumpSpeedTraitEffectLoc = Vector(54.679, 19.296, -78.67);
 globalvar define MoveSpeedTraitEffectLoc = Vector(53.796, 19.296, -82.06);
 globalvar define AmmoCapacityTraitEffectLoc = Vector(57.326, 19.296, -83.016);
 globalvar define UltimateGenTraitEffectLoc = Vector(58.214, 19.296, -79.596);
+globalvar define ProjectileSpeedTraitEffectLoc = Vector(66.151, 19.296, -74.195);
+globalvar define CooldownReductionTraitEffectLoc = Vector(66.857, 19.315, -70.218);
+
 
 globalvar define DamageStatEffectLoc = Vector(53.993, 12.975, -81.314);
 globalvar define HealthStatEffectLoc = Vector(56.398, 12.975, -81.814);
@@ -13,3 +16,4 @@ globalvar define CelestialSlotMachineLoc = Vector(118.238, 10.07, -48.792);
 globalvar define UseExperiencePotionLoc = Vector(59.776, 6.175, -95.982);
 globalvar define UseMoneyBagLoc = Vector(56.444, 6.225, -87.247);
 globalvar define TossWishingStarLoc = Vector(66.607, 5.973, -83.277);
+

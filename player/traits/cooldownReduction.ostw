@@ -1,0 +1,28 @@
+import "../../utils/index.ostw";
+
+rule: "[Trait] Cooldown Reduction Ability1"
+Event.OngoingPlayer
+Team.Team2
+if (CooldownReduction > 0)
+if (AbilityCooldown(Player, Button.Ability1) > 0.01)
+{
+	SetAbilityCooldown(Player, Button.Ability1, AbilityCooldown(Player, Button.Ability1) * ((100 - CooldownReduction) / 100));
+}
+
+rule: "[Trait] Cooldown Reduction Ability2"
+Event.OngoingPlayer
+Team.Team2
+if (CooldownReduction > 0)
+if (AbilityCooldown(Player, Button.Ability2) > 0.01)
+{
+	SetAbilityCooldown(Player, AbilityCooldown(Player, Button.Ability2) * ((100 - CooldownReduction) / 100));
+}
+
+rule: "[Trait] Cooldown Reduction SecondaryFire"
+Event.OngoingPlayer
+Team.Team2
+if (CooldownReduction > 0)
+if (AbilityCooldown(Player, Button.SecondaryFire) > 0.01)
+{
+	SetAbilityCooldown(Player, Button.SecondaryFire, AbilityCooldown(Player, Button.SecondaryFire) * ((100 - CooldownReduction) / 100));
+}

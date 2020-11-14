@@ -8,6 +8,8 @@ Team.Team2
     CreateInWorldText(Player, TraitsUnlocked[1] == false ? "Unlock Move Speed Trait [-50,000 Coins]" :"Move Speed +10% [-1 Trait Point]", MoveSpeedTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
     CreateInWorldText(Player, TraitsUnlocked[2] == false ? "Unlock Ammo Capacity Trait [-200,000 Coins]" :"Ammo Capacity +5% [-1 Trait Point]", AmmoCapacityTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
     CreateInWorldText(Player, TraitsUnlocked[3] == false ? "Unlock Passive Ultimate Generation Trait [-150,000 Coins]" :<"Passive Ultimate Generation +1% / <0> sec [-1 Trait Point]", TraitPointGainedEveryXLevels>, UltimateGenTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, TraitsUnlocked[4] == false ? "Unlock Projectile Speed Trait [-100,000 Coins]" :"Projectile Speed +10% [-1 Trait Point]", ProjectileSpeedTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(Player, TraitsUnlocked[5] == false ? "Unlock Cooldown Reduction Trait [-250,000 Coins]" :"Cooldown Reduction +5% [-1 Trait Point]", CooldownReductionTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
 }
 
 rule: "[World Effect] Trait upgrades"
@@ -16,4 +18,6 @@ rule: "[World Effect] Trait upgrades"
     CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.White, MoveSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
     CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, AmmoCapacityTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
     CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Rose, UltimateGenTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.SkyBlue, ProjectileSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Orange, CooldownReductionTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
 }

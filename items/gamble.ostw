@@ -1,6 +1,5 @@
 import "../utils/index.ostw";
 
-
 rule: "[Gamble] Slot Machine"
 Event.OngoingPlayer
 Team.Team2

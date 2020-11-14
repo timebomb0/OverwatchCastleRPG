@@ -1,8 +1,11 @@
 define LeftHUDSubheader(define players, define string, Color color, define sortOrder = 0):
-    CreateHudText(players, null, string, null, Location.Left, sortOrder, Color.White, color, Color.White, HudTextRev.String);
+    CreateHudText(players, null, string, null, Location.Left, sortOrder, Color.White, color, Color.White, HudTextRev.VisibleToAndString);
 define RightHUDSubheader(define players, define string, Color color, define sortOrder = 0):
-    CreateHudText (players, null, string, null, Location.Right, sortOrder, Color.White, color, Color.White, HudTextRev.String);
+    CreateHudText(players, null, string, null, Location.Right, sortOrder, Color.White, color, Color.White, HudTextRev.VisibleToAndString);
 define LeftHUDHeader(define players, define headerString, define subHeaderString, Color headerColor, Color subHeaderColor, define sortOrder = 0):
-    CreateHudText(players, headerString, subHeaderString, null, Location.Left, sortOrder, headerColor, subHeaderColor, Color.White, HudTextRev.String);
+    CreateHudText(players, headerString, subHeaderString, null, Location.Left, sortOrder, headerColor, subHeaderColor, Color.White, HudTextRev.VisibleToAndString);
 define RightHUDHeader(define players, define headerString, define subHeaderString, Color headerColor, Color subHeaderColor, define sortOrder = 0):
-    CreateHudText (players, headerString, subHeaderString, null, Location.Right, sortOrder, headerColor, subHeaderColor, Color.White, HudTextRev.String);
+    CreateHudText(players, headerString, subHeaderString, null, Location.Right, sortOrder, headerColor, subHeaderColor, Color.White, HudTextRev.VisibleToAndString);
+
+define TopHUDHeader(define players, define headerString, define subHeaderString, Color headerColor, Color subHeaderColor, define sortOrder = 0):
+    CreateHudText(players, headerString, subHeaderString, null, Location.Top, sortOrder, headerColor, subHeaderColor, Color.White, HudTextRev.VisibleToAndString);

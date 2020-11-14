@@ -1,4 +1,5 @@
 import "../utils/index.ostw";
+import "traits/index.ostw";
 
 rule: "[Ultimate] Reset"
 Event.OngoingPlayer
@@ -9,20 +10,12 @@ if (UltimateNumber >= 100)
 	UltimateNumber = 0;
 }
 
-rule: "[All World] Current Player Changed Hero Update Ammo"
+rule: "[All World] Current Player Changed Hero"
 Event.OngoingPlayer
 Team.Team2
 if (HeroChanged == true)
 {
-	BaseMaxAmmo0 = MaxAmmo(Player, 0);
-	BaseMaxAmmo1 = MaxAmmo(Player, 1);
-	// Multiply max ammo * (ammo capacity / 100)
-	SetMaxAmmo(Player, 1, BaseMaxAmmo1 * (AmmoCapacity / 100));
-	// Multiply max ammo * (ammo capacity / 100)
-	SetMaxAmmo(Player, 0, BaseMaxAmmo0 * (AmmoCapacity / 100));
-	Wait(0.1, WaitBehavior.IgnoreCondition);
-	SetAmmo(Player, 0, MaxAmmo(Player, 0));
-	SetAmmo(Player, 1, MaxAmmo(Player, 1));
+	UpdateAmmoOnHeroChange();
 	HeroChanged = false;
 }
 

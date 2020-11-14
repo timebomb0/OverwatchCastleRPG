@@ -1,0 +1,18 @@
+import "../utils/index.ostw";
+
+rule: "[Quest] Pick New Quest"
+if (CurrentQuest == 0)
+{
+    SetMatchTime(3600);
+    QuestSuccess = false;
+    
+    if (QuestHeaderTextId > 0) {
+        DestroyHudText(QuestHeaderTextId);
+    }
+    SetObjectiveDescription(AllPlayers(Team.Team2),
+        "Relax, kill some mobs, and await your next quest.",
+        ObjectiveRev.VisibleToAndString);
+    
+    Wait(RandomInteger(30, 80), WaitBehavior.AbortWhenFalse);
+    CurrentQuest = RandomInteger(1, 1);
+}

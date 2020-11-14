@@ -1,10 +1,17 @@
 import "../../utils/index.ostw";
 
+rule: "[HUD] Top Player HUD"
+Event.OngoingGlobal
+{
+	RightHUDSubheader(AllPlayers(Team.Team2), <"Server Load: <0>", ServerLoadAverage()>, Color.Red, 0);
+}
 
 rule: "[HUD] Top Player HUD"
 Event.OngoingPlayer
 Team.Team2
 {
+	CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), "Experience", Location.Left, 0, Color.Green, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor, Spectators.DefaultVisibility);
+
 	LeftHUDHeader(Player, <"Level : <0>
 		Stat Points : <1>
 		Trait Points : <2>
@@ -13,11 +20,8 @@ Team.Team2
 		Health % : <5>
 		Damage Receive % : <6>
 		Healing Dealt % : <7>",
-	PlayerLevel, StatPoints, TraitPoints, Coins, DamageDealt, HP, DamageReceive, HealingDealt>, null, Color.LimeGreen, Color.White, 0);
-	
-	// TODO: Reenable progress bar
-	// CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), "Experience", Location.Left, 1, Color.Green, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor);
-	
+	PlayerLevel, StatPoints, TraitPoints, Coins, DamageDealt, HP, DamageReceive, HealingDealt>, null, Color.LimeGreen, Color.White, 1);
+
 	LeftHUDHeader(Player, "Inventory", <"Trinket : <0> | Experience Potion : <1>
 		Money Bag : <2> | Wishing Star : <3>",
 	Item_Trinket, Item_ExperiencePotion, Item_MoneyBag, Item_WishingStar>, Color.Orange, Color.Turquoise, 2);
@@ -28,10 +32,4 @@ Team.Team2
 		<3>
 		<4>",
 	Messages[0], Messages[1], Messages[2], Messages[3], Messages[4]>, Color.White, 1);
-}
-
-rule: "[HUD for all] Top Player HUD"
-Event.OngoingGlobal
-{
-	RightHUDSubheader(AllPlayers(Team.Team2), <"Avg Load: <0> || Peak Load: <1>", ServerLoadAverage(), ServerLoadPeak()>, Color.Red, 0);
 }

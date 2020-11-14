@@ -52,6 +52,8 @@ Team.Team2
 	AmmoCapacity = 100;
 	DamageReceive = 100;
 	MoveSpeed = 100;
+    CooldownReduction = 0;
+    ProjectileSpeed = 100;
 	HealingDealt = 20;
 	HealingReceive = 100;
 	Messages[0] = "";
@@ -72,6 +74,8 @@ Team.Team2
 	TraitsUnlocked[1] = false;
 	TraitsUnlocked[2] = false;
 	TraitsUnlocked[3] = false;
+	CurrentQuest = 0;
+	QuestSuccess = false;
 	UltimateNumber = 0;
 	EnchantLevel = 0;
 	GeodeRandomItem = 0;

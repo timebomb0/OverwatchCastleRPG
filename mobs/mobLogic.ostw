@@ -6,7 +6,7 @@ Event.OngoingPlayer
 Team.Team1
 if (IsBreakTime == false)
 {
-	SetRespawnMaxTime(Player, RandomInteger(0.5, 4));
+	SetRespawnMaxTime(Player, 3);
 }
 
 rule: "[Mob] Reward"
@@ -24,7 +24,7 @@ if (IsAlive(Player) == true)
 if (DistanceBetween(Player, CoreLocation) <= 8)
 {
 	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
-	Wait(2, WaitBehavior.AbortWhenFalse);
+	Wait(1, WaitBehavior.AbortWhenFalse);
 	mobs[root.WaveSet].despawn(Player);
 }
 

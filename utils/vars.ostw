@@ -46,13 +46,19 @@ globalvar define UltimateTickRate;
 globalvar define TraitPointGainedEveryXLevels;
 globalvar define playerItr;
 globalvar define MobLootWorldText;
-
-
+globalvar define CurrentQuest;
+globalvar define CoreHealth;
+globalvar define QuestTimer;
+globalvar define QuestSuccess;
+globalvar define QuestHeaderTextId;
+globalvar define MobSpeedIncreaseValue;
 
 playervar define DamageDealt;
 playervar define HP;
 playervar define DamageReceive;
 playervar define MoveSpeed;
+playervar define CooldownReduction;
+playervar define ProjectileSpeed;
 playervar define HealingDealt;
 playervar define HealingReceive;
 playervar define Item_Geode;
@@ -113,3 +119,4 @@ playervar define CoinGainRate;
 playervar define TrinketGainRate;
 playervar define EXPGainRate;
 playervar define _MobVars;
+playervar define IsMob;

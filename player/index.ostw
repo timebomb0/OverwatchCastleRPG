@@ -4,3 +4,4 @@ import "chill.ostw";
 import "hud/top-hud.ostw";
 import "experience.ostw";
 import "ultimateGeneration.ostw";
+import "traits/index.ostw";
