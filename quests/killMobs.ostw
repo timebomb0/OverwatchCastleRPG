@@ -1,0 +1,60 @@
+import "../utils/index.ostw";
+
+rule: "[Quest - Kill] Kill Mobs Initialize"
+if (CurrentQuest == 2)
+{
+    QuestTimer = RandomInteger(90, 240);
+    CurrentQuestKills = 0;
+    MinWait();
+    RequiredQuestKills = RoundToInteger(RandomInteger(8, 16) * QuestTimer / 60, Rounding.Nearest);
+    MobHealthIncreaseValue = RandomInteger(2, 4);
+    MinWait();
+    SetMatchTime(QuestTimer + 1);
+    MobHealthModifier += MobHealthIncreaseValue / 10;
+
+    SetObjectiveDescription(AllPlayers(Team.Team2),
+        <"Massacre <0> Mobs. <1> Left", RequiredQuestKills, RequiredQuestKills - CurrentQuestKills>,
+        ObjectiveRev.VisibleToAndString);
+    TopHUDHeader(AllPlayers(Team.Team2),
+        "Quest: Massacre The Mobs!", null, Color.Green, Color.White, 0);
+    BigMessage(AllPlayers(Team.Team2), "New Quest! Massacre The Mobs!");
+    QuestHeaderTextId = LastTextID();
+
+    Wait(QuestTimer + 0.16, WaitBehavior.AbortWhenFalse);
+    if (QuestSuccess != 1) {
+        QuestSuccess = 0;
+    }
+}
+
+rule: "[Quest - Kill] Success"
+if (CurrentQuest == 2)
+if (CurrentQuestKills >= RequiredQuestKills)
+{
+    QuestSuccess = 1;
+    MobHealthModifier -= MobHealthIncreaseValue / 10;
+    BigMessage(AllPlayers(Team.Team2), "Quest Success: You have massacred the mobs in time!");
+    define coinLoot = RoundToInteger(RandomInteger(1000, 3000) * (QuestTimer / 60) * (1 + (RequiredQuestKills / 100)) * (1 + (MobHealthIncreaseValue / 10)), Rounding.Nearest);
+    define trinketLoot = RoundToInteger(RandomInteger(25, 70) * (QuestTimer / 60) * (1 + (RequiredQuestKills / 100)) * (1 + (MobHealthIncreaseValue / 10)), Rounding.Nearest);
+    MinWait();
+    AllPlayers(Team.Team2).Coins += coinLoot;
+    AllPlayers(Team.Team2).Item_Trinket += trinketLoot;
+    NewMessageToAll(<"Received <0> Coins and <1> Trinkets for completing the quest.", coinLoot, trinketLoot>);
+    CurrentQuest = 0;
+    CurrentQuestKills = 0;
+    RequiredQuestKills = 9999;
+}
+
+rule:"[Quest - Kill] Failure"
+if (CurrentQuest == 2)
+if (QuestSuccess == 0)
+{
+    MobHealthModifier -= MobHealthIncreaseValue / 10;
+    BigMessage(AllPlayers(Team.Team2), "Quest Failure: Unable to defeat all the mobs in time!");
+    // TODO: Quest failure
+    NewMessageToAll("TODO quest failure debuff");
+    CurrentQuest = 0;
+    CurrentQuestKills = 0;
+    RequiredQuestKills = 9999;
+}
+
+// CurrentQuestKills is incremented in mob.ostw handleDead()

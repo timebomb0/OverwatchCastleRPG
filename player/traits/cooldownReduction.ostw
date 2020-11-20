@@ -15,7 +15,7 @@ Team.Team2
 if (CooldownReduction > 0)
 if (AbilityCooldown(Player, Button.Ability2) > 0.01)
 {
-	SetAbilityCooldown(Player, AbilityCooldown(Player, Button.Ability2) * ((100 - CooldownReduction) / 100));
+	SetAbilityCooldown(Player, Button.Ability2, AbilityCooldown(Player, Button.Ability2) * ((100 - CooldownReduction) / 100));
 }
 
 rule: "[Trait] Cooldown Reduction SecondaryFire"

@@ -10,7 +10,7 @@ rule: "[HUD] Top Player HUD"
 Event.OngoingPlayer
 Team.Team2
 {
-	CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), "Experience", Location.Left, 0, Color.Green, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor, Spectators.DefaultVisibility);
+	CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), <"Experience <0> / <1>", EXP, EXPToLevelUp>, Location.Left, 0, Color.LimeGreen, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor, Spectators.DefaultVisibility);
 
 	LeftHUDHeader(Player, <"Level : <0>
 		Stat Points : <1>

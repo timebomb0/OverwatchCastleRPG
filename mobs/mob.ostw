@@ -59,9 +59,10 @@ class Mob {
 			MinWait();
 
 			define _chillingMobRewardModifier = aPlayer.ChillModeEnabled ? 0.5 : 1;
-			aPlayer._MobVars[0] = RoundToInteger(RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1) * aPlayer.EXPGainRate, Rounding.Nearest);
+			aPlayer._MobVars[0] = RoundToInteger(RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1) * aPlayer.EXPGainRate * (1 + (aPlayer.PlayerLevel / 50)), Rounding.Nearest);
 			aPlayer._MobVars[1] = RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * aPlayer.CoinGainRate  * _chillingMobRewardModifier * root.CoinsOnKillMultiplier, Rounding.Nearest);
-			aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * _chillingMobRewardModifier, Rounding.Nearest);
+			// aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * _chillingMobRewardModifier, Rounding.Nearest);
+			aPlayer._MobVars[2] = 1;
 			MinWait();
 
 			aPlayer.EXP += aPlayer._MobVars[0];
@@ -75,6 +76,9 @@ class Mob {
 		PlayEffect(AllPlayers(Team.Team2), PlayEffect.BadPickupEffect, Color.Red, PositionOf(root.Player), 2);
 		root.EnergyPoints += EnergyOnKill * root.EnergyMultiplier;
 		root.MobKills += 1;
+		if (root.CurrentQuest == 2) {
+			root.CurrentQuestKills += 1;
+		}
 		
 		if (root.MobLootWorldText[SlotOf(root.Player)] > 0) {
 			DestroyInWorldText(root.MobLootWorldText[SlotOf(root.Player)]);
@@ -117,11 +121,34 @@ class Mob {
 		CreateDummyBot(HeroMob, Team.Team1, 2, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 3, Vector(0, 0, 0), Vector(0, 0, 0));
 		CreateDummyBot(HeroMob, Team.Team1, 4, Vector(0, 0, 0), Vector(0, 0, 0));
-		AllPlayers(Team.Team1).IsMob = true;
 		Wait(1, WaitBehavior.IgnoreCondition);
-		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
-		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.DifficultyModifier * DamageDealt);
-		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), root.Stage * root.MobSpeedModifier * MoveSpeed);
+		define playerCount = CountOf(AllPlayers(Team.Team2));
+		define totalPlayerLevel = 0;
+		for (define i = 0; i < playerCount; i++) {
+			totalPlayerLevel += AllPlayers(Team.Team2)[i].PlayerLevel;
+		}
+		root.UpdateAveragePlayerLevel();
+		AllPlayers(Team.Team1).PlayerLevel = root.AveragePlayerLevel;
+		define MobLevelModifier = 1 + (root.AveragePlayerLevel * 0.4);
+		SetHealingReceived(PlayersOnHero(HeroMob, Team.Team1), 0);
+		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
+		MinWait();
+		SetPlayerHealth(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
+		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
+		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.MobSpeedModifier * MoveSpeed);
+	}
+
+	public void respawn()
+	{
+		Wait(root.MobRespawnTime, WaitBehavior.IgnoreCondition);
+		root.UpdateAveragePlayerLevel();
+		define MobLevelModifier = 1 + (root.AveragePlayerLevel * 0.4);
+		SetMaxHealth(root.Player, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
+		MinWait();
+		SetPlayerHealth(root.Player, MaxHealth(root.Player));
+		SetDamageDealt(root.Player, MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
+		SetMoveSpeed(root.Player, (MobLevelModifier / 2) * root.MobSpeedModifier * MoveSpeed);
+		root.Player.PlayerLevel = root.AveragePlayerLevel;
 	}
 
 	public void attack(ref define mob)

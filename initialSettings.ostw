@@ -5,24 +5,28 @@ if (IsGameInProgress() == true)
 {
 	SetNewWave = true;
 	MobKills = 0;
-	BreakTime = 10;
+	BreakTime = 15;
 	DifficultyModifier = 1;
-	Stage = 1;
 	EnergyPoints = 0;
 	UnlockLevel = 0;
 	IsBreakTime = true;
-	TraitPointGainedEveryXLevels = 5;
+	StatPointsPerLevel = 5;
+	TraitPointGainedEveryXLevels = 4;
 	InitialCursedBoxJackpot = 10000;
 	CursedBoxJackpot = InitialCursedBoxJackpot;
 	CoinsPerLevel = 2000;
 	EnergyToLvUp = 1000;
 	MobSpeedModifier = 0.7;
-	MaxXPGrowthPerLevel = 1.05;
+	MobDamageModifier = 1;
+	MaxXPGrowthPerLevel = 1.03;
 	CoinsOnKillMultiplier = 4;
 	MobHealthModifier = 0.88;
 	UltimateTickRate = 5;
-	Item_TrinketModifier = 2;
+	Item_TrinketModifier = 1;
 	EnergyMultiplier = 1.4;
+	JoinedPlayerInitialLevelMultiplier = 0.9;
+	CurrentQuestKills = 0;
+    RequiredQuestKills = 9999;
 }
 
 rule: "[All World] New Player Settings"
@@ -34,14 +38,7 @@ Team.Team2
 		<@"<0> <1> <2>",
 			HeroIconString(HeroOf(Player)),
 			Player,
-			<@"<0> <1> <2>",
-				"Lv.",
-				PlayerLevel,
-				<"<0>: <1>",
-					"Enhancement Level ",
-					EnchantLevel
-				>
-			>
+			<"Level <0>", PlayerLevel>
 		>,
 		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.SkyBlue, Spectators.DefaultVisibility);
 	Reseting = 0;
@@ -63,8 +60,9 @@ Team.Team2
 	Messages[4] = "";
 	JumpSpeed = 100;
 	UltimateGain = 2;
-	CoinGainRate = 1;
-	EXPGainRate = 1;
+	CoinGainRate = 1.3;
+	// TODO: Change EXPGainRate back to ~1.1
+	EXPGainRate = 2;
 	TrinketGainRate = 1;
 	Item_Trinket = 0;
 	Item_ExperiencePotion = 0;
@@ -74,15 +72,35 @@ Team.Team2
 	TraitsUnlocked[1] = false;
 	TraitsUnlocked[2] = false;
 	TraitsUnlocked[3] = false;
+	TraitsUnlocked[4] = false;
+	TraitsUnlocked[5] = false;
+	CatchUpEnabled = false;
 	CurrentQuest = 0;
-	QuestSuccess = false;
+	QuestSuccess = 2;
 	UltimateNumber = 0;
 	EnchantLevel = 0;
 	GeodeRandomItem = 0;
 	StatPoints = 0;
 	EXP = 0;
 	EXPToLevelUp = 3000;
-	PlayerLevel = 1;
+	PlayerLevel = 0;
+	MobRespawnTime = 3;
+	SetStatus(Player, null, Status.Invincible, 9999);
+	UpdateAveragePlayerLevel();
+	// New players are set to the current lowest player's level * JoinedPlayerInitialLevelMultiplier 
+	PlayerLevel = RoundToInteger(SortedArray(	FilteredArray(MappedArray(AllPlayers(Team.Team2), ArrayElement().PlayerLevel)
+, ArrayElement() != 0))[0] * JoinedPlayerInitialLevelMultiplier, Rounding.Nearest);
+	if (PlayerLevel < 1) {
+		PlayerLevel = 1;
+	}
+	// Allow first level to give player stat points - by not doing PlayerLevel - 1
+	StatPoints = PlayerLevel * root.StatPointsPerLevel;
+	TraitPoints = RoundToInteger(PlayerLevel / TraitPointGainedEveryXLevels, Rounding.Down);
+	Coins = (PlayerLevel - 1) * 2500;
+	Item_Trinket = (PlayerLevel - 1) * 7;
+	for (define i = 0; i < (PlayerLevel - 1); i++) {
+		EXPToLevelUp *= MaxXPGrowthPerLevel;
+	}
 	Wait(1, WaitBehavior.IgnoreCondition);
 	SetDamageDealt(Player, DamageDealt);
 	SetMaxHealth(Player, HP);
@@ -91,18 +109,15 @@ Team.Team2
     SetJumpVerticalSpeed(Player, JumpSpeed);
 	SetHealingDealt(Player, HealingDealt);
 	SetHealingReceived(Player, HealingReceive);
-	BuffPenalty = 1;
+	SetRespawnMaxTime(Player, 6);
 	
-	// TODO: Set level+stat points for new players
-	SetRespawnMaxTime(Player, 4);
-	Wait(10, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Welcome. Kill the incoming mobs before they hit the Core, or they'll damage it!");
-	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Be Careful! If the Core hits 0 health, your team gets penalized.");
-	Wait(4, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Inbetween Waves, you can go find all the upgrades in the map. Have fun!");
-	Wait(90, WaitBehavior.IgnoreCondition);
-	BuffPenalty = 2;
-	SmallMessage(Player, "Buff Penalty Disabled");
-	Wait(10, WaitBehavior.IgnoreCondition);
+	Wait(5, WaitBehavior.IgnoreCondition);
+	ClearStatus(Player, Status.Invincible);
+	BigMessage(Player, "Welcome to this new PvE RPG ChillNKill mode. This is a Work In Progress.");
+	Wait(3, WaitBehavior.IgnoreCondition);
+	BigMessage(Player, "Kill mobs and do quests to gain experience, coins, and trinkets.");
+	Wait(3, WaitBehavior.IgnoreCondition);
+	BigMessage(Player, "Look around the map to find where to buy stat points, traits, and slot machines.");
+	Wait(3, WaitBehavior.IgnoreCondition);
+	BigMessage(Player, "There's more to come in this mode shortly, and balance is ongoing. Have fun!");
 }

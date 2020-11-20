@@ -1,5 +1,14 @@
 import "../utils/index.ostw";
 
+rule: "[Initialize Wishing Star] XP Increment Amount By Lvl"
+{
+	// This is the amount we should multiply their current "required xp to level" by
+	// in order to level them up once, twice, or thrice
+	WishingStarXPLevelGainMultiplier[1] = MaxXPGrowthPerLevel;
+	WishingStarXPLevelGainMultiplier[2] = WishingStarXPLevelGainMultiplier[1] + MaxXPGrowthPerLevel^2;
+	// WishingStarXPLevelGainMultiplier[3] = WishingStarXPLevelGainMultiplier[2] + MaxXPGrowthPerLevel^3;
+	// WishingStarXPLevelGainMultiplier[4] = WishingStarXPLevelGainMultiplier[3] + MaxXPGrowthPerLevel^4;
+}
 
 rule: "[Use Item] Experience Potion"
 Event.OngoingPlayer
@@ -9,10 +18,9 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 {
-	SmallMessage(Player, "Consuming Experience Potion! ...2");
+	SmallMessage(Player, "Consuming Experience Potion...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Consuming Experience Potion! ...1");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.ExplosionSound, Color.White, Player, 100);
 	Pointloot = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
 	Item_ExperiencePotion -= 1;
 	MinWait();
@@ -30,10 +38,9 @@ if (Item_MoneyBag > 0)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 {
-	SmallMessage(Player, "Opening Money Bag! ...2");
+	SmallMessage(Player, "Opening Money Bag...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Opening Money Bag! ...1");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffImpactSound, Color.White, Player, 100);
 	Pointloot = RandomInteger(500, 10000);
 	Item_MoneyBag -= 1;
 	MinWait();
@@ -51,41 +58,19 @@ if (Item_WishingStar > 0)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 {
-	SmallMessage(Player, "Tossing Wishing Star! ...3");
+	SmallMessage(Player, "Tossing Wishing Star...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Tossing Wishing Star! ...2");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Tossing Wishing Star! ...1");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosion, Color.Violet, Player, 8);
 	define randomNum = RandomInteger(1,1);
 	Item_WishingStar -= 1;
 	MinWait();
 	
 	if (randomNum == 1) {
-		define randomLevels = RandomInteger(1, 4);
+		define randomLevels = RandomInteger(1, 2);
 		MinWait();
 		NewMessage(<"Wishing Star has granted you <0> Free Level(s)", randomLevels>);
 		BigMessage(AllPlayers(Team.Team2), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, randomLevels>);
-		PlayerLevel += randomLevels;
-		EXPToLevelUp = EXPToLevelUp * (1.05 ^ randomLevels);
+		EXP = EXP + (EXPToLevelUp * WishingStarXPLevelGainMultiplier[randomLevels]);
 	}
 }
-
-// TODO: Replace these below rules with new loot items from mobs
-// rule: "[Loot] Got Cursedbox"
-// Event.OngoingPlayer
-// Team.Team2
-// if (CurseLootChance == 3)
-// {
-// 	CursedBox += 1;
-// 	BigMessage(AllPlayers(Team.All), <@"<0> <1> <2>", "Congratulations! ", Player, "Looted Cursed Treasure Box!">);
-// }
-
-// rule: "[Loot] Got Lootbox"
-// Event.OngoingPlayer
-// Team.Team2
-// if (LootChance == 4)
-// {
-// 	LootBox += 1;
-// 	BigMessage(Player, <@"<0> <1> <2>", "Congratulations! ", Player, "Looted Treasure Box!">);
-// }

@@ -17,3 +17,4 @@ globalvar define UseExperiencePotionLoc = Vector(59.776, 6.175, -95.982);
 globalvar define UseMoneyBagLoc = Vector(56.444, 6.225, -87.247);
 globalvar define TossWishingStarLoc = Vector(66.607, 5.973, -83.277);
 
+globalvar define TraitInfoTextLoc = Vector(55.046, 20.980, -79.911);

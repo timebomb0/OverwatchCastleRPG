@@ -4,7 +4,7 @@ rule: "[World Effect] Stat upgrades text"
 {
     CreateInWorldText(AllPlayers(Team.Team2), "Damage +1% [-1 Stat Point]", Vector(53.993, 12.975, -81.313), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
     CreateInWorldText(AllPlayers(Team.Team2), "Health +1% [-1 Stat Point]", Vector(56.398, 13.005, -81.814), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-    CreateInWorldText(AllPlayers(Team.Team2), "Damage Recieved -0.25% [-1 Stat Point]", Vector(54.539, 12.975, -77.976), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+    CreateInWorldText(AllPlayers(Team.Team2), "Damage Received -0.25% [-1 Stat Point]", Vector(54.539, 12.975, -77.976), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
     CreateInWorldText(AllPlayers(Team.Team2), "Healing +1% [-1 Stat Point]", Vector(56.873, 12.975, -78.476), 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
 }
 

@@ -7,13 +7,11 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (DistanceBetween(Player, SlotMachineLoc) <= 2.5)
 if (Coins >= 5000)
 {
-	SmallMessage(Player, "Spinning slot machine... 3");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Spinning slot machine... 2");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Spinning slot machine... 1");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Spinning slot machine...");
+	Wait(0.75, WaitBehavior.AbortWhenFalse);
 	Coins -= 5000;
+
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.GoodPickupEffect, Color.White, Player, 30);
 	
 	define randomNumber = RandomInteger(1, 100);
 	if (randomNumber < 25) {
@@ -26,7 +24,10 @@ if (Coins >= 5000)
 		NewMessage("Zilcho, nada, nothing, zero, you have received nothing. Better luck next time!");
 	}
 
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 75);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.GoodExplosion, Color.LimeGreen, Player, 10);
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
 }
 
 rule: "[Gamble] Celestial Slot Machine"
@@ -36,13 +37,12 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (Item_Trinket >= 100)
 if (DistanceBetween(Player, CelestialSlotMachineLoc) <= 2.5)
 {
-	SmallMessage(Player, "Spinning celestial slot machine... 3");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Spinning celestial slot machine... 2");
-	Wait(1, WaitBehavior.AbortWhenFalse);
-	SmallMessage(Player, "Spinning celestial slot machine... 1");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	SmallMessage(Player, "Spinning celestial slot machine...");
+	Wait(0.75, WaitBehavior.AbortWhenFalse);
 	Item_Trinket -= 100;
+
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.Team2), PlayEffect.GoodExplosion, Color.Purple, Player, 10);
 
 	define randomNumber = RandomInteger(1, 100);
 	if (randomNumber < 40) {
@@ -58,5 +58,6 @@ if (DistanceBetween(Player, CelestialSlotMachineLoc) <= 2.5)
 		Item_WishingStar += 1;
 	}
 
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 75);
+	Wait(0.5, WaitBehavior.IgnoreCondition);
+	LoopIfConditionIsTrue();
 }

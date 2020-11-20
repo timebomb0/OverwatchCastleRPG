@@ -3,7 +3,7 @@ import "mob.ostw";
 
 	// public Mob(ref define heroMob, ref define coinsOnKill, ref define Item_TrinketOnKill,
 	// 			ref define energyOnKill, ref define expOnKill
-	// 			ref define objectiveDescription, ref define spawnMessage,
+	// 			ref define spawnMessage,
 	// 			ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
 	// 			ref define autoUltChance, ref define autoPrimaryAtkChance, ref define autoSecondaryAtkChance,
 	// 			ref define autoAbility1Chance, ref define autoAbility2Chance,
@@ -13,8 +13,8 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Mccree, 50, 1,
 		50, 400,
 		"Well, it's high noon somewhere in the world",
-		3, 1.4, 10.5, 0.4,
-		5, 20, false,
+		3, 1.2, 10.5, 0.4,
+		3, 20, false,
 		false, 10,
 		true, false, false, 1
 	),
@@ -35,14 +35,14 @@ globalvar Mob[] mobs! = [
 		false, false, false, 1
 	),
 	new Mob(Hero.Tracer, 90, 1,
-		30, 500,
+		40, 500,
 		"Oi! This is no time for standin' around",
-		1, 0.65, 5, 0.55,
+		1, 0.6, 5, 0.55,
 		0, 15, false,
-		20, false,
-		false, true, false, 1
+		15, false,
+		false, true, false, 1.25
 	),
-	new Mob(Hero.Doomfist, 180, 2,
+	new Mob(Hero.Doomfist, 180, 1,
 		55, 400,
 		"Once the mission starts, no more messing around",
 		5, 1.5, 9, 0.4,
@@ -50,10 +50,10 @@ globalvar Mob[] mobs! = [
 		false, 15,
 		false, false, true, 1.5
 	),
-	new Mob(Hero.Junkrat, 230, 2,
+	new Mob(Hero.Junkrat, 230, 1,
 		75, 450,
 		"C'mon, c'mon, c'mon, I hate waiting!",
-		5, 0.97, 12.5, 0.45,
+		5, 0.97, 10.5, 0.45,
 		20, 25, false,
 		false, false,	
 		true, false, false, 1
@@ -64,22 +64,39 @@ globalvar Mob[] mobs! = [
 		2, 0.75, 3, 0.7,
 		80, false, false,
 		false, false,	
-		true, false, false, 1
+		true, false, false, 1.5
 	),
-	new Mob(Hero.Mei, 90, 2,
-		110, 400,
-		"It's good to get out of the lab",
-		8, 0.5, 11, 0.2,
-		40, false, false,
-		false, false,	
-		false, false, false, 1.5
-	),
-	new Mob(Hero.Hanzo, 90, 2,
+	new Mob(Hero.Hanzo, 90, 1,
 		55, 400,
 		"The dragon awakens",
-		5, 0.4, 8, 0.3,
-		45, false, false,
+		5, 0.35, 8, 0.3,
+		30, false, false,
 		false, false,	
 		false, false, false, 1.5
+	),
+	new Mob(Hero.Genji, 90, 1,
+		65, 400,
+		"Even if I sacrifice my body, I will never sacrifice my honor",
+		8, 1.5, 9, 0.45,
+		false, 25, false,
+		false, 17,
+		false, false, false, 1
+	),
+	new Mob(Hero.Zarya, 90, 1,
+		120, 400,
+		"Welcome to the gun show",
+		5, 1, 5.75, 0.25,
+		10, 0, 25,
+		30, false,	
+		false, true, false, 1.25
+	),
+	// TODO: Any way to scale brig's shield correctly?
+	new Mob(Hero.Brigitte, 90, 1,
+		70, 400,
+		"Time to roll up my sleeves",
+		5, 1.5, 6, 0.35,
+		false, 5, 18,
+		14, false,	
+		false, true, true, 1
 	)
 ];

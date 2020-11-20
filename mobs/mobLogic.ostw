@@ -6,7 +6,15 @@ Event.OngoingPlayer
 Team.Team1
 if (IsBreakTime == false)
 {
-	SetRespawnMaxTime(Player, 3);
+	SetRespawnMaxTime(Player, MobRespawnTime);
+	if (Player.MobLevelText > 0) {
+		DestroyInWorldText(Player.MobLevelText);
+	}
+	CreateInWorldText(
+		AllPlayers(Team.Team2),
+		<"Level <0>", Player.PlayerLevel>,
+		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+	Player.MobLevelText = LastTextID();
 }
 
 rule: "[Mob] Reward"
@@ -33,6 +41,15 @@ if (IsBreakTime == true)
 {
 	mobs[root.WaveSet].spawn();
 }
+
+rule: "[Mob] Update Stats On Respawn"
+Event.OnDeath
+Team.Team1
+if (IsBreakTime == false)
+{
+	mobs[root.WaveSet].respawn();
+}
+
 
 rule: "[Mob] Attack"
 Event.OngoingPlayer

@@ -3,8 +3,9 @@ import "../utils/index.ostw";
 rule: "[Quest] Pick New Quest"
 if (CurrentQuest == 0)
 {
+    MinWait();
     SetMatchTime(3600);
-    QuestSuccess = false;
+    QuestSuccess = 2;
     
     if (QuestHeaderTextId > 0) {
         DestroyHudText(QuestHeaderTextId);
@@ -13,6 +14,6 @@ if (CurrentQuest == 0)
         "Relax, kill some mobs, and await your next quest.",
         ObjectiveRev.VisibleToAndString);
     
-    Wait(RandomInteger(30, 80), WaitBehavior.AbortWhenFalse);
-    CurrentQuest = RandomInteger(1, 1);
+    Wait(RandomInteger(30, 60), WaitBehavior.AbortWhenFalse);
+    CurrentQuest = RandomInteger(1, 2);
 }

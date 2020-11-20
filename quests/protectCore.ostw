@@ -3,8 +3,8 @@ import "../utils/index.ostw";
 rule: "[Quest - Core] Protect Core Initialize"
 if (CurrentQuest == 1)
 {
-    CoreHealth = RandomInteger(2, 4) * 10;
     QuestTimer = RandomInteger(60, 180);
+    CoreHealth = RandomInteger(4, 12) * RoundToInteger((QuestTimer / 60), Rounding.Nearest);
     MobSpeedIncreaseValue = RandomInteger(2, 6);
     MinWait();
     SetMatchTime(QuestTimer + 1);
@@ -15,21 +15,25 @@ if (CurrentQuest == 1)
         ObjectiveRev.VisibleToAndString);
     TopHUDHeader(AllPlayers(Team.Team2),
         "Quest: Protect The Core!", null, Color.Green, Color.White, 0);
-    BigMessage("New Quest! Protect The Core!")
+    BigMessage(AllPlayers(Team.Team2), "New Quest! Protect The Core!");
     QuestHeaderTextId = LastTextID();
 
     Wait(QuestTimer, WaitBehavior.AbortWhenFalse);
-    QuestSuccess = true;
+    if (CoreHealth <= 0) {
+        QuestSuccess = 0;
+    } else {
+        QuestSuccess = 1;
+    }
 }
 
 rule: "[Quest - Core] Success"
 if (CurrentQuest == 1)
-if (QuestSuccess == true)
+if (QuestSuccess == 1)
 {
     MobSpeedModifier -= MobSpeedIncreaseValue / 10;
     BigMessage(AllPlayers(Team.Team2), "Quest Success: The core has been protected!");
-    define coinLoot = RoundToInteger(RandomInteger(4000, 10000) * (QuestTimer / 60) * (1 + (MobSpeedIncreaseValue / 10)), Rounding.Nearest);
-    define trinketLoot = RoundToInteger(RandomInteger(40, 80) * (QuestTimer / 60) * (1 + (MobSpeedIncreaseValue / 10)), Rounding.Nearest);
+    define coinLoot = RoundToInteger(RandomInteger(3000, 9000) * (QuestTimer / 60) * (1 + (MobSpeedIncreaseValue / 10)), Rounding.Nearest);
+    define trinketLoot = RoundToInteger(RandomInteger(60, 100) * (QuestTimer / 60) * (1 + (MobSpeedIncreaseValue / 10)), Rounding.Nearest);
     MinWait();
     AllPlayers(Team.Team2).Coins += coinLoot;
     AllPlayers(Team.Team2).Item_Trinket += trinketLoot;

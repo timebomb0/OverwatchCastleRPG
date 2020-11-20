@@ -1,6 +1,14 @@
 import "index.ostw";
 
-// TODO: Any way to stabilize this? Sometimes wrong message appears in small message
+void UpdateAveragePlayerLevel() "[Subroutine] Update average player level" {
+	define playerCount = CountOf(AllPlayers(Team.Team2));
+	define totalPlayerLevel = 0;
+	for (define i = 0; i < playerCount; i++) {
+		totalPlayerLevel += AllPlayers(Team.Team2)[i].PlayerLevel;
+	}
+	AveragePlayerLevel = RoundToInteger(totalPlayerLevel / playerCount, Rounding.Nearest);
+}
+
 void NewMessage(define message) playervar "[Subroutine] Append New Message"
 {
     Messages[4] = Messages[3];
@@ -8,7 +16,9 @@ void NewMessage(define message) playervar "[Subroutine] Append New Message"
     Messages[2] = Messages[1];
     Messages[1] = Messages[0];
     Messages[0] = message;
+    MinWait();
     SmallMessage(Player, message);
+    MinWait();
 }
 
 void NewMessageToAll(define message) "[Subroutine] Append New Message All Players"
@@ -18,5 +28,7 @@ void NewMessageToAll(define message) "[Subroutine] Append New Message All Player
     AllPlayers(Team.Team2).Messages[2] = AllPlayers(Team.Team2).Messages[1];
     AllPlayers(Team.Team2).Messages[1] = AllPlayers(Team.Team2).Messages[0];
     AllPlayers(Team.Team2).Messages[0] = message;
+    MinWait();
     SmallMessage(AllPlayers(Team.Team2), message);
+    MinWait();
 }

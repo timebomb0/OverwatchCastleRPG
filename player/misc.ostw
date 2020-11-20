@@ -30,10 +30,3 @@ if (IsAlive(Player) == true)
 		CurrentHero = HeroOf(Player);
 	}
 }
-
-rule: "[Teleport] Base"
-Event.OngoingPlayer
-if (IsCommunicating(Player, Communication.FallBack) == true)
-{
-	Teleport(Player, Vector(39.575, 9.335, -87.635));
-}

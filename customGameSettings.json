@@ -23,7 +23,9 @@
     "Heroes": {
         "Team 1": {
             "General": {
-                "Ultimate Generation": 10
+                "Ultimate Generation": 10,
+                "Ultimate Generation - Combat": 0,
+                "Ultimate Generation - Passive": 0
             },
             "Ashe": {
                 "Dynamite Cooldown Time": 75
@@ -86,6 +88,8 @@
         },
         "Team 2": {
             "General": {
+                "Ultimate Generation": 10,
+                "Ultimate Generation - Combat": 0,
                 "Ultimate Generation - Passive": 0
             },
             "Ashe": {
@@ -232,8 +236,9 @@
             }
         },
         "General": {
-            "General": {
-                "Ultimate Generation - Combat": 100,
+            "General" : {
+                "Ultimate Generation": 10,
+                "Ultimate Generation - Combat": 0,
                 "Ultimate Generation - Passive": 0
             },
             "Echo": {
