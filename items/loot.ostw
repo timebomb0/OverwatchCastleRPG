@@ -12,7 +12,6 @@ rule: "[Initialize Wishing Star] XP Increment Amount By Lvl"
 
 rule: "[Use Item] Experience Potion"
 Event.OngoingPlayer
-Team.Team2
 if (Item_ExperiencePotion > 0)
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
@@ -20,7 +19,7 @@ if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 {
 	SmallMessage(Player, "Consuming Experience Potion...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(AllPlayers(Team.Team2), PlayEffect.ExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, Player, 100);
 	Pointloot = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
 	Item_ExperiencePotion -= 1;
 	MinWait();
@@ -32,7 +31,6 @@ if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 
 rule: "[Use Item] Money Bag"
 Event.OngoingPlayer
-Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (Item_MoneyBag > 0)
 if (IsAlive(Player) == true)
@@ -40,7 +38,7 @@ if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 {
 	SmallMessage(Player, "Opening Money Bag...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffImpactSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, Player, 100);
 	Pointloot = RandomInteger(500, 10000);
 	Item_MoneyBag -= 1;
 	MinWait();
@@ -52,7 +50,6 @@ if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 
 rule: "[Use Item] Wishing Star"
 Event.OngoingPlayer
-Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (Item_WishingStar > 0)
 if (IsAlive(Player) == true)
@@ -60,17 +57,17 @@ if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 {
 	SmallMessage(Player, "Tossing Wishing Star...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosionSound, Color.White, Player, 100);
-	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosion, Color.Violet, Player, 8);
-	define randomNum = RandomInteger(1,1);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Violet, Player, 8);
+	root.RandomNumber = RandomInteger(1,1);
 	Item_WishingStar -= 1;
 	MinWait();
 	
-	if (randomNum == 1) {
-		define randomLevels = RandomInteger(1, 2);
+	if (root.RandomNumber == 1) {
+		root.RandomNumber = RandomInteger(1, 2);
 		MinWait();
-		NewMessage(<"Wishing Star has granted you <0> Free Level(s)", randomLevels>);
-		BigMessage(AllPlayers(Team.Team2), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, randomLevels>);
-		EXP = EXP + (EXPToLevelUp * WishingStarXPLevelGainMultiplier[randomLevels]);
+		NewMessage(<"Wishing Star has granted you <0> Free Level(s)", root.RandomNumber>);
+		BigMessage(AllPlayers(Team.All), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, root.RandomNumber>);
+		EXP = EXP + (EXPToLevelUp * WishingStarXPLevelGainMultiplier[root.RandomNumber]);
 	}
 }

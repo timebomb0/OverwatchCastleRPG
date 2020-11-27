@@ -2,21 +2,21 @@ import "utils/index.ostw";
 
 rule: "[HUD] Core"
 {
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.SkyBlue, Vector(39.261, 9.471, -87.568), 8, EffectRev.VisibleToPositionAndRadius);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.SkyBlue, Vector(39.261, 9.471, -87.568), 8, EffectRev.VisibleToPositionAndRadius);
 }
 
 rule: "[HUD] Upgrade & Treasure Box"
 {
 	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, Vector(55.394, 22.554, -68.688), 2, EffectRev.VisibleToPositionAndRadius);
 	// CreateInWorldText(AllPlayers(Team.Team2), "[Press Reload to Buy] Repair Kit +2 Power -5,000 Coins", Vector(55.394, 22.554, -68.688), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Turquoise, Spectators.DefaultVisibility);
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Rose, UseExperiencePotionLoc, 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "Use Experience Potion", UseExperiencePotionLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Rose, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Rose, UseExperiencePotionLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Use Experience Potion", UseExperiencePotionLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Rose, Spectators.DefaultVisibility);
 	// // speed upgrade
 	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.SkyBlue, Vector(66.035, 19.344, -73.005), 2, EffectRev.VisibleToPositionAndRadius);
 	// CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(66.035, 19.344, -73.005), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
 	// InWorldTextIds[0] = LastTextID();
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Green, UseMoneyBagLoc, 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "Open Money Bag", UseMoneyBagLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Green, UseMoneyBagLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Open Money Bag", UseMoneyBagLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
 	// // purchase max ult charge
 	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, Vector(65.498, 17.167, -61.426), 2, EffectRev.VisibleToPositionAndRadius);
 	// CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(65.498, 17.167, -61.426), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
@@ -30,17 +30,17 @@ rule: "[HUD] Upgrade & Treasure Box"
 	// CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(36.89, 14.021, -105.283), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
 	// InWorldTextIds[10] = LastTextID();
 
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, TossWishingStarLoc, 1.55, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "Toss Wishing Star", TossWishingStarLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, TossWishingStarLoc, 1.55, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Toss Wishing Star", TossWishingStarLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Purple, Spectators.DefaultVisibility);
 	}
 
 rule: "[HUD] Combine"
 {
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.LimeGreen, SlotMachineLoc, 1.9, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "Spin Slot Machine [-5,000 Coins]", SlotMachineLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.LimeGreen, SlotMachineLoc, 1.9, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Spin Slot Machine [-5,000 Coins]", SlotMachineLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
 
-	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Orange, CelestialSlotMachineLoc, 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.Team2), "Spin Celestial Slot Machine [-100 Trinkets]", CelestialSlotMachineLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Orange, Spectators.DefaultVisibility);
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, CelestialSlotMachineLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Spin Celestial Slot Machine [-100 Trinkets]", CelestialSlotMachineLoc, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Orange, Spectators.DefaultVisibility);
 	// // process geode
 	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Green, Vector(-1.364, 7.698, -72.803), 2, EffectRev.VisibleToPositionAndRadius);
 	// CreateInWorldText(AllPlayers(Team.Team2), "[Must Unlock First] ???", Vector(-1.364, 7.698, -72.803), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
@@ -70,12 +70,12 @@ rule: "[HUD] Combine"
 // 	CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Red, Vector(-3.018, 8.177, -41.844), 1.5, EffectRev.VisibleToPositionAndRadius);
 // 	CreateInWorldText(AllPlayers(Team.Team2), "[Buy] L.Magic Potion Restore 100 MP -9,000 Coins (Maximum 200 Mp)", Vector(-3.018, 8.177, -41.844), 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
 // }
-rule: "[HUD] Wave Energy"
-{
-	CreateInWorldText(AllPlayers(Team.Team2),
-		<@"<0> <1> / <2>",
-			AbilityIconString(Hero.Zarya, Button.Ultimate),
-			EnergyPoints,
-			EnergyToLvUp
-		>, Vector(76.665, 17, -99.649), 2, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
-}
+// rule: "[HUD] Wave Energy"
+// {
+// 	CreateInWorldText(AllPlayers(Team.All),
+// 		<@"<0> <1> / <2>",
+// 			AbilityIconString(Hero.Zarya, Button.Ultimate),
+// 			EnergyPoints,
+// 			EnergyToLvUp
+// 		>, Vector(76.665, 17, -99.649), 2, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+// }

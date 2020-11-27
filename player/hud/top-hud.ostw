@@ -3,12 +3,12 @@ import "../../utils/index.ostw";
 rule: "[HUD] Top Player HUD"
 Event.OngoingGlobal
 {
-	RightHUDSubheader(AllPlayers(Team.Team2), <"Server Load: <0>", ServerLoadAverage()>, Color.Red, 0);
+	RightHUDSubheader(AllPlayers(Team.All), <"Server Load: <0>", ServerLoadAverage()>, Color.Red, 0);
 }
 
 rule: "[HUD] Top Player HUD"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 {
 	CreateProgressBarHudText(Player, 100 * (EXP / EXPToLevelUp), <"Experience <0> / <1>", EXP, EXPToLevelUp>, Location.Left, 0, Color.LimeGreen, Color.White, ProgressBarEvaluation.VisibleToValuesAndColor, Spectators.DefaultVisibility);
 
@@ -26,10 +26,18 @@ Team.Team2
 		Money Bag : <2> | Wishing Star : <3>",
 	Item_Trinket, Item_ExperiencePotion, Item_MoneyBag, Item_WishingStar>, Color.Orange, Color.Turquoise, 2);
 
-	RightHUDSubheader(Player, <"<0>
+	RightHUDSubheader(Player, (Messages[0] != "" && !Messages[0]) ? <"<0>
 		<1>
 		<2>
 		<3>
 		<4>",
-	Messages[0], Messages[1], Messages[2], Messages[3], Messages[4]>, Color.White, 1);
+		Messages[0], Messages[1], Messages[2], Messages[3], Messages[4]>
+	: null, Color.White, 1);
+
+	TopHUDSubheader(Player, RecentGains[0] > 0 || RecentGains[1] > 0 || RecentGains[2] > 0 ?
+<"+<0> XP
++<1> Coins
++<2> Trinkets",
+    RecentGains[0], RecentGains[1], RecentGains[2]> : "", Color.Yellow, 2);
 }
+

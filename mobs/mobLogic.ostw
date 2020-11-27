@@ -1,92 +1,119 @@
 import "mobsList.ostw";
 
-
-rule: "[Mob] Settings"
-Event.OngoingPlayer
-Team.Team1
-if (IsBreakTime == false)
+rule: "[Mob] Reward & Despawn mob"
+Event.OnDeath
+if (IsDummyBot(Player))
 {
-	SetRespawnMaxTime(Player, MobRespawnTime);
+	if (YOf(PositionOf(Player)) >= 0 && DistanceBetween(Player, CoreLocation) >= 8) {
+		mobs[MobId].handleDead();
+	}
 	if (Player.MobLevelText > 0) {
 		DestroyInWorldText(Player.MobLevelText);
 	}
-	CreateInWorldText(
-		AllPlayers(Team.Team2),
-		<"Level <0>", Player.PlayerLevel>,
-		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
-	Player.MobLevelText = LastTextID();
+	DestroyDummyBot(Team.All, SlotOf(Player));
+    MinWait();
+	root.BotList = FilteredArray(AllPlayers(Team.All), IsDummyBot(ArrayElement()));
 }
 
-rule: "[Mob] Reward"
-Event.OnDeath
-Team.Team1
-if (YOf(PositionOf(Player)) >= 0)
-if (DistanceBetween(Player, CoreLocation) >= 8)
-{
-	mobs[root.WaveSet].handleDead();
-}
 rule: "[Mob] Reached End"
 Event.OngoingPlayer
-Team.Team1
+if (IsDummyBot(Player))
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, CoreLocation) <= 8)
 {
 	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	Wait(1, WaitBehavior.AbortWhenFalse);
-	mobs[root.WaveSet].despawn(Player);
+	mobs[MobId].despawn(Player);
 }
 
-rule: "[Mob] Spawn"
-if (IsBreakTime == true)
+rule: "[Mob] Spawn #1"
+if (PlayersInSlot(7, Team.All) == false)
 {
-	mobs[root.WaveSet].spawn();
+	Wait(3, WaitBehavior.IgnoreCondition);
+	RandomNumber = RandomInteger(1, 11);
+	CurrentMobSlot = 7;
+	mobs[RandomNumber].spawn();
+	MinWait();
+	PlayersInSlot(7).MobId = RandomNumber;
 }
 
-rule: "[Mob] Update Stats On Respawn"
-Event.OnDeath
-Team.Team1
-if (IsBreakTime == false)
+rule: "[Mob] Spawn #2"
+if (PlayersInSlot(8, Team.All) == false)
 {
-	mobs[root.WaveSet].respawn();
+	Wait(3, WaitBehavior.IgnoreCondition);
+	RandomNumber = RandomInteger(1, 11);
+	CurrentMobSlot = 8;
+	mobs[RandomNumber].spawn();
+	MinWait();
+	PlayersInSlot(8).MobId = RandomNumber;
 }
 
+rule: "[Mob] Spawn #2"
+if (PlayersInSlot(9, Team.All) == false)
+{
+	Wait(3, WaitBehavior.IgnoreCondition);
+	RandomNumber = RandomInteger(1, 11);
+	CurrentMobSlot = 9;
+	mobs[RandomNumber].spawn();
+	MinWait();
+	PlayersInSlot(9).MobId = RandomNumber;
+}
+
+rule: "[Mob] Spawn #4"
+if (PlayersInSlot(10, Team.All) == false)
+{
+	Wait(3, WaitBehavior.IgnoreCondition);
+	RandomNumber = RandomInteger(1, 11);
+	CurrentMobSlot = 10;
+	mobs[RandomNumber].spawn();
+	MinWait();
+	PlayersInSlot(10).MobId = RandomNumber;
+}
+
+rule: "[Mob] Spawn #5"
+if (PlayersInSlot(11, Team.All) == false)
+{
+	Wait(3, WaitBehavior.IgnoreCondition);
+	RandomNumber = RandomInteger(1, 11);
+	CurrentMobSlot = 11;
+	mobs[RandomNumber].spawn();
+	MinWait();
+	PlayersInSlot(11).MobId = RandomNumber;
+}
 
 rule: "[Mob] Attack"
 Event.OngoingPlayer
-Team.Team1
-if (IsBreakTime == false)
+if (IsDummyBot(Player))
 if (IsAlive(Player) == true)
 {
-	Wait(mobs[root.WaveSet].AttackInterval + 0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
-	mobs[root.WaveSet].attack(Player);
+	Wait(mobs[MobId].AttackInterval + 0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
+	mobs[MobId].attack(Player);
 	LoopIfConditionIsTrue();
 }
 
 rule: "[Mob] Random Spawn"
 Event.OngoingPlayer
-Team.Team1
-if (IsInSpawnRoom(Player) == true)
+if (IsDummyBot(Player))
+if (IsAlive(Player))
 {
 	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
 	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
 }
 
+// TODO: Implement smart mob moving
 rule: "[Mob] Move"
 Event.OngoingPlayer
-Team.Team1
+if (IsDummyBot(Player))
 {
 	Wait(0.032*SlotOf(Player), WaitBehavior.AbortWhenFalse);
-	StartThrottleInDirection(Player, DirectionTowards(Player, Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
+	// StartThrottleInDirection(Player, DirectionTowards(Player, Vector(37.131, 9.703, -87.038)), 1, Relative.ToWorld, ThrottleBehavior.ReplaceExistingThrottle, ThrottleRev.DirectionAndMagnitude);
 	StartFacing(
 		Player,
 		DirectionTowards(
 			Player,
 			FirstOf(
 				SortedArray(
-					FilteredArray(
-						AllPlayers(Team.Team2),
-						ArrayElement().ChillModeEnabled != true
-					),
+					root.PlayerList,
 					AngleBetweenVectors(
 						EyePosition(ArrayElement()),
 						EyePosition(Player)
@@ -103,13 +130,28 @@ Team.Team1
 rule: "[Mob] Reposition"
 {
 	MonsterSpawnRandom = [
-		Vector(71.305, 14.047, -104.584),
-		Vector(76.944, 14.166, -103.278),
-		Vector(80.213, 14.084, -101.059),
-		Vector(81.024, 14.047, -98.273),
-		Vector(81.489, 14.032, -95.587),
-		Vector(72.116, 14.046, -97.168),
-		Vector(69.029, 13.963, -100.525),
-		Vector(68.731, 13.953, -94.439)
+		// After initial spawn bridge, near first point
+		Vector(7.43, 5.09, -52.39),
+		Vector(-2.33, 6, -61.81),
+		Vector(10.27, 5.81, -72.62),
+		Vector(12.36, 6.01, -91.21),
+		Vector(12.34, 6, -57.09),
+		Vector(0.62, 4.37, -90.14),
+
+		// Before bridge near initial spawn
+		Vector(10.12, 3.83, -30.96),
+		Vector(14.64, 4.02, -16.85),
+		Vector(-3.87, 1.82, -27.3),
+		Vector(-20.24, 1.97, -35.14),
+		Vector(-4.94, 0.01, -9.65),
+		Vector(20.43, 9, -26.17)
 	];
+}
+
+rule: "[Mob] Score"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if(ScoreOf(Player) != 0)
+{
+	SetPlayerScore(Player, 0);
 }

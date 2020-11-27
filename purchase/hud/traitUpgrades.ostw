@@ -2,7 +2,7 @@ import "../../utils/index.ostw";
 
 rule: "[World Effect] Trait upgrades text"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 {
     CreateInWorldText(Player, TraitsUnlocked[1] == false ? "Unlock Jump Height Trait [-50,000 Coins]" : <"Jump Height +10% (<0>% / <1>%) [-1 Trait Point]", JumpSpeed, 300>, JumpSpeedTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
     CreateInWorldText(Player, TraitsUnlocked[0] == false ? "Unlock Move Speed Trait [-50,000 Coins]" :<"Move Speed +10% (<0>% / <1>%) [-1 Trait Point]", MoveSpeed, 500>, MoveSpeedTraitEffectLoc, 0.8, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
@@ -14,14 +14,14 @@ Team.Team2
 
 rule: "[World Effect] Trait upgrades"
 {
-    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Yellow, JumpSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.White, MoveSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, AmmoCapacityTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Rose, UltimateGenTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.SkyBlue, ProjectileSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
-    CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Orange, CooldownReductionTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Yellow, JumpSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.White, MoveSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Purple, AmmoCapacityTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Rose, UltimateGenTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.SkyBlue, ProjectileSpeedTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, CooldownReductionTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
     
-    CreateInWorldText(AllPlayers(Team.Team2),
+    CreateInWorldText(AllPlayers(Team.All),
     "Hold Interact [F] to Unlock/Upgrade traits
     Unlock new traits with coins
     Unlocked traits cost trait points to level up", TraitInfoTextLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleTo, Color.Yellow, Spectators.DefaultVisibility);

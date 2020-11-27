@@ -1,0 +1,21 @@
+import "../utils/index.ostw";
+rule: "[Recent Gains] Clear Recent Gains"
+Event.OngoingPlayer
+if (!IsDummyBot(Player))
+if (RecentGains[0] > 0 || RecentGains[1] > 0 || RecentGains[2] > 0)
+{
+    RecentGainsHistory[0] = RecentGains[0];
+    RecentGainsHistory[1] = RecentGains[1];
+    RecentGainsHistory[2] = RecentGains[2];
+    // Reset after 4 seconds of no updates
+    for (root.Itr = 0; root.Itr < 8; root.Itr++) {
+        if (RecentGainsHistory[0] != RecentGains[0] || RecentGainsHistory[1] != RecentGains[1] || RecentGainsHistory[2] != RecentGains[2]) {
+            LoopIfConditionIsTrue();
+        } else {
+            Wait(0.5, WaitBehavior.AbortWhenFalse);
+        }
+    }
+    RecentGains[0] = 0;
+    RecentGains[1] = 0;
+    RecentGains[2] = 0;
+}

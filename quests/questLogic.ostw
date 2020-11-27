@@ -4,13 +4,12 @@ rule: "[Quest] Pick New Quest"
 if (CurrentQuest == 0)
 {
     MinWait();
-    SetMatchTime(3600);
     QuestSuccess = 2;
     
     if (QuestHeaderTextId > 0) {
         DestroyHudText(QuestHeaderTextId);
     }
-    SetObjectiveDescription(AllPlayers(Team.Team2),
+    SetObjectiveDescription(AllPlayers(Team.All),
         "Relax, kill some mobs, and await your next quest.",
         ObjectiveRev.VisibleToAndString);
     

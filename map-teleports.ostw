@@ -1,0 +1,52 @@
+import "utils/index.ostw";
+
+rule: "[HUD] Teleports"
+{
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Green, SecondPointToFirstPointLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Hunting Grounds [PvE]", SecondPointToFirstPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Green, Spectators.DefaultVisibility);
+	
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, FirstPointToSecondPointLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "City", FirstPointToSecondPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Blue, Spectators.DefaultVisibility);
+	
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, SecondPointToThirdPointLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "Deadly Castle [PvPvE]", SecondPointToThirdPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Orange, Spectators.DefaultVisibility);
+	
+    CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, ThirdPointToSecondPointLoc, 2, EffectRev.VisibleToPositionAndRadius);
+	CreateInWorldText(AllPlayers(Team.All), "City", ThirdPointToSecondPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Blue, Spectators.DefaultVisibility);
+}
+
+rule: "[Teleport] Second Point to First Point"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact))
+if (DistanceBetween(Player, SecondPointToFirstPointLoc) <= 2)
+{
+    Teleport(Player, root.FirstPointSpawnLoc);
+    PeaceMode = true;
+}
+
+rule: "[Teleport] First Point to Second Point"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact))
+if (DistanceBetween(Player, FirstPointToSecondPointLoc) <= 2)
+{
+    Teleport(Player, root.SecondPointFromFirstPointSpawnLoc);
+    PeaceMode = true;
+}
+
+rule: "[Teleport] Second Point to Third Point"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact))
+if (DistanceBetween(Player, SecondPointToThirdPointLoc) <= 2)
+{
+    Teleport(Player, root.ThirdPointSpawnLoc);
+    PeaceMode = false;
+}
+
+rule: "[Teleport] Third Point to Second Point"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact))
+if (DistanceBetween(Player, ThirdPointToSecondPointLoc) <= 2)
+{
+    Teleport(Player, root.SecondPointFromThirdPointSpawnLoc);
+    PeaceMode = true;
+}

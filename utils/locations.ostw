@@ -1,3 +1,5 @@
+globalvar define ChillLocation = Vector(53.352, 19.025, -102.909);
+
 globalvar define JumpSpeedTraitEffectLoc = Vector(54.679, 19.296, -78.67);
 globalvar define MoveSpeedTraitEffectLoc = Vector(53.796, 19.296, -82.06);
 globalvar define AmmoCapacityTraitEffectLoc = Vector(57.326, 19.296, -83.016);
@@ -11,10 +13,20 @@ globalvar define HealthStatEffectLoc = Vector(56.398, 12.975, -81.814);
 globalvar define DamageReceivedStatEffectLoc = Vector(54.539, 12.975, -77.976);
 globalvar define HealingStatEffectLoc = Vector(56.873, 12.975, -78.476);
 
-globalvar define SlotMachineLoc = Vector(93.966, 12.074, -35.155);
-globalvar define CelestialSlotMachineLoc = Vector(118.238, 10.07, -48.792);
+globalvar define SlotMachineLoc = Vector(102.467, 13.723, -111.046);
+globalvar define CelestialSlotMachineLoc = Vector(104.535, 13.723, -107.014);
 globalvar define UseExperiencePotionLoc = Vector(59.776, 6.175, -95.982);
 globalvar define UseMoneyBagLoc = Vector(56.444, 6.225, -87.247);
 globalvar define TossWishingStarLoc = Vector(66.607, 5.973, -83.277);
 
 globalvar define TraitInfoTextLoc = Vector(55.046, 20.980, -79.911);
+
+globalvar define SecondPointToFirstPointLoc = Vector(37.514, 5.353, -64.745);
+globalvar define FirstPointToSecondPointLoc = Vector(32.958, 5.267, -61.957);
+globalvar define SecondPointToThirdPointLoc = Vector(88.708, 13.098, -68.150);
+globalvar define ThirdPointToSecondPointLoc = Vector(90.639, 13.178, -58.098);
+
+globalvar define FirstPointSpawnLoc = Vector(27.807, 6.062, -60.547);
+globalvar define SecondPointFromFirstPointSpawnLoc = Vector(42.491, 6.410, -67.231);
+globalvar define SecondPointFromThirdPointSpawnLoc = Vector(87.752, 13.904, -73.025);
+globalvar define ThirdPointSpawnLoc = Vector(91.933, 13.931, -52.890);

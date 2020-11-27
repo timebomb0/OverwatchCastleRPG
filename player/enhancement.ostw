@@ -1,6 +1,5 @@
 import "../utils/index.ostw";
 
-
 rule: "[Enchant] Success"
 Event.OngoingPlayer
 Team.Team2

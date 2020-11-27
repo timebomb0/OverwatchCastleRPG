@@ -9,3 +9,6 @@ define RightHUDHeader(define players, define headerString, define subHeaderStrin
 
 define TopHUDHeader(define players, define headerString, define subHeaderString, Color headerColor, Color subHeaderColor, define sortOrder = 0):
     CreateHudText(players, headerString, subHeaderString, null, Location.Top, sortOrder, headerColor, subHeaderColor, Color.White, HudTextRev.VisibleToAndString);
+
+define TopHUDSubheader(define players, define string, Color color, define sortOrder = 0):
+    CreateHudText(players, null, string, null, Location.Top, sortOrder, Color.White, color, Color.White, HudTextRev.VisibleToAndString);

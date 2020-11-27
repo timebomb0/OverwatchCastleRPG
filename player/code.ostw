@@ -60,9 +60,9 @@ if (IsEnteringCode == true)
     define selectedVector! = FirstOf(SortedArray([CodeInput1, CodeInput2, CodeInput3, CodeInput4, CodeInput5], AngleBetweenVectors(FacingDirectionOf(Player), DirectionTowards(EyePosition(Player), ArrayElement()))));
     InputtedCode = Append(InputtedCode, CodeDictionary.Of(selectedVector));
     InputtedCodeAsText = "";
-    for (define i = 0; i < CountOf(InputtedCode); i++)
+    for (root.Itr = 0; root.Itr < CountOf(InputtedCode); root.Itr++)
     {
-        InputtedCodeAsText = <@"<0> <1>", InputtedCodeAsText, InputtedCode[i]>;
+        InputtedCodeAsText = <@"<0> <1>", InputtedCodeAsText, InputtedCode[root.Itr]>;
     }
     // TODO: Implement saving
     // TODO: Finish implement loading - need to decode inputted code into variables.
@@ -73,9 +73,9 @@ Event.OngoingPlayer
 if (IsEnteringCode == true)
 if (DistanceBetween(Vector(-1.869, 7.75, -71.407), Player) > 2.5)
 {
-   for (define i = 0; i < CountOf(CodeInWorldTextIds); i++)
+   for (root.Itr = 0; root.Itr < CountOf(CodeInWorldTextIds); root.Itr++)
     {
-       DestroyInWorldText(CodeInWorldTextIds[i]);
+       DestroyInWorldText(CodeInWorldTextIds[root.Itr]);
     }
     InputtedCode = "";
     IsEnteringCode = false;

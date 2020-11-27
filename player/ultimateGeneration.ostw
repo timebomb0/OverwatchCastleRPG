@@ -2,10 +2,10 @@ import "../utils/index.ostw";
 
 rule: "[Ultimate] Passive Ultimate Generation"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 {
 	Wait(UltimateTickRate, WaitBehavior.AbortWhenFalse);
 	UltimateNumber += UltimateGain;
 	SetUltimateCharge(Player, UltimateNumber);
-	Loop();
+	LoopIfConditionIsTrue();
 }

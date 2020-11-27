@@ -2,18 +2,20 @@ import "../utils/index.ostw";
 
 rule: "[Player] Level Up"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (EXP >= EXPToLevelUp)
 {
     EXP = EXP - EXPToLevelUp;
     PlayerLevel += 1;
+    MinWait();
+    SetPlayerScore(Player, PlayerLevel);
     StatPoints += root.StatPointsPerLevel;
     if (PlayerLevel % root.TraitPointGainedEveryXLevels == 0) {
         TraitPoints += 1;
     }
     EXPToLevelUp *= MaxXPGrowthPerLevel;
-    PlayEffect(AllPlayers(Team.Team2), PlayEffect.BuffExplosionSound, Color.White, Player, 100);
-	PlayEffect(AllPlayers(Team.Team2), PlayEffect.RingExplosion, Color.Green, Player, 12);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 100);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Green, Player, 12);
     
     NewMessage(<"Ding! You leveled up to <0>!", PlayerLevel>);
     // Loops if you have >1 level of xp, e.g. from wishing star
@@ -22,7 +24,7 @@ if (EXP >= EXPToLevelUp)
 
 rule: "[Player] Catch-Up Enabled"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (PlayerLevel <= root.AveragePlayerLevel * 0.85)
 if (CatchUpEnabled == false)
 {
@@ -34,7 +36,7 @@ if (CatchUpEnabled == false)
 
 rule: "[Player] Catch-Up Disabled"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (PlayerLevel > root.AveragePlayerLevel * 0.85)
 if (CatchUpEnabled == true)
 {

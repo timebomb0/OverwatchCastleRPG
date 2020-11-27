@@ -1,83 +1,37 @@
 import "customGameSettings.json";
-import "initialSettings.ostw";
 import "utils/index.ostw";
+import "globalVarSetters.ostw";
+import "initialSettings.ostw";
 import "mobs/index.ostw";
-// import "worldUnlocks.ostw";
 import "hud.ostw";
+import "map-teleports.ostw";
 import "items/index.ostw";
 import "player/index.ostw";
 import "purchase/index.ostw";
-// import "guides.ostw";
 // import "player/code.ostw";
 import "quests/index.ostw";
-
-rule: "[All World] Mob Health 1-2 Team Members"
-if (IsGameInProgress() == true)
-if (NumberOfPlayers(Team.Team2) <= 2)
-if (MobHealthModifier != 0.88)
-{
-	MobHealthModifier = 0.88;
-}
-
-rule: "[All World] Mob Health 3 Team Members"
-if (IsGameInProgress() == true)
-if (NumberOfPlayers(Team.Team2) == 3)
-if (MobHealthModifier != 0.81)
-{
-	MobHealthModifier = 0.81;
-}
-
-rule: "[All World] Mob Health 4 Team Members"
-if (IsGameInProgress() == true)
-if (NumberOfPlayers(Team.Team2) == 4)
-if (MobHealthModifier != 0.76)
-{
-	MobHealthModifier = 0.76;
-}
-
-rule: "[All World] Mob Health 5 Team Members"
-if (IsGameInProgress() == true)
-if (NumberOfPlayers(Team.Team2) == 5)
-if (MobHealthModifier != 0.7)
-{
-	MobHealthModifier = 0.7;
-}
-
-rule: "[All World] Mob Health 6 Team Members"
-if (IsGameInProgress() == true)
-if (NumberOfPlayers(Team.Team2) == 6)
-if (MobHealthModifier != 0.66)
-{
-	MobHealthModifier = 0.66;
-}
-
-rule: "[All World] Mob Health 7 Team Members"
-if (IsGameInProgress() == true)
-if (NumberOfPlayers(Team.Team2) == 7)
-if (MobHealthModifier != 0.64)
-{
-	MobHealthModifier = 0.64;
-}
 
 // TODO: COMMENT THIS OUT
 rule: "[All World] Debug ***********************************************************************************************"
 Event.OngoingPlayer
-Team.Team2
+if(!IsDummyBot(Player))
 if (IsButtonHeld(Player, Button.Ultimate) == true)
 if (IsButtonHeld(Player, Button.Crouch) == true)
 if (HostPlayer() == true)
 {
-	AllPlayers(Team.Team2).Coins += 10000 * 15;
-	AllPlayers(Team.Team2).Item_WishingStar += 3;
-	AllPlayers(Team.Team2).Item_MoneyBag += 10;
-	AllPlayers(Team.Team2).Item_ExperiencePotion += 10;
-	AllPlayers(Team.Team2).EXP += root.EXPToLevelUp * 31;
+	AllPlayers(Team.All).Coins += 10000 * 15;
+	AllPlayers(Team.All).Item_WishingStar += 3;
+	AllPlayers(Team.All).Item_MoneyBag += 10;
+	AllPlayers(Team.All).Item_ExperiencePotion += 10;
+	AllPlayers(Team.All).EXP += root.EXPToLevelUp * 31;
 
-	BigMessage(AllPlayers(Team.Team2), "Cheat Mode activated by Host - Enjoy your free stuff!");
+	BigMessage(AllPlayers(Team.All), "Cheat Mode activated by Host - Enjoy your free stuff!");
 }
+
+// TODO Fix this so not using isinspawnroom due to deathmatch not having spawn room
 rule: "[All World] Team 2 Respawn"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (IsInSpawnRoom(Player) == true)
 {
 	if (!NewPlayerInitialTeleport) {
@@ -88,55 +42,9 @@ if (IsInSpawnRoom(Player) == true)
 	}
 }
 
-rule: "[Energy] Upgrade Lv Up Reward Etc"
-if (EnergyPoints >= EnergyToLvUp)
+rule: "[Match] Reset match time"
+if (IsGameInProgress())
+if (MatchTime() < 120)
 {
-	Wait(0.25, WaitBehavior.IgnoreCondition);
-	WaveSet = 50;
-	EnergyPoints = 0;
-	Wait(1, WaitBehavior.IgnoreCondition);
-	LoopIfConditionIsTrue();
-}
-
-rule: "[All World] Set New Wave on Energy 1000"
-if (EnergyPoints >= EnergyToLvUp)
-{
-	SetNewWave = true;
-}
-
-rule: "[All World] Set Wave"
-if (SetNewWave == true)
-{
-	IsBreakTime = true;
-	Wait(0.5, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team1).DamageDealt = [];
-	AllPlayers(Team.Team1).HP = [];
-	AllPlayers(Team.Team1).MoveSpeed = [];
-	Heal(AllPlayers(Team.Team2), null, 500);
-	WaveSet = RandomInteger(1,11);
-	if (WaveSet == LastWaveSet)
-	{
-		WaveSet = RandomInteger(1,11);
-		if (WaveSet == LastWaveSet)
-		{
-			if (LastWaveSet == 1)
-			{
-				WaveSet = 2;
-			}
-			else
-			{
-				WaveSet = LastWaveSet - 1;
-			}
-		}
-	}
-	LastWaveSet = WaveSet;
-	Wait(1.1, WaitBehavior.IgnoreCondition);
-	AllPlayers(Team.Team1).DamageDealt = [];
-	SetNewWave = false;
-}
-
-rule: "[Energy] Inactivity Energy Drain"
-if (EnergyPoints > 0)
-{
-	ChaseVariableAtRate(EnergyPoints, 0, NumberOfPlayers(Team.Team2) * 2, RateChaseReevaluation.DestinationAndRate);
+	SetMatchTime(3600);
 }

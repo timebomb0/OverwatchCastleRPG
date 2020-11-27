@@ -4,7 +4,6 @@ import "hud/statUpgrades.ostw";
 
 rule: "[Upgrade] BasicDamageUpgrade"
 Event.OngoingPlayer
-Team.Team2
 if (StatPoints >= 1)
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
@@ -20,7 +19,6 @@ if (DistanceBetween(Player, Vector(53.993, 12.975, -81.314)) <= 1.5)
 
 rule: "[Upgrade] BasicHealthUpgrade"
 Event.OngoingPlayer
-Team.Team2
 if (StatPoints >= 1)
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
@@ -30,18 +28,14 @@ if (DistanceBetween(Player, Vector(56.398, 12.975, -81.814)) <= 1.5)
 	StatPoints = StatPoints - 1;
 	HP += 1;
 	SetMaxHealth(Player, HP);
-	if (IsBreakTime == true)
-	{
-		MinWait();
-		SetPlayerHealth(Player, MaxHealth(Player));
-	}
+	MinWait();
+	SetPlayerHealth(Player, MaxHealth(Player));
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
 	LoopIfConditionIsTrue();
 }
 
 rule: "[Upgrade] BasicDamageReceiveUpgrade"
 Event.OngoingPlayer
-Team.Team2
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (DamageReceive > 40)
 if (StatPoints >= 1)
@@ -58,7 +52,6 @@ if (DistanceBetween(Player, Vector(54.539, 12.975, -77.976)) <= 1.5)
 
 rule: "[Upgrade] BasicHealingDealtUpgrade"
 Event.OngoingPlayer
-Team.Team2
 if (StatPoints >= 1)
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)

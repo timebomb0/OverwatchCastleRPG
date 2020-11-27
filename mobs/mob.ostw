@@ -53,9 +53,9 @@ class Mob {
 	public void handleDead()
 	{
 		root.playerItr[SlotOf(root.Player)] = 0;
-		while (root.playerItr[SlotOf(root.Player)] < CountOf(AllPlayers(Team.Team2)))
+		while (root.playerItr[SlotOf(root.Player)] < CountOf(root.PlayerList))
 		{
-			define aPlayer = AllPlayers(Team.Team2)[root.playerItr[SlotOf(root.Player)]];
+			define aPlayer = root.PlayerList[root.playerItr[SlotOf(root.Player)]];
 			MinWait();
 
 			define _chillingMobRewardModifier = aPlayer.ChillModeEnabled ? 0.5 : 1;
@@ -64,99 +64,69 @@ class Mob {
 			// aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * _chillingMobRewardModifier, Rounding.Nearest);
 			aPlayer._MobVars[2] = 1;
 			MinWait();
-
+			
 			aPlayer.EXP += aPlayer._MobVars[0];
 			aPlayer.Coins += aPlayer._MobVars[1];
 			aPlayer.Item_Trinket += aPlayer._MobVars[2];
+
+			aPlayer.RecentGains[0] += aPlayer._MobVars[0];
+			aPlayer.RecentGains[1] += aPlayer._MobVars[1];
+			aPlayer.RecentGains[2] += aPlayer._MobVars[2];
 
 			root.playerItr[SlotOf(root.Player)] += 1;
 			MinWait();
 		}
 
-		PlayEffect(AllPlayers(Team.Team2), PlayEffect.BadPickupEffect, Color.Red, PositionOf(root.Player), 2);
-		root.EnergyPoints += EnergyOnKill * root.EnergyMultiplier;
+		PlayEffect(AllPlayers(Team.All), PlayEffect.BadPickupEffect, Color.Red, PositionOf(root.Player), 2);
 		root.MobKills += 1;
 		if (root.CurrentQuest == 2) {
 			root.CurrentQuestKills += 1;
 		}
-		
-		if (root.MobLootWorldText[SlotOf(root.Player)] > 0) {
-			DestroyInWorldText(root.MobLootWorldText[SlotOf(root.Player)]);
-		}
-
-		CreateInWorldText(
-			AllPlayers(Team.Team2),
-				<"+<0> XP & +<1> Coins & +<2> Trinkets",
-				AllPlayers(Team.Team2)._MobVars[0],
-				AllPlayers(Team.Team2)._MobVars[1],
-				AllPlayers(Team.Team2)._MobVars[2]
-			>,
-			PositionOf(EvaluateOnce(root.Player) + Vector(0, (RandomInteger(1, 15) / 10), 0)), 1.2, Clipping.DoNotClip, InworldTextRev.VisibleTo, Color.Yellow, Spectators.DefaultVisibility);
-		root.MobLootWorldText[SlotOf(root.Player)] = LastTextID();
-
-		Wait(3, WaitBehavior.IgnoreCondition);
-		DestroyInWorldText(root.MobLootWorldText[SlotOf(root.Player)]);
 	}
 
 	public void despawn(ref define mob)
 	{
-		Kill(mob, null);
 		PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, mob, 100);
-		
 		if (root.CurrentQuest == 1 && root.CoreHealth > 0) {
 			root.CoreHealth -= 1;
 		}
+		Kill(mob, null);
 	}
 
 	public void spawn()
 	{
-		DestroyAllDummyBots();
-		BigMessage(AllPlayers(Team.All), <"<0>s defeated! Next wave in <1> seconds.", HeroMob, root.BreakTime>);
-		Wait(root.BreakTime, WaitBehavior.AbortWhenFalse);
-		root.IsBreakTime = false;
-		root.MobKills = 0;
-		BigMessage(AllPlayers(Team.All), SpawnMessage);
-		CreateDummyBot(HeroMob, Team.Team1, 0, Vector(0, 0, 0), Vector(0, 0, 0));
-		CreateDummyBot(HeroMob, Team.Team1, 1, Vector(0, 0, 0), Vector(0, 0, 0));
-		CreateDummyBot(HeroMob, Team.Team1, 2, Vector(0, 0, 0), Vector(0, 0, 0));
-		CreateDummyBot(HeroMob, Team.Team1, 3, Vector(0, 0, 0), Vector(0, 0, 0));
-		CreateDummyBot(HeroMob, Team.Team1, 4, Vector(0, 0, 0), Vector(0, 0, 0));
-		Wait(1, WaitBehavior.IgnoreCondition);
-		define playerCount = CountOf(AllPlayers(Team.Team2));
-		define totalPlayerLevel = 0;
-		for (define i = 0; i < playerCount; i++) {
-			totalPlayerLevel += AllPlayers(Team.Team2)[i].PlayerLevel;
-		}
+		CreateDummyBot(HeroMob, Team.All, root.CurrentMobSlot, Vector(0, 0, 0), Vector(0, 0, 0));
+		MinWait();
+    	root.BotList = FilteredArray(AllPlayers(Team.All), IsDummyBot(ArrayElement()));
+		MinWait();
+
 		root.UpdateAveragePlayerLevel();
-		AllPlayers(Team.Team1).PlayerLevel = root.AveragePlayerLevel;
+		define mob = PlayersInSlot(root.CurrentMobSlot, Team.All);
+		mob.PlayerLevel = root.AveragePlayerLevel;
+
+		StartDamageModification(mob, root.BotList, 0, DamageModificationRev.ReceiversAndDamagers);
+
 		define MobLevelModifier = 1 + (root.AveragePlayerLevel * 0.4);
 		SetHealingReceived(PlayersOnHero(HeroMob, Team.Team1), 0);
-		SetMaxHealth(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
+		SetMaxHealth(mob, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * CountOf(root.PlayerList) * MaxHealth);
 		MinWait();
-		SetPlayerHealth(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
-		SetDamageDealt(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
-		SetMoveSpeed(PlayersOnHero(HeroMob, Team.Team1), MobLevelModifier * root.MobSpeedModifier * MoveSpeed);
-	}
+		SetPlayerHealth(mob, MaxHealth(mob));
+		SetDamageDealt(mob, MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
+		SetMoveSpeed(mob, (MobLevelModifier / 2) * root.MobSpeedModifier * MoveSpeed);
 
-	public void respawn()
-	{
-		Wait(root.MobRespawnTime, WaitBehavior.IgnoreCondition);
-		root.UpdateAveragePlayerLevel();
-		define MobLevelModifier = 1 + (root.AveragePlayerLevel * 0.4);
-		SetMaxHealth(root.Player, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * NumberOfPlayers(Team.Team2) * MaxHealth);
-		MinWait();
-		SetPlayerHealth(root.Player, MaxHealth(root.Player));
-		SetDamageDealt(root.Player, MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
-		SetMoveSpeed(root.Player, (MobLevelModifier / 2) * root.MobSpeedModifier * MoveSpeed);
-		root.Player.PlayerLevel = root.AveragePlayerLevel;
+		CreateInWorldText(
+			AllPlayers(Team.All),
+			<"Level <0>", mob.PlayerLevel>,
+			mob, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Red, Spectators.DefaultVisibility);
+		mob.MobLevelText = LastTextID();
 	}
-
+	
 	public void attack(ref define mob)
 	{
-		define randomChance = RandomInteger(1, 100);
+		root.RandomNumber = RandomInteger(1, 100);
 		Wait(0.1, WaitBehavior.IgnoreCondition);
 	
-		if (AutoUltChance != false && randomChance <= AutoUltChance && IsUsingUltimate(mob) != true) {
+		if (AutoUltChance != false && root.RandomNumber <= AutoUltChance && IsUsingUltimate(mob) != true) {
 			SetUltimateCharge(mob, 100);
 			Wait(0.1, WaitBehavior.IgnoreCondition);
 			PressButton(mob, Button.Ultimate);
@@ -175,12 +145,12 @@ class Mob {
 			}
 		}
 
-		if (AutoAbility1Chance != false && randomChance <= AutoAbility1Chance) {
+		if (AutoAbility1Chance != false && root.RandomNumber <= AutoAbility1Chance) {
 			PressButton(mob, Button.Ability1);
 			mob.MobHasAttacked = true;
 		}
 
-		if (AutoAbility2Chance != false && randomChance <= AutoAbility2Chance) {
+		if (AutoAbility2Chance != false && root.RandomNumber <= AutoAbility2Chance) {
 			if (mob.MobHasAttacked == true) {
 				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
 			}
@@ -193,7 +163,7 @@ class Mob {
 			mob.MobHasAttacked = true;
 		}
 
-		if (AutoPrimaryAtkChance != false && randomChance <= AutoPrimaryAtkChance) {
+		if (AutoPrimaryAtkChance != false && root.RandomNumber <= AutoPrimaryAtkChance) {
 			if (mob.MobHasAttacked == true) {
 				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
 			}
@@ -208,7 +178,7 @@ class Mob {
 			mob.MobHasAttacked = true;
 		}
 
-		if (AutoSecondaryAtkChance != false && randomChance <= AutoSecondaryAtkChance) {
+		if (AutoSecondaryAtkChance != false && root.RandomNumber <= AutoSecondaryAtkChance) {
 			if (mob.MobHasAttacked == true) {
 				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
 			}

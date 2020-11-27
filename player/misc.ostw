@@ -3,7 +3,7 @@ import "traits/index.ostw";
 
 rule: "[Ultimate] Reset"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (IsButtonHeld(Player, Button.Ultimate) == true)
 if (UltimateNumber >= 100)
 {
@@ -12,7 +12,7 @@ if (UltimateNumber >= 100)
 
 rule: "[All World] Current Player Changed Hero"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (HeroChanged == true)
 {
 	UpdateAmmoOnHeroChange();
@@ -21,7 +21,7 @@ if (HeroChanged == true)
 
 rule: "[All World] Current Player's Hero"
 Event.OngoingPlayer
-Team.Team2
+if (!IsDummyBot(Player))
 if (IsAlive(Player) == true)
 {
 	if (CurrentHero != HeroOf(Player))
@@ -29,4 +29,12 @@ if (IsAlive(Player) == true)
 		HeroChanged = true;
 		CurrentHero = HeroOf(Player);
 	}
+}
+
+rule: "[Score] Adjust score"
+Event.OngoingPlayer
+if (!IsDummyBot(Player))
+if (ScoreOf(Player) != Player.PlayerLevel)
+{
+	SetPlayerScore(Player, PlayerLevel);
 }

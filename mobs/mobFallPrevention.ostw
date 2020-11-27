@@ -3,72 +3,156 @@ import "../utils/index.ostw";
 
 rule: "[All World] Prevent Pit"
 Event.OngoingPlayer
-Team.Team1
+if (IsDummyBot(Player))
 if (YOf(PositionOf(Player)) <= 0.5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, Vector(59.755, 10, -96.69));
+	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
 }
 
+// After initial spawn bridge
 rule: "[All World] Prevent 1"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(62.483, 8.025, -107.347)) <= 4)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-12.11, 6.27, -55.49)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, Vector(59.755, 10, -96.69));
+	Teleport(Player, Vector(-2.16, 5.99, -55.18));
 }
 
 rule: "[All World] Prevent 2"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(65.461, 6.385, -83.03)) <= 4)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-15.14, 4.27, -63.85)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, Vector(59.755, 10, -96.69));
+	Teleport(Player, Vector(0.67, 7.37, -60.67));
 }
 
 rule: "[All World] Prevent 3"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(85.171, 13.857, -79.456)) <= 5)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-11.53, 2.5, -69.28)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, Vector(59.755, 10, -96.69));
+	Teleport(Player, Vector(-1.25, 6.5, -63.07));
 }
 
 rule: "[All World] Prevent 4"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(77.336, 12.026, -110.314)) <= 4)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-4.43, 6.31, -94.08)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
+	Teleport(Player, Vector(5.44, 5.94, -82.35));
 }
 
 rule: "[All World] Prevent 5"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(68.725, 10.709, -108.544)) <= 3)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(3.28, 6.31, -100.04)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
+	Teleport(Player, Vector(5.44, 5.94, -82.35));
 }
 
+
+// Before initial spawn bridge
 rule: "[All World] Prevent 6"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(64.734, 8.647, -107.525)) <= 3)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(31.54, 4.89, -25.66)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
+	Teleport(Player, Vector(20.56, 3.84, -27.72));
 }
 
-rule: "[All World] BigPrevent 7"
+rule: "[All World] Prevent 7"
 Event.OngoingPlayer
-Team.Team1
-if (DistanceBetween(Player, Vector(84.64, 14.032, -80.452)) <= 14)
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(31.26, 1.89, -15.84)) <= 5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
+	Teleport(Player, Vector(20.56, 3.84, -27.72));
+}
+
+rule: "[All World] Prevent 8"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(29.21, 2.58, -11.39)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(20.56, 3.84, -27.72));
+}
+
+rule: "[All World] Prevent 9"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(26.46, 2.99, -5.88)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(5.24, 0.06, -7.67));
+}
+
+rule: "[All World] Prevent 10"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(21.56, 1.99, -2.76)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(5.24, 0.06, -7.67));
+}
+
+rule: "[All World] Prevent 11"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(17.49, 1.99, -1.2)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(5.24, 0.06, -7.67));
+}
+
+rule: "[All World] Prevent 12"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-33.04, -1.63, -3.06)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(-18.07, -0.5, -15.71));
+}
+
+rule: "[All World] Prevent 13"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-31.92, -1.09, -10.57)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(-18.07, -0.5, -15.71));
+}
+
+rule: "[All World] Prevent 14"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-32.79, -1.07, -18.02)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(-18.07, -0.5, -15.71));
+}
+
+rule: "[All World] Prevent 15"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-34.25, 0.61, -25.44)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(-23.307, 3.144, -36.448));
+}
+
+rule: "[All World] Prevent 16"
+Event.OngoingPlayer
+if (IsDummyBot(Player))
+if (DistanceBetween(Player, Vector(-35.65, 1.64, -32.85)) <= 5)
+{
+	SetStatus(Player, null, Status.Frozen, 0.5);
+	Teleport(Player, Vector(-23.307, 3.144, -36.448));
 }

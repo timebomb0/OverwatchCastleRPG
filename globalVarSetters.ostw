@@ -1,0 +1,13 @@
+import "utils/index.ostw";
+
+rule: "[Global] Player List - Join"
+Event.OnPlayerJoin
+{
+    root.PlayerList = FilteredArray(AllPlayers(Team.All), !IsDummyBot(ArrayElement()));
+}
+
+rule: "[Global] Player List - Leave"
+Event.OnPlayerLeave
+{
+    root.PlayerList = FilteredArray(AllPlayers(Team.All), !IsDummyBot(ArrayElement()));
+}
