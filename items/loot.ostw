@@ -20,11 +20,11 @@ if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 	SmallMessage(Player, "Consuming Experience Potion...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, Player, 100);
-	Pointloot = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
+	define loot! = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
 	Item_ExperiencePotion -= 1;
 	MinWait();
-	NewMessage(<"Gained <0> Experience Points!", Pointloot>);
-	EXP += Pointloot;
+	NewMessage(<"Gained <0> Experience Points!", loot>);
+	EXP += loot;
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
 }
@@ -39,11 +39,11 @@ if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 	SmallMessage(Player, "Opening Money Bag...");
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, Player, 100);
-	Pointloot = RandomInteger(500, 10000);
+	define loot! = RandomInteger(500, 10000);
 	Item_MoneyBag -= 1;
 	MinWait();
-	Coins += Pointloot;
-	NewMessage(<"Received <0> Coins from Opening Money Bag", Pointloot>);
+	Coins += loot;
+	NewMessage(<"Received <0> Coins from Opening Money Bag", loot>);
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
 }
@@ -59,15 +59,15 @@ if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 	Wait(1, WaitBehavior.AbortWhenFalse);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, Color.White, Player, 100);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Violet, Player, 8);
-	root.RandomNumber = RandomInteger(1,1);
+	define rand! = RandomInteger(1,1);
 	Item_WishingStar -= 1;
 	MinWait();
 	
-	if (root.RandomNumber == 1) {
-		root.RandomNumber = RandomInteger(1, 2);
+	if (rand == 1) {
+		rand = RandomInteger(1, 2);
 		MinWait();
-		NewMessage(<"Wishing Star has granted you <0> Free Level(s)", root.RandomNumber>);
-		BigMessage(AllPlayers(Team.All), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, root.RandomNumber>);
-		EXP = EXP + (EXPToLevelUp * WishingStarXPLevelGainMultiplier[root.RandomNumber]);
+		NewMessage(<"Wishing Star has granted you <0> Free Level(s)", rand>);
+		BigMessage(AllPlayers(Team.All), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, rand>);
+		EXP = EXP + (EXPToLevelUp * WishingStarXPLevelGainMultiplier[rand]);
 	}
 }

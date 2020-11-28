@@ -1,0 +1,65 @@
+import "../utils/index.ostw";
+
+enum MineNodeType {
+    Coins,
+    Trinkets,
+    MoneyBag,
+    ExperiencePotion,
+    WishingStar
+}
+
+class MineNode {
+    public define Location;
+    private MineNodeType Type;
+    private define EffectId;
+
+    // Variables used only by methods
+    private define color;
+    private define rand;
+
+    public MineNode(ref define location) {
+        Location = location;
+
+        rand = RandomInteger(1, 100);
+        MinWait();
+        if (rand >= 99) {
+            Type = MineNodeType.WishingStar;
+        } else if (rand >= 95) {
+            Type = MineNodeType.ExperiencePotion;
+        } else if (rand >= 85) {
+            Type = MineNodeType.Trinkets;
+        } else if (rand >= 72) {
+            Type = MineNodeType.MoneyBag;
+        } else {
+            Type = MineNodeType.Coins;
+        }
+        MinWait();
+
+        switch(Type) {
+            case MineNodeType.Coins:
+                color = Color.Yellow;
+                break;
+            case MineNodeType.ExperiencePotion:
+                color = Color.Rose;
+                break;
+            case MineNodeType.MoneyBag:
+                color = Color.Green;
+                break;
+            case MineNodeType.Trinkets:
+                color = Color.Red;
+                break;
+            case MineNodeType.WishingStar:
+                color = Color.Purple;
+                break;
+        }
+        MinWait();
+        
+        CreateEffect(AllPlayers(), Effect.Sphere, color, Location, 0.2, EffectRev.VisibleTo);
+        EffectId = LastCreatedEntity();
+    }
+
+    public void consume(ref define player) {
+        root.NewMessage("TODO: Mining node reward");
+        DestroyEffect(EffectId);
+    }
+}

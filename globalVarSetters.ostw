@@ -1,13 +1,32 @@
 import "utils/index.ostw";
 
+
+// PlayerList[0] is all players
+// PlayerList[1/2/3] is players in the 1st/2nd/3rd zones
 rule: "[Global] Player List - Join"
 Event.OnPlayerJoin
 {
-    root.PlayerList = FilteredArray(AllPlayers(Team.All), !IsDummyBot(ArrayElement()));
+    root.PlayerList[0] = FilteredArray(AllPlayers(Team.All), !IsDummyBot(ArrayElement()));
+    root.PlayerList[2] = FilteredArray(root.PlayerList[0], ArrayElement().CurrentZone == 2);
 }
 
 rule: "[Global] Player List - Leave"
 Event.OnPlayerLeave
 {
-    root.PlayerList = FilteredArray(AllPlayers(Team.All), !IsDummyBot(ArrayElement()));
+    root.PlayerList[0] = FilteredArray(AllPlayers(Team.All), !IsDummyBot(ArrayElement()));
+    MinWait();
+    root.PlayerList[Player.CurrentZone] = FilteredArray(root.PlayerList[0], ArrayElement().CurrentZone == Player.CurrentZone);
+}
+
+rule: "[Global] Zone Player List - On Zone Change"
+Event.OngoingPlayer
+if (CurrentZone != PreviousCurrentZone)
+{
+    root.PlayerList[CurrentZone] = FilteredArray(root.PlayerList[0], ArrayElement().CurrentZone == CurrentZone);
+    if (PreviousCurrentZone > 0) {
+        root.PlayerList[PreviousCurrentZone] = FilteredArray(root.PlayerList[0], ArrayElement().PreviousCurrentZone == PreviousCurrentZone);
+    }
+    PreviousCurrentZone = CurrentZone;
+    MinWait();
+    LoopIfConditionIsTrue();
 }

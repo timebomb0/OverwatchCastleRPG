@@ -14,5 +14,5 @@ if (CurrentQuest == 0)
         ObjectiveRev.VisibleToAndString);
     
     Wait(RandomInteger(30, 60), WaitBehavior.AbortWhenFalse);
-    CurrentQuest = RandomInteger(1, 2);
+    CurrentQuest = RandomInteger(2, 2);
 }

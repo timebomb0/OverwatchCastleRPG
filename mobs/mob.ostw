@@ -21,6 +21,11 @@ class Mob {
 	public define AttackDuringUlt;
 	public define AttackInterval;
 	
+	// Vars set/used only in methods
+	private define chillingMobRewardModifier;
+	private define levelMobRewardModifier;
+	private define attackerMobRewardModifier;
+
 	public Mob(ref define heroMob, ref define coinsOnKill, ref define trinketOnKill,
 				ref define energyOnKill, ref define expOnKill,
 				ref define spawnMessage,
@@ -53,16 +58,27 @@ class Mob {
 	public void handleDead()
 	{
 		root.playerItr[SlotOf(root.Player)] = 0;
-		while (root.playerItr[SlotOf(root.Player)] < CountOf(root.PlayerList))
+		while (root.playerItr[SlotOf(root.Player)] < CountOf(root.PlayerList[0]))
 		{
-			define aPlayer = root.PlayerList[root.playerItr[SlotOf(root.Player)]];
+			define aPlayer = root.PlayerList[0][root.playerItr[SlotOf(root.Player)]];
 			MinWait();
 
-			define _chillingMobRewardModifier = aPlayer.ChillModeEnabled ? 0.5 : 1;
-			aPlayer._MobVars[0] = RoundToInteger(RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1) * aPlayer.EXPGainRate * (1 + (aPlayer.PlayerLevel / 50)), Rounding.Nearest);
-			aPlayer._MobVars[1] = RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * aPlayer.CoinGainRate  * _chillingMobRewardModifier * root.CoinsOnKillMultiplier, Rounding.Nearest);
-			// aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * _chillingMobRewardModifier, Rounding.Nearest);
-			aPlayer._MobVars[2] = 1;
+			chillingMobRewardModifier = aPlayer.ChillModeEnabled ? 0.5 : 1;
+			attackerMobRewardModifier = ArrayContains(root.Player.Attackers, aPlayer) ? 1 : 0.33;
+			// If player is much higher or lower level than mob, they get much lower rewards
+			if (
+				(aPlayer.PlayerLevel / 2 < root.Player.PlayerLevel && aPlayer.PlayerLevel - root.Player.PlayerLevel > 10) ||
+				(root.Player.PlayerLevel / 2 < aPlayer.PlayerLevel && root.Player.PlayerLevel - aPlayer.PlayerLevel > 10)
+			) {
+				levelMobRewardModifier = 0.2 * root.Player.PlayerLevel / 40;
+			} else {
+				levelMobRewardModifier = 1 + (aPlayer.PlayerLevel / 80) + (root.Player.PlayerLevel / 40);
+			}
+
+			aPlayer._MobVars[0] = RoundToInteger(RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1) * attackerMobRewardModifier * aPlayer.EXPGainRate * levelMobRewardModifier, Rounding.Nearest);
+			aPlayer._MobVars[1] = RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * attackerMobRewardModifier * aPlayer.CoinGainRate  * chillingMobRewardModifier * levelMobRewardModifier * root.CoinsOnKillMultiplier, Rounding.Nearest);
+			// aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * chillingMobRewardModifier, Rounding.Nearest);
+			aPlayer._MobVars[2] = RandomInteger(1, 4);
 			MinWait();
 			
 			aPlayer.EXP += aPlayer._MobVars[0];
@@ -93,22 +109,26 @@ class Mob {
 		Kill(mob, null);
 	}
 
-	public void spawn()
+	public void spawn(ref define slot, ref define mobId)
 	{
-		CreateDummyBot(HeroMob, Team.All, root.CurrentMobSlot, Vector(0, 0, 0), Vector(0, 0, 0));
+		CreateDummyBot(HeroMob, Team.All, slot, Vector(0, 0, 0), Vector(0, 0, 0));
 		MinWait();
     	root.BotList = FilteredArray(AllPlayers(Team.All), IsDummyBot(ArrayElement()));
 		MinWait();
 
-		root.UpdateAveragePlayerLevel();
-		define mob = PlayersInSlot(root.CurrentMobSlot, Team.All);
-		mob.PlayerLevel = root.AveragePlayerLevel;
-
+		root.UpdateAveragePlayerLevelZone1();
+		define mob = PlayersInSlot(slot, Team.All);
+		mob.MobId = mobId;
+		mob.PlayerLevel = RoundToInteger(RandomInteger(root.AveragePlayerLevel[1] * 0.9, root.AveragePlayerLevel[1] * 1.1), Rounding.Nearest);
+		if (mob.PlayerLevel < 1) {
+			mob.PlayerLevel = 1;
+		}
 		StartDamageModification(mob, root.BotList, 0, DamageModificationRev.ReceiversAndDamagers);
 
-		define MobLevelModifier = 1 + (root.AveragePlayerLevel * 0.4);
+		MinWait();
+		define MobLevelModifier = 1 + (mob.PlayerLevel * 0.3);
 		SetHealingReceived(PlayersOnHero(HeroMob, Team.Team1), 0);
-		SetMaxHealth(mob, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * CountOf(root.PlayerList) * MaxHealth);
+		SetMaxHealth(mob, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * (CountOf(root.PlayerList[1]) > 1 ? CountOf(root.PlayerList[1]) / 2 : 1) * MaxHealth);
 		MinWait();
 		SetPlayerHealth(mob, MaxHealth(mob));
 		SetDamageDealt(mob, MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
@@ -123,10 +143,14 @@ class Mob {
 	
 	public void attack(ref define mob)
 	{
-		root.RandomNumber = RandomInteger(1, 100);
+		define scaledAttackInterval! = AttackInterval * (1 - (mob.PlayerLevel / 100));
+		if (scaledAttackInterval < root.MinimumMobAttackInterval) {
+			scaledAttackInterval = root.MinimumMobAttackInterval;
+		}
+		define rand! = RandomInteger(1, 100);
 		Wait(0.1, WaitBehavior.IgnoreCondition);
 	
-		if (AutoUltChance != false && root.RandomNumber <= AutoUltChance && IsUsingUltimate(mob) != true) {
+		if (AutoUltChance != false && rand <= AutoUltChance && IsUsingUltimate(mob) != true) {
 			SetUltimateCharge(mob, 100);
 			Wait(0.1, WaitBehavior.IgnoreCondition);
 			PressButton(mob, Button.Ultimate);
@@ -145,12 +169,12 @@ class Mob {
 			}
 		}
 
-		if (AutoAbility1Chance != false && root.RandomNumber <= AutoAbility1Chance) {
+		if (AutoAbility1Chance != false && rand <= AutoAbility1Chance) {
 			PressButton(mob, Button.Ability1);
 			mob.MobHasAttacked = true;
 		}
 
-		if (AutoAbility2Chance != false && root.RandomNumber <= AutoAbility2Chance) {
+		if (AutoAbility2Chance != false && rand <= AutoAbility2Chance) {
 			if (mob.MobHasAttacked == true) {
 				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
 			}
@@ -163,7 +187,7 @@ class Mob {
 			mob.MobHasAttacked = true;
 		}
 
-		if (AutoPrimaryAtkChance != false && root.RandomNumber <= AutoPrimaryAtkChance) {
+		if (AutoPrimaryAtkChance != false && rand <= AutoPrimaryAtkChance) {
 			if (mob.MobHasAttacked == true) {
 				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
 			}
@@ -178,7 +202,7 @@ class Mob {
 			mob.MobHasAttacked = true;
 		}
 
-		if (AutoSecondaryAtkChance != false && root.RandomNumber <= AutoSecondaryAtkChance) {
+		if (AutoSecondaryAtkChance != false && rand <= AutoSecondaryAtkChance) {
 			if (mob.MobHasAttacked == true) {
 				Wait(AttackInterval, WaitBehavior.AbortWhenFalse);
 			}

@@ -1,13 +1,24 @@
 import "index.ostw";
 
 void UpdateAveragePlayerLevel() "[Subroutine] Update average player level" {
-	root.TotalPlayerLevel = 0;
-	for (root.Itr = 0; root.Itr < CountOf(root.PlayerList); root.Itr++) {
-		root.TotalPlayerLevel += root.PlayerList[root.Itr].PlayerLevel;
+	define totalPlayerLevel! = 0;
+	for (define i! = 0; i < CountOf(root.PlayerList[0]); i++) {
+		totalPlayerLevel += root.PlayerList[0][i].PlayerLevel;
 	}
-	root.AveragePlayerLevel = RoundToInteger(root.TotalPlayerLevel / CountOf(root.PlayerList), Rounding.Nearest);
-    if (root.AveragePlayerLevel < 1) {
-        root.AveragePlayerLevel = 1;
+	AveragePlayerLevel[0] = RoundToInteger(totalPlayerLevel / CountOf(root.PlayerList[0]), Rounding.Nearest);
+    if (root.AveragePlayerLevel[0] < 1) {
+        root.AveragePlayerLevel[0] = 1;
+    }
+}
+
+void UpdateAveragePlayerLevelZone1() "[Subroutine] Update zone 1 average player list" {
+    define totalPlayerLevelZ1! = 0;
+	for (define i! = 0; i < CountOf(root.PlayerList[1]); i++) {
+		totalPlayerLevelZ1 += root.PlayerList[1][i].PlayerLevel;
+	}
+	root.AveragePlayerLevel[1] = RoundToInteger(totalPlayerLevelZ1 / CountOf(root.PlayerList[1]), Rounding.Nearest);
+    if (root.AveragePlayerLevel[1] < 1) {
+        root.AveragePlayerLevel[1] = 1;
     }
 }
 

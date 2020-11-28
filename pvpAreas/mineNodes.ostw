@@ -1,0 +1,63 @@
+import "../utils/index.ostw";
+import "mineNode.ostw";
+
+rule: "[Mine Nodes] Init"
+{
+    UnusedMineNodeLocations = [
+        Vector(107.269, 13.173, -53.646),
+        Vector(112.690, 13.173, -57.373),
+        Vector(118.228, 11.475, -61.543),
+        Vector(121.632, 11.173, -65.216),
+        Vector(124.062, 11.172, -57.442),
+        Vector(134.844, 12.173, -61.406),
+        Vector(138.868, 12.173, -59.217),
+        Vector(134.384, 12.173, -55.234),
+        Vector(130.359, 12.173, -55.520),
+        Vector(139.834, 12.173, -49.501),
+        Vector(139.432, 12.173, -42.811),
+        Vector(143.521, 12.173, -39.166),
+        Vector(141.758, 12.173, -35.091),
+        Vector(141.296, 11.862, -30.120),
+        Vector(135.394, 13.803, -40.527),
+        Vector(130.997, 15.186, -37.928),
+        Vector(134.381, 15.186, -35.919),
+        Vector(130.525, 15.186, -34.088),
+        Vector(129.459, 12.260, -62.363)
+    ];
+    SpawnedMineNodeLocs = [];
+    SpawnedMineNodes = [];
+}
+
+rule: "[Mine Nodes] Spawn"
+if (CountOf(SpawnedMineNodes) < MaxSpawnedMineNodes)
+{
+    while(CountOf(SpawnedMineNodeLocs) <= MaxSpawnedMineNodes) {
+        Wait(RandomInteger(4, 10), WaitBehavior.AbortWhenFalse);
+        define nodeLoc! = RandomValueInArray(UnusedMineNodeLocations);
+        MinWait();
+        SpawnedMineNodeLocs = Append(SpawnedMineNodeLocs, nodeLoc);
+        SpawnedMineNodes = Append(SpawnedMineNodes, new MineNode(nodeLoc));
+        UnusedMineNodeLocations = RemoveFromArray(UnusedMineNodeLocations, nodeLoc);
+    }
+    MinWait();
+    LoopIfConditionIsTrue();
+}
+
+rule: "[Mine Nodes] Consume"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Melee))
+if (IsTrueForAny(SpawnedMineNodeLocs, DistanceBetween(PositionOf(Player), ArrayElement()) < 2))
+{
+    define nearestNodeLoc! = FirstOf(SortedArray(SpawnedMineNodeLocs, DistanceBetween(ArrayElement(), PositionOf(Player))));
+    MinWait();
+    
+    MineNode node! = SpawnedMineNodes[IndexOfArrayValue(SpawnedMineNodeLocs, nearestNodeLoc)];
+    MinWait();
+    BigMessage(AllPlayers(), <"Nearest node loc is <0> that node's loc is <1>", nearestNodeLoc, node.Location>);
+    node.consume(Player);
+
+    delete(node);
+    UnusedMineNodeLocations = Append(UnusedMineNodeLocations, nearestNodeLoc);
+    SpawnedMineNodeLocs = RemoveFromArray(SpawnedMineNodeLocs, nearestNodeLoc);
+    SpawnedMineNodes = RemoveFromArray(SpawnedMineNodes, node);
+}

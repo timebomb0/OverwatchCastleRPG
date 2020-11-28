@@ -1,0 +1,11 @@
+import "../utils/index.ostw";
+
+rule: "[Coin Mine] Init"
+{
+    CreateEffect(AllPlayers(Team.All), Effect.Sparkles, Color.Yellow, MineSparklesLoc, 12, EffectRev.VisibleTo);
+}
+
+rule: "[Mine] Effect"
+{
+
+}

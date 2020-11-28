@@ -10,6 +10,7 @@ import "player/index.ostw";
 import "purchase/index.ostw";
 // import "player/code.ostw";
 import "quests/index.ostw";
+import "pvpAreas/index.ostw";
 
 // TODO: COMMENT THIS OUT
 rule: "[All World] Debug ***********************************************************************************************"

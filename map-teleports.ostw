@@ -21,7 +21,9 @@ if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, SecondPointToFirstPointLoc) <= 2)
 {
     Teleport(Player, root.FirstPointSpawnLoc);
+    CurrentZone = 1;
     PeaceMode = true;
+    ClearStatus(Player, Status.PhasedOut);
 }
 
 rule: "[Teleport] First Point to Second Point"
@@ -30,7 +32,9 @@ if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, FirstPointToSecondPointLoc) <= 2)
 {
     Teleport(Player, root.SecondPointFromFirstPointSpawnLoc);
+    CurrentZone = 2;
     PeaceMode = true;
+    SetStatus(Player, null, Status.PhasedOut, 9999);
 }
 
 rule: "[Teleport] Second Point to Third Point"
@@ -39,7 +43,9 @@ if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, SecondPointToThirdPointLoc) <= 2)
 {
     Teleport(Player, root.ThirdPointSpawnLoc);
+    CurrentZone = 3;
     PeaceMode = false;
+    ClearStatus(Player, Status.PhasedOut);
 }
 
 rule: "[Teleport] Third Point to Second Point"
@@ -48,5 +54,7 @@ if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, ThirdPointToSecondPointLoc) <= 2)
 {
     Teleport(Player, root.SecondPointFromThirdPointSpawnLoc);
+    CurrentZone = 2;
     PeaceMode = true;
+    SetStatus(Player, null, Status.PhasedOut, 9999);
 }

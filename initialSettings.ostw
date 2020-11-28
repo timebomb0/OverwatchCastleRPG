@@ -11,8 +11,8 @@ rule: "[All World] Initialize Settings"
 	CoinsPerLevel = 2000;
 	MobSpeedModifier = 0.7;
 	MobDamageModifier = 1;
-	MaxXPGrowthPerLevel = 1.03;
-	CoinsOnKillMultiplier = 4;
+	MaxXPGrowthPerLevel = 1.029; // 1.03 leads to 6663 xp, some people don't like the number 666
+	CoinsOnKillMultiplier = 15;
 	MobHealthModifier = 1;
 	UltimateTickRate = 5;
 	Item_TrinketModifier = 1;
@@ -36,7 +36,6 @@ if(!IsDummyBot(Player))
 			<"Level <0>", PlayerLevel>
 		>,
 		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.SkyBlue, Spectators.DefaultVisibility);
-	Reseting = 0;
 	BaseMaxAmmo0 = MaxAmmo(Player, 0);
 	BaseMaxAmmo1 = MaxAmmo(Player, 1);
 	DamageDealt = 100;
@@ -45,7 +44,9 @@ if(!IsDummyBot(Player))
 	DamageReceive = 100;
 	MoveSpeed = 100;
     CooldownReduction = 0;
-    ProjectileSpeed = 100;
+	CurrentZone = 2;
+    PreviousCurrentZone = 2;
+	ProjectileSpeed = 100;
 	HealingDealt = 20;
 	HealingReceive = 100;
 	Messages[0] = "";
@@ -71,21 +72,21 @@ if(!IsDummyBot(Player))
 	TraitsUnlocked[5] = false;
 	CatchUpEnabled = false;
 	CurrentQuest = 0;
+	MinimumMobAttackInterval = 0.3;
 	QuestSuccess = 2;
 	UltimateNumber = 0;
-	EnchantLevel = 0;
-	GeodeRandomItem = 0;
 	StatPoints = 0;
 	EXP = 0;
 	EXPToLevelUp = 3000;
 	PlayerLevel = 0;
 	MobRespawnTime = 3;
+	MaxSpawnedMineNodes = 6;
 	PeaceMode = true;
 	MinWait();
-    StartDamageModification(Player, root.PlayerList, PeaceMode != true ? 100 : 0, DamageModificationRev.ReceiversDamagersAndDamagePercent);
+    StartDamageModification(Player, root.PlayerList[0], PeaceMode != true ? 100 : 0, DamageModificationRev.ReceiversDamagersAndDamagePercent);
 	UpdateAveragePlayerLevel();
 	// New players are set to the current lowest player's level * JoinedPlayerInitialLevelMultiplier 
-	PlayerLevel = RoundToInteger(SortedArray(FilteredArray(MappedArray(root.PlayerList, ArrayElement().PlayerLevel),
+	PlayerLevel = RoundToInteger(SortedArray(FilteredArray(MappedArray(root.PlayerList[0], ArrayElement().PlayerLevel),
 		ArrayElement() != 0))[0] * JoinedPlayerInitialLevelMultiplier, Rounding.Nearest);
 	if (PlayerLevel < 1) {
 		PlayerLevel = 1;
@@ -97,7 +98,7 @@ if(!IsDummyBot(Player))
 	TraitPoints = RoundToInteger(PlayerLevel / TraitPointGainedEveryXLevels, Rounding.Down);
 	Coins = (PlayerLevel - 1) * 2500;
 	Item_Trinket = (PlayerLevel - 1) * 7;
-	for (root.Itr = 0; root.Itr < (PlayerLevel - 1); root.Itr++) {
+	for (define i! = 0; i < (PlayerLevel - 1); i++) {
 		EXPToLevelUp *= MaxXPGrowthPerLevel;
 	}
 	Wait(1, WaitBehavior.IgnoreCondition);
@@ -111,11 +112,13 @@ if(!IsDummyBot(Player))
 	SetRespawnMaxTime(Player, 6);
 	
 	Wait(5, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Welcome to this new PvE+PvP RPG ChillNKill mode. This is a Work In Progress.");
-	Wait(3, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Kill mobs and do quests to gain experience, coins, and trinkets.");
+	BigMessage(Player, "Welcome to this new PvE+PvP RPG mode. This is a Work In Progress.");
 	Wait(3, WaitBehavior.IgnoreCondition);
 	BigMessage(Player, "Look around the map to find where to buy stat points, traits, and slot machines.");
+	Wait(3, WaitBehavior.IgnoreCondition);
+	BigMessage(Player, "Hunting Grounds [PvE]: Kill mobs to to gain experience, coins, and trinkets.");
+	Wait(3, WaitBehavior.IgnoreCondition);
+	BigMessage(Player, "Deadly Castle [PvP]: Melee mine nodes, take in free coins and more.");
 	Wait(3, WaitBehavior.IgnoreCondition);
 	BigMessage(Player, "There's more to come in this mode shortly, and balance is ongoing. Have fun!");
 }

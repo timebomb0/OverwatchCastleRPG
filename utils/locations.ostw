@@ -30,3 +30,5 @@ globalvar define FirstPointSpawnLoc = Vector(27.807, 6.062, -60.547);
 globalvar define SecondPointFromFirstPointSpawnLoc = Vector(42.491, 6.410, -67.231);
 globalvar define SecondPointFromThirdPointSpawnLoc = Vector(87.752, 13.904, -73.025);
 globalvar define ThirdPointSpawnLoc = Vector(91.933, 13.931, -52.890);
+
+globalvar define MineSparklesLoc = Vector(123.177, 9.972, -31.567);

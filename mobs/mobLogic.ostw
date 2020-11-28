@@ -10,6 +10,7 @@ if (IsDummyBot(Player))
 	if (Player.MobLevelText > 0) {
 		DestroyInWorldText(Player.MobLevelText);
 	}
+	Wait(1.5, WaitBehavior.IgnoreCondition);
 	DestroyDummyBot(Team.All, SlotOf(Player));
     MinWait();
 	root.BotList = FilteredArray(AllPlayers(Team.All), IsDummyBot(ArrayElement()));
@@ -30,58 +31,51 @@ rule: "[Mob] Spawn #1"
 if (PlayersInSlot(7, Team.All) == false)
 {
 	Wait(3, WaitBehavior.IgnoreCondition);
-	RandomNumber = RandomInteger(1, 11);
-	CurrentMobSlot = 7;
-	mobs[RandomNumber].spawn();
+	define rand! = RandomInteger(1, 11);
+	mobs[rand].spawn(7, rand);
 	MinWait();
-	PlayersInSlot(7).MobId = RandomNumber;
+	PlayersInSlot(7).MobId = rand;
 }
 
 rule: "[Mob] Spawn #2"
 if (PlayersInSlot(8, Team.All) == false)
 {
 	Wait(3, WaitBehavior.IgnoreCondition);
-	RandomNumber = RandomInteger(1, 11);
-	CurrentMobSlot = 8;
-	mobs[RandomNumber].spawn();
+	define rand! = RandomInteger(1, 11);
+	mobs[rand].spawn(8, rand);
 	MinWait();
-	PlayersInSlot(8).MobId = RandomNumber;
+	PlayersInSlot(8).MobId = rand;
 }
 
 rule: "[Mob] Spawn #2"
 if (PlayersInSlot(9, Team.All) == false)
 {
 	Wait(3, WaitBehavior.IgnoreCondition);
-	RandomNumber = RandomInteger(1, 11);
-	CurrentMobSlot = 9;
-	mobs[RandomNumber].spawn();
+	define rand! = RandomInteger(1, 11);
+	mobs[rand].spawn(9, rand);
 	MinWait();
-	PlayersInSlot(9).MobId = RandomNumber;
+	PlayersInSlot(9).MobId = rand;
 }
 
 rule: "[Mob] Spawn #4"
 if (PlayersInSlot(10, Team.All) == false)
 {
 	Wait(3, WaitBehavior.IgnoreCondition);
-	RandomNumber = RandomInteger(1, 11);
-	CurrentMobSlot = 10;
-	mobs[RandomNumber].spawn();
+	define rand! = RandomInteger(1, 11);
+	mobs[rand].spawn(10, rand);
 	MinWait();
-	PlayersInSlot(10).MobId = RandomNumber;
+	PlayersInSlot(10).MobId = rand;
 }
 
 rule: "[Mob] Spawn #5"
 if (PlayersInSlot(11, Team.All) == false)
 {
 	Wait(3, WaitBehavior.IgnoreCondition);
-	RandomNumber = RandomInteger(1, 11);
-	CurrentMobSlot = 11;
-	mobs[RandomNumber].spawn();
-	MinWait();
-	PlayersInSlot(11).MobId = RandomNumber;
+	define rand! = RandomInteger(1, 11);
+	mobs[rand].spawn(11, rand);
 }
 
-rule: "[Mob] Attack"
+disabled rule: "[Mob] Attack"
 Event.OngoingPlayer
 if (IsDummyBot(Player))
 if (IsAlive(Player) == true)
@@ -113,7 +107,8 @@ if (IsDummyBot(Player))
 			Player,
 			FirstOf(
 				SortedArray(
-					root.PlayerList,
+					// Only players in zone 1 and players that are not a stealthed sombra
+					FilteredArray(root.PlayerList[1], !(HeroOf(ArrayElement()) == Hero.Sombra && IsUsingAbility1(ArrayElement()))),
 					AngleBetweenVectors(
 						EyePosition(ArrayElement()),
 						EyePosition(Player)
@@ -125,6 +120,18 @@ if (IsDummyBot(Player))
 		Relative.ToWorld,
 		FacingRev.DirectionAndTurnRate
 	);
+}
+
+rule: "[Mob] Has Been Damaged"
+Event.OnDamageTaken
+if (IsDummyBot(Player))
+if (!ArrayContains(Attackers, Attacker()))
+{
+	if (!Attackers[0]) {
+		Attackers[0] = Attacker();
+	} else {
+		Attackers = Append(Attackers, Attacker());
+	}
 }
 
 rule: "[Mob] Reposition"
@@ -142,9 +149,9 @@ rule: "[Mob] Reposition"
 		Vector(10.12, 3.83, -30.96),
 		Vector(14.64, 4.02, -16.85),
 		Vector(-3.87, 1.82, -27.3),
-		Vector(-20.24, 1.97, -35.14),
 		Vector(-4.94, 0.01, -9.65),
-		Vector(20.43, 9, -26.17)
+		Vector(20.43, 9, -26.17),
+		Vector(-10.559, 3.178, -27.443)
 	];
 }
 

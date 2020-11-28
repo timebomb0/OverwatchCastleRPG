@@ -1,10 +1,5 @@
 import "utils/index.ostw";
 
-rule: "[HUD] Core"
-{
-	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.SkyBlue, Vector(39.261, 9.471, -87.568), 8, EffectRev.VisibleToPositionAndRadius);
-}
-
 rule: "[HUD] Upgrade & Treasure Box"
 {
 	// CreateEffect(AllPlayers(Team.Team2), Effect.Ring, Color.Purple, Vector(55.394, 22.554, -68.688), 2, EffectRev.VisibleToPositionAndRadius);

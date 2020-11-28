@@ -8,7 +8,7 @@ if (RecentGains[0] > 0 || RecentGains[1] > 0 || RecentGains[2] > 0)
     RecentGainsHistory[1] = RecentGains[1];
     RecentGainsHistory[2] = RecentGains[2];
     // Reset after 4 seconds of no updates
-    for (root.Itr = 0; root.Itr < 8; root.Itr++) {
+    for (define i! = 0; i < 8; i++) {
         if (RecentGainsHistory[0] != RecentGains[0] || RecentGainsHistory[1] != RecentGains[1] || RecentGainsHistory[2] != RecentGains[2]) {
             LoopIfConditionIsTrue();
         } else {
