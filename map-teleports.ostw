@@ -9,7 +9,7 @@ rule: "[HUD] Teleports"
 	CreateInWorldText(AllPlayers(Team.All), "City", FirstPointToSecondPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Blue, Spectators.DefaultVisibility);
 	
     CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, SecondPointToThirdPointLoc, 2, EffectRev.VisibleToPositionAndRadius);
-	CreateInWorldText(AllPlayers(Team.All), "Deadly Castle [PvPvE]", SecondPointToThirdPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Orange, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), "Mines [PvP]", SecondPointToThirdPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Orange, Spectators.DefaultVisibility);
 	
     CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, ThirdPointToSecondPointLoc, 2, EffectRev.VisibleToPositionAndRadius);
 	CreateInWorldText(AllPlayers(Team.All), "City", ThirdPointToSecondPointLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.Blue, Spectators.DefaultVisibility);
@@ -20,10 +20,11 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, SecondPointToFirstPointLoc) <= 2)
 {
-    Teleport(Player, root.FirstPointSpawnLoc);
+    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
     CurrentZone = 1;
-    PeaceMode = true;
+    root.PlayerList[1] = Append(root.PlayerList[1], Player);
     ClearStatus(Player, Status.PhasedOut);
+    Teleport(Player, root.FirstPointSpawnLoc);
 }
 
 rule: "[Teleport] First Point to Second Point"
@@ -31,10 +32,11 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, FirstPointToSecondPointLoc) <= 2)
 {
-    Teleport(Player, root.SecondPointFromFirstPointSpawnLoc);
+    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
     CurrentZone = 2;
-    PeaceMode = true;
+    root.PlayerList[2] = Append(root.PlayerList[2], Player);
     SetStatus(Player, null, Status.PhasedOut, 9999);
+    Teleport(Player, root.SecondPointFromFirstPointSpawnLoc);
 }
 
 rule: "[Teleport] Second Point to Third Point"
@@ -42,10 +44,11 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, SecondPointToThirdPointLoc) <= 2)
 {
-    Teleport(Player, root.ThirdPointSpawnLoc);
+    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
     CurrentZone = 3;
-    PeaceMode = false;
+    root.PlayerList[3] = Append(root.PlayerList[3], Player);
     ClearStatus(Player, Status.PhasedOut);
+    Teleport(Player, root.ThirdPointSpawnLoc);
 }
 
 rule: "[Teleport] Third Point to Second Point"
@@ -53,8 +56,9 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, ThirdPointToSecondPointLoc) <= 2)
 {
-    Teleport(Player, root.SecondPointFromThirdPointSpawnLoc);
+    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
     CurrentZone = 2;
-    PeaceMode = true;
+    root.PlayerList[2] = Append(root.PlayerList[2], Player);
     SetStatus(Player, null, Status.PhasedOut, 9999);
+    Teleport(Player, root.SecondPointFromThirdPointSpawnLoc);
 }

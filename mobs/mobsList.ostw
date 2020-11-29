@@ -1,4 +1,4 @@
-
+import "../utils/index.ostw";
 import "mob.ostw";
 
 	// public Mob(ref define heroMob, ref define coinsOnKill, ref define Item_TrinketOnKill,
@@ -9,11 +9,10 @@ import "mob.ostw";
 	// 			ref define autoAbility1Chance, ref define autoAbility2Chance,
 	// 			ref define attackDuringUlt, ref define holdPrimaryFire, ref define holdSecondaryFire, ref define attackInterval)
 globalvar Mob[] mobs! = [
-	false, // WaveSet starts at 1, no 0
 	new Mob(Hero.Mccree, 50, 1,
 		50, 400,
 		"Well, it's high noon somewhere in the world",
-		3, 1.2, 30, 0.4,
+		3, 1.2, 25, 0.4,
 		2, 40, false,
 		false, 20,
 		true, false, false, 0.8
@@ -21,7 +20,7 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Moira, 150, 1,
 		50, 200,
 		"The true struggle is for the superiority of ideas",
-		5, 1.7, 30, 0.5,
+		5, 1.7, 25, 0.5,
 		false, false, 40,
 		false, 30,
 		false, false, true, 0.6
@@ -29,7 +28,7 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Reaper, 90, 1,
 		60, 400,
 		"Time to kill",
-		6, 8, 60, 0.37,
+		6, 8, 50, 0.37,
 		false, 35, false,
 		0.15, false,
 		false, true, false, 0.5
@@ -37,7 +36,7 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Tracer, 90, 1,
 		40, 500,
 		"Oi! This is no time for standin' around",
-		1, 0.6, 30, 0.55,
+		1, 0.6, 25, 0.55,
 		6, 35, false,
 		false, false,
 		false, true, false, 0.5
@@ -45,7 +44,7 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Doomfist, 180, 1,
 		55, 400,
 		"Once the mission starts, no more messing around",
-		5, 1.5, 35, 0.4,
+		5, 1.5, 30, 0.4,
 		false, 45, 18,
 		25, 22,
 		false, true, true, 0.7
@@ -53,7 +52,7 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Junkrat, 230, 1,
 		75, 450,
 		"C'mon, c'mon, c'mon, I hate waiting!",
-		5, 0.97, 35, 0.45,
+		5, 0.97, 30, 0.45,
 		0, 40, false,
 		false, false,	
 		true, false, false, 0.5
@@ -61,15 +60,15 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Torbjorn, 90, 1,
 		40, 400,
 		"There's work to be done",
-		2, 0.75, 35, 0.7,
+		2, 0.75, 30, 0.7,
 		false, 60, 30,
-		5, false,
+		false, false,
 		true, true, true, 0.5
 	),
 	new Mob(Hero.Hanzo, 90, 1,
 		55, 400,
 		"The dragon awakens",
-		5, 0.35, 35, 0.3,
+		5, 0.35, 30, 0.3,
 		0, 50, false,
 		false, 100,	
 		false, true, false, 0.7
@@ -78,14 +77,14 @@ globalvar Mob[] mobs! = [
 		65, 400,
 		"Even if I sacrifice my body, I will never sacrifice my honor",
 		8, 1.5, 35, 0.45,
-		false, 35, false,
+		false, 30, false,
 		false, 20,
 		false, false, false, 0.7
 	),
 	new Mob(Hero.Zarya, 90, 1,
 		120, 400,
 		"Welcome to the gun show",
-		5, 1, 18, 0.25,
+		5, 1, 15, 0.25,
 		6, 20, 35,
 		30, false,
 		false, true, false, 0.75
@@ -94,9 +93,26 @@ globalvar Mob[] mobs! = [
 	new Mob(Hero.Brigitte, 90, 1,
 		70, 400,
 		"Time to roll up my sleeves",
-		5, 1.5, 30, 0.35,
+		5, 1.5, 25, 0.35,
 		false, 11, 14,
 		20, false,	
 		false, true, true, 0.6
 	)
 ];
+
+rule: "[Mobs] Initialize Mob List"
+{
+	MobsList = [
+		Hero.Mccree,
+		Hero.Moira,
+		Hero.Reaper,
+		Hero.Tracer,
+		Hero.Doomfist,
+		Hero.Junkrat,
+		Hero.Torbjorn,
+		Hero.Hanzo,
+		Hero.Genji,
+		Hero.Zarya,
+		Hero.Brigitte
+	];
+}

@@ -46,8 +46,6 @@ if (CoreHealth <= 0)
 {
     MobSpeedModifier -= MobSpeedIncreaseValue / 10;
     BigMessage(AllPlayers(Team.All), "Quest Failure: Oh no, the core has been breached!");
-    // TODO: Quest failure
-    NewMessageToAll("TODO quest failure debuff");
     CurrentQuest = 0;
 }
 

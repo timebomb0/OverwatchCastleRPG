@@ -49,8 +49,6 @@ if (QuestSuccess == 0)
 {
     MobHealthModifier -= MobHealthIncreaseValue / 10;
     BigMessage(AllPlayers(Team.All), "Quest Failure: Unable to defeat all the mobs in time!");
-    // TODO: Quest failure
-    NewMessageToAll("TODO quest failure debuff");
     CurrentQuest = 0;
     CurrentQuestKills = 0;
     RequiredQuestKills = 9999;

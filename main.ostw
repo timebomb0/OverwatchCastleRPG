@@ -30,17 +30,28 @@ if (HostPlayer() == true)
 }
 
 // TODO Fix this so not using isinspawnroom due to deathmatch not having spawn room
-rule: "[All World] Team 2 Respawn"
+rule: "[All World] Player Respawn"
 Event.OngoingPlayer
 if (!IsDummyBot(Player))
-if (IsInSpawnRoom(Player) == true)
+if (IsAlive(Player))
+if (PositionOf(Player) != 0)
+if (HasDied == true)
 {
-	if (!NewPlayerInitialTeleport) {
-		Teleport(Player, Vector(55.597, 13.005, -79.697));
-		NewPlayerInitialTeleport = true;
-	} else {
-		Teleport(Player, Vector(39.575, 9.335, -87.635));
-	}
+	SetPlayerScore(Player, PlayerLevel); // On initial spawn, we set score here - i.e. once player has picked hero
+	root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
+    CurrentZone = 2;
+    root.PlayerList[2] = Append(root.PlayerList[2], Player);
+	SetStatus(Player, null, Status.PhasedOut, 9999);
+	Teleport(Player, Vector(56.125, 12.973, -75.400));
+	MinWait();
+	SetFacing(Player, Vector(-0.24, -0.05, -0.97), Relative.ToWorld);
+}
+
+rule: "[All World] Player has died"
+Event.OnDeath
+if (!IsDummyBot(Player))
+{
+	HasDied = true;
 }
 
 rule: "[Match] Reset match time"

@@ -16,7 +16,8 @@ if (EXP >= EXPToLevelUp)
     EXPToLevelUp *= MaxXPGrowthPerLevel;
     PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 100);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Green, Player, 12);
-    
+	
+    UpdateAveragePlayerLevel();
     NewMessage(<"Ding! You leveled up to <0>!", PlayerLevel>);
     // Loops if you have >1 level of xp, e.g. from wishing star
     LoopIfConditionIsTrue();
@@ -25,23 +26,23 @@ if (EXP >= EXPToLevelUp)
 rule: "[Player] Catch-Up Enabled"
 Event.OngoingPlayer
 if (!IsDummyBot(Player))
-if (PlayerLevel <= root.AveragePlayerLevel[0] * 0.85)
+if (PlayerLevel <= root.AveragePlayerLevel * 0.85)
 if (CatchUpEnabled == false)
 {
-    EXPGainRate += 2;
+    EXPGainRate += 4;
     Wait(5, WaitBehavior.AbortWhenFalse);
     CatchUpEnabled = true;
-    NewMessage("+200% catch-up EXP boost enabled to help you catch up to higher level players");
+    NewMessage("+400% catch-up EXP boost enabled to help you catch up to higher level players");
 }
 
 rule: "[Player] Catch-Up Disabled"
 Event.OngoingPlayer
 if (!IsDummyBot(Player))
-if (PlayerLevel > root.AveragePlayerLevel[0] * 0.85)
+if (PlayerLevel > root.AveragePlayerLevel * 0.85)
 if (CatchUpEnabled == true)
 {
-    EXPGainRate -= 2;
+    EXPGainRate -= 4;
     Wait(3, WaitBehavior.AbortWhenFalse);
     CatchUpEnabled = false;
-    NewMessage("+200% catch-up EXP boost disabled");
+    NewMessage("+400% catch-up EXP boost disabled");
 }

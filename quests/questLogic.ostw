@@ -1,6 +1,7 @@
 import "../utils/index.ostw";
 
-rule: "[Quest] Pick New Quest"
+// TODO: Reimplement and reenable quests
+disabled rule: "[Quest] Pick New Quest"
 if (CurrentQuest == 0)
 {
     MinWait();

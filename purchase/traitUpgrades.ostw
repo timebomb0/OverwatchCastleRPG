@@ -8,10 +8,10 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[0] == false)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, MoveSpeedTraitEffectLoc) <= 2.5)
-if (Coins >= 50000)
+if (Coins >= 40000)
 {
 	Wait(0.5, WaitBehavior.AbortWhenFalse);
-	Coins -= 50000;
+	Coins -= 40000;
 	NewMessage("Unlocked Move Speed Trait");
 	TraitsUnlocked[0] = true;
 }
@@ -39,12 +39,12 @@ rule: "[Trait] Unlock Jump Speed Upgrade"
 Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[1] == false)
-if (Coins >= 50000)
+if (Coins >= 40000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, JumpSpeedTraitEffectLoc) <= 2.5)
 {
 	Wait(0.5, WaitBehavior.AbortWhenFalse);
-	Coins -= 50000;
+	Coins -= 40000;
 	NewMessage("Unlocked Jump Height Trait");
 	TraitsUnlocked[1] = true;
 }
@@ -72,12 +72,12 @@ rule: "[Trait] Unlock Ammo Capacity Upgrade"
 Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[2] == false)
-if (Coins >= 200000)
+if (Coins >= 150000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, AmmoCapacityTraitEffectLoc) <= 2.5)
 {
 	Wait(0.5, WaitBehavior.AbortWhenFalse);
-	Coins -= 200000;
+	Coins -= 150000;
 	NewMessage("Unlocked Ammo Capacity Trait");
 	TraitsUnlocked[2] = true;
 }
@@ -115,12 +115,12 @@ rule: "[Trait] Unlock Ultimate Gen Upgrade"
 Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[3] == false)
-if (Coins >= 250000)
+if (Coins >= 175000)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UltimateGenTraitEffectLoc) <= 2.5)
 {
 	Wait(0.5, WaitBehavior.AbortWhenFalse);
-	Coins -= 250000;
+	Coins -= 175000;
 	NewMessage("Unlocked Passive Ultimate Generation Trait");
 	TraitsUnlocked[3] = true;
 }
@@ -149,10 +149,10 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[4] == false)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, ProjectileSpeedTraitEffectLoc) <= 2.5)
-if (Coins >= 100000)
+if (Coins >= 75000)
 {
 	Wait(0.5, WaitBehavior.AbortWhenFalse);
-	Coins -= 100000;
+	Coins -= 75000;
 	NewMessage("Unlocked Projectile Speed Trait");
 	TraitsUnlocked[4] = true;
 }
@@ -182,10 +182,10 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (TraitsUnlocked[5] == false)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, CooldownReductionTraitEffectLoc) <= 2.5)
-if (Coins >= 250000)
+if (Coins >= 150000)
 {
 	Wait(0.5, WaitBehavior.AbortWhenFalse);
-	Coins -= 250000;
+	Coins -= 150000;
 	NewMessage("Unlocked Cooldown Reduction Trait");
 	TraitsUnlocked[5] = true;
 }

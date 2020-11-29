@@ -5,20 +5,10 @@ void UpdateAveragePlayerLevel() "[Subroutine] Update average player level" {
 	for (define i! = 0; i < CountOf(root.PlayerList[0]); i++) {
 		totalPlayerLevel += root.PlayerList[0][i].PlayerLevel;
 	}
-	AveragePlayerLevel[0] = RoundToInteger(totalPlayerLevel / CountOf(root.PlayerList[0]), Rounding.Nearest);
-    if (root.AveragePlayerLevel[0] < 1) {
-        root.AveragePlayerLevel[0] = 1;
-    }
-}
-
-void UpdateAveragePlayerLevelZone1() "[Subroutine] Update zone 1 average player list" {
-    define totalPlayerLevelZ1! = 0;
-	for (define i! = 0; i < CountOf(root.PlayerList[1]); i++) {
-		totalPlayerLevelZ1 += root.PlayerList[1][i].PlayerLevel;
-	}
-	root.AveragePlayerLevel[1] = RoundToInteger(totalPlayerLevelZ1 / CountOf(root.PlayerList[1]), Rounding.Nearest);
-    if (root.AveragePlayerLevel[1] < 1) {
-        root.AveragePlayerLevel[1] = 1;
+    MinWait();
+	AveragePlayerLevel = RoundToInteger(totalPlayerLevel / CountOf(root.PlayerList[0]), Rounding.Nearest);
+    if (root.AveragePlayerLevel < 1) {
+        root.AveragePlayerLevel = 1;
     }
 }
 
@@ -36,12 +26,15 @@ void NewMessage(define message) playervar "[Subroutine] Append New Message"
 
 void NewMessageToAll(define message) "[Subroutine] Append New Message All Players"
 {
-    AllPlayers(Team.All).Messages[4] = AllPlayers(Team.All).Messages[3];
-    AllPlayers(Team.All).Messages[3] = AllPlayers(Team.All).Messages[2];
-    AllPlayers(Team.All).Messages[2] = AllPlayers(Team.All).Messages[1];
-    AllPlayers(Team.All).Messages[1] = AllPlayers(Team.All).Messages[0];
-    AllPlayers(Team.All).Messages[0] = message;
-    MinWait();
-    SmallMessage(AllPlayers(Team.All), message);
-    MinWait();
+    for(define i! = 0; i < CountOf(PlayerList[0]); i++) {
+        define player! = PlayerList[0][i];
+        player.Messages[4] = player.Messages[3];
+        player.Messages[3] = player.Messages[2];
+        player.Messages[2] = player.Messages[1];
+        player.Messages[1] = player.Messages[0];
+        player.Messages[0] = message;
+        MinWait();
+        SmallMessage(player, message);
+        MinWait();
+    }
 }

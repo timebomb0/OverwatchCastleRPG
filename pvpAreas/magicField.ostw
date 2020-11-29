@@ -1,0 +1,63 @@
+import "../utils/index.ostw";
+
+rule: "[Magic Field] Init"
+{
+    MagicFieldColor = Color.Yellow;
+    MinWait();
+    CreateEffect(AllPlayers(Team.All), Effect.Sparkles, MagicFieldColor, MagicFieldLoc, 12, EffectRev.VisibleToAndColor);
+}
+
+rule: "[Magic Field] Effect"
+Event.OngoingPlayer
+if (DistanceBetween(PositionOf(Player), MagicFieldLoc) <= 12)
+if (YOf(PositionOf(Player)) < 9.2)
+{
+    define loot!;
+    if (root.MagicFieldColor == Color.Yellow)
+    {
+        loot = RandomInteger(20, 400);
+        MinWait();
+        Coins += loot;
+    } else if (root.MagicFieldColor == Color.Green) {
+        loot = RandomInteger(40, 800);
+        MinWait();
+        Coins += loot;
+    } else if (root.MagicFieldColor == Color.Red) {
+        loot = RandomInteger(4, 8);
+        MinWait();
+        Item_Trinket += loot;
+    }
+    SmallMessage(Player, <"+<0> <1>", loot, MagicFieldColor == Color.Red ? "Trinkets" : "Coins">);
+    PlayEffect(Player, PlayEffect.BuffExplosionSound, Color.White, PositionOf(Player), 40);
+    Wait(2, WaitBehavior.IgnoreCondition);
+    LoopIfConditionIsTrue();
+}
+
+rule: "[Magic Field] Change Type"
+{
+    Wait(60, WaitBehavior.IgnoreCondition);
+
+    define rand! = RandomInteger(1, 10);
+    if (rand >= 9) {
+        if (MagicFieldColor == Color.Red) {
+            Loop();
+        }
+        NewMessageToAll("Event: Magic Field is giving out trinkets!");
+        BigMessage(AllPlayers(), "Event: Magic Field is giving out trinkets!");
+        MagicFieldColor = Color.Red;
+    } else if (rand >= 7) {
+        if (MagicFieldColor == Color.Green) {
+            Loop();
+        }
+        NewMessageToAll("Event: Magic Field is giving out double coins!");
+        BigMessage(AllPlayers(), "Event: Magic Field is giving out double coins!");
+        MagicFieldColor = Color.Green;
+    } else {
+        if (MagicFieldColor == Color.Yellow) {
+            Loop();
+        }
+        MagicFieldColor = Color.Yellow;
+    }
+
+    Loop();
+}

@@ -1,0 +1,41 @@
+import "../utils/index.ostw";
+
+rule: "[Blocked] Effects"
+{
+    CreateBeamEffect(AllPlayers(Team.All), BeamType.GoodBeam, Vector(98.951, 11.973, -33.957), Vector(94.972, 11.973, -32.922), Color.Red, EffectRev.VisibleToPositionAndRadius);
+    CreateBeamEffect(AllPlayers(Team.All), BeamType.GoodBeam, Vector(105.177, 11.973, -32.556), Vector(105.956, 11.973, -29.741), Color.Red, EffectRev.VisibleToPositionAndRadius);
+    CreateBeamEffect(AllPlayers(Team.All), BeamType.GoodBeam, Vector(116.442, 11.973, -12.082), Vector(112.687, 11.973, -13.038), Color.Red, EffectRev.VisibleToPositionAndRadius);
+    CreateBeamEffect(AllPlayers(Team.All), BeamType.GoodBeam, Vector(138.55, 11.973, -20.679), Vector(137.43, 11.973, -17.089), Color.Red, EffectRev.VisibleToPositionAndRadius);
+}
+
+rule: "[Blocked] Area 1"
+Event.OngoingPlayer
+if (PositionOf(Player) != 0)
+if (IsAlive(Player))
+if (DistanceBetween(PositionOf(Player), BlockedArea1Loc) <= 7)
+if (ZOf(PositionOf(Player)) < -24.5) // Ensures stairs behind the spawn room are accessible
+{
+    Teleport(Player, Vector(102.289, 11.973, -38.299));
+    MinWait();
+    LoopIfConditionIsTrue();
+}
+
+rule: "[Blocked] Area 2" // Right side
+Event.OngoingPlayer
+if (PositionOf(Player) != 0)
+if (IsAlive(Player))
+if (DistanceBetween(PositionOf(Player), BlockedArea2Loc) <= 6) {
+    Teleport(Player, Vector(115.764, 11.973, -15.449));
+    MinWait();
+    LoopIfConditionIsTrue();
+}
+
+rule: "[Blocked] Area 3" // Left side
+Event.OngoingPlayer
+if (PositionOf(Player) != 0)
+if (IsAlive(Player))
+if (DistanceBetween(PositionOf(Player), BlockedArea3Loc) <= 6) {
+    Teleport(Player, Vector(135.071, 11.973, -20.509));
+    MinWait();
+    LoopIfConditionIsTrue();
+}

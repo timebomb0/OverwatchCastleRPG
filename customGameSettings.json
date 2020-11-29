@@ -1,5 +1,5 @@
 {
-    "Description": "WIP PvE RPG Chill/Kill",
+    "Description": "WIP PvPvE RPG by TimeBomb. May be buggy",
     "Lobby": {
         "Match Voice Chat": true,
         "Max Spectators": 12,
@@ -10,7 +10,6 @@
     "Modes": {
         "Deathmatch": {
             "Enabled Maps": [
-                "Eichenwalde",
                 "Eichenwalde (Halloween)"
             ]
         },
@@ -25,6 +24,18 @@
                 "Ultimate Generation": 10,
                 "Ultimate Generation - Combat": 0,
                 "Ultimate Generation - Passive": 0
+            },
+            "Symmetra": {
+                "Sentry Turret": false
+            },
+            "Torbjörn": {
+                "Deploy Turret": false
+            },
+            "Echo": {
+                "Sticky Bombs": false
+            },
+            "Sigma": {
+                "Ultimate Ability (Gravitic Flux)": false
             }
         }
     }

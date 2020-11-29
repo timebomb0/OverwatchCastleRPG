@@ -7,7 +7,7 @@ if (DistanceBetween(Player, SlotMachineLoc) <= 2.5)
 if (Coins >= 5000)
 {
 	SmallMessage(Player, "Spinning slot machine...");
-	Wait(0.75, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	Coins -= 5000;
 
 	PlayEffect(AllPlayers(Team.All), PlayEffect.GoodPickupEffect, Color.White, Player, 30);
@@ -36,7 +36,7 @@ if (Item_Trinket >= 100)
 if (DistanceBetween(Player, CelestialSlotMachineLoc) <= 2.5)
 {
 	SmallMessage(Player, "Spinning celestial slot machine...");
-	Wait(0.75, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	Item_Trinket -= 100;
 
 	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, Color.White, Player, 100);

@@ -3,10 +3,14 @@ import "utils/index.ostw";
 rule: "[All World] Initialize Settings"
 {
 	SetMatchTime(5);
+	DisableScoring();
+	DisableCompletion();
+	DisableAnnouncer();
 	MobKills = 0;
+	BotList = [];
 	DifficultyModifier = 1;
 	UnlockLevel = 0;
-	StatPointsPerLevel = 5;
+	StatPointsPerLevel = 7;
 	TraitPointGainedEveryXLevels = 4;
 	CoinsPerLevel = 2000;
 	MobSpeedModifier = 0.7;
@@ -15,6 +19,10 @@ rule: "[All World] Initialize Settings"
 	CoinsOnKillMultiplier = 15;
 	MobHealthModifier = 1;
 	UltimateTickRate = 5;
+	root.PlayerList[0] = [];
+	root.PlayerList[1] = [];
+	root.PlayerList[2] = [];
+	root.PlayerList[3] = [];
 	Item_TrinketModifier = 1;
 	JoinedPlayerInitialLevelMultiplier = 0.9;
 	CurrentQuestKills = 0;
@@ -25,9 +33,6 @@ rule: "[All World] New Player Settings"
 Event.OnPlayerJoin
 if(!IsDummyBot(Player))
 {
-	DisableScoring();
-	DisableCompletion();
-	DisableAnnouncer();
 	CreateInWorldText(
 		AllPlayers(Team.All),
 		<@"<0> <1> <2>",
@@ -44,11 +49,12 @@ if(!IsDummyBot(Player))
 	DamageReceive = 100;
 	MoveSpeed = 100;
     CooldownReduction = 0;
+	IsLastBotInitd = true; // On round start, we want to start spawning the first mob, so we set this to true
 	CurrentZone = 2;
-    PreviousCurrentZone = 2;
 	ProjectileSpeed = 100;
 	HealingDealt = 20;
 	HealingReceive = 100;
+	Messages = [];
 	Messages[0] = "";
 	Messages[1] = "";
 	Messages[2] = "";
@@ -58,7 +64,7 @@ if(!IsDummyBot(Player))
 	UltimateGain = 2;
 	CoinGainRate = 1.3;
 	// TODO: Change EXPGainRate back to ~1.1
-	EXPGainRate = 10;
+	EXPGainRate = 5;
 	TrinketGainRate = 1;
 	Item_Trinket = 0;
 	Item_ExperiencePotion = 0;
@@ -81,9 +87,9 @@ if(!IsDummyBot(Player))
 	PlayerLevel = 0;
 	MobRespawnTime = 3;
 	MaxSpawnedMineNodes = 6;
-	PeaceMode = true;
 	MinWait();
-    StartDamageModification(Player, root.PlayerList[0], PeaceMode != true ? 100 : 0, DamageModificationRev.ReceiversDamagersAndDamagePercent);
+    StartDamageModification(Player, root.PlayerList[3], 100, DamageModificationRev.ReceiversAndDamagers);
+    StartDamageModification(Player, root.PlayerList[1], 0, DamageModificationRev.ReceiversAndDamagers);
 	UpdateAveragePlayerLevel();
 	// New players are set to the current lowest player's level * JoinedPlayerInitialLevelMultiplier 
 	PlayerLevel = RoundToInteger(SortedArray(FilteredArray(MappedArray(root.PlayerList[0], ArrayElement().PlayerLevel),
@@ -92,7 +98,6 @@ if(!IsDummyBot(Player))
 		PlayerLevel = 1;
 	}
 	MinWait();
-	SetPlayerScore(Player, PlayerLevel);
 	// Allow first level to give player stat points - by not doing PlayerLevel - 1
 	StatPoints = PlayerLevel * root.StatPointsPerLevel;
 	TraitPoints = RoundToInteger(PlayerLevel / TraitPointGainedEveryXLevels, Rounding.Down);
@@ -101,6 +106,7 @@ if(!IsDummyBot(Player))
 	for (define i! = 0; i < (PlayerLevel - 1); i++) {
 		EXPToLevelUp *= MaxXPGrowthPerLevel;
 	}
+	HasDied = true; // To trigger initial spawn teleport
 	Wait(1, WaitBehavior.IgnoreCondition);
 	SetDamageDealt(Player, DamageDealt);
 	SetMaxHealth(Player, HP);
@@ -118,7 +124,7 @@ if(!IsDummyBot(Player))
 	Wait(3, WaitBehavior.IgnoreCondition);
 	BigMessage(Player, "Hunting Grounds [PvE]: Kill mobs to to gain experience, coins, and trinkets.");
 	Wait(3, WaitBehavior.IgnoreCondition);
-	BigMessage(Player, "Deadly Castle [PvP]: Melee mine nodes, take in free coins and more.");
+	BigMessage(Player, "Mines [PvP]: Melee mine nodes, take in magic fields, take in free coins and more.");
 	Wait(3, WaitBehavior.IgnoreCondition);
 	BigMessage(Player, "There's more to come in this mode shortly, and balance is ongoing. Have fun!");
 }

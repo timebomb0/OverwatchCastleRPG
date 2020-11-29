@@ -9,7 +9,8 @@ enum MineNodeType {
 }
 
 class MineNode {
-    public define Location;
+    public define Health;
+    private define Location;
     private MineNodeType Type;
     private define EffectId;
 
@@ -38,28 +39,74 @@ class MineNode {
         switch(Type) {
             case MineNodeType.Coins:
                 color = Color.Yellow;
+                Health = 2;
                 break;
             case MineNodeType.ExperiencePotion:
                 color = Color.Rose;
+                Health = RandomInteger(4, 5);
                 break;
             case MineNodeType.MoneyBag:
                 color = Color.Green;
+                Health = 3;
                 break;
             case MineNodeType.Trinkets:
                 color = Color.Red;
+                Health = 3;
                 break;
             case MineNodeType.WishingStar:
                 color = Color.Purple;
+                Health = RandomInteger(6, 9);
                 break;
         }
         MinWait();
         
-        CreateEffect(AllPlayers(), Effect.Sphere, color, Location, 0.2, EffectRev.VisibleTo);
+        CreateEffect(AllPlayers(), Effect.Orb, color, Location, 0.1, EffectRev.VisibleTo);
         EffectId = LastCreatedEntity();
     }
 
-    public void consume(ref define player) {
-        root.NewMessage("TODO: Mining node reward");
+    public void damage(ref define player) {
+        if (Health > 1) {
+            Health--;
+            PlayEffect(AllPlayers(), PlayEffect.ExplosionSound, Color.White, Location, 120);
+            SmallMessage(player, "*Thwack* The mining node cracks a little...");
+        } else {
+            Health--;
+            consume(player);
+        }
+    }
+
+    private void consume(ref define player) {
+        Wait(0.06, WaitBehavior.IgnoreCondition);
+        PlayEffect(AllPlayers(), PlayEffect.BuffImpactSound, Color.White, Location, 100);
+        PlayEffect(AllPlayers(), PlayEffect.GoodPickupEffect, Color.White, Location + Vector(0, 0.2, 0), 8);
+        Wait(0.14, WaitBehavior.IgnoreCondition);
         DestroyEffect(EffectId);
+
+        switch(Type) {
+            case MineNodeType.Coins:
+                define coinLoot! = RandomInteger(100, 2500);
+                MinWait();
+                player.Coins += coinLoot;
+                root.NewMessage(<"<0> Coins Discovered!", coinLoot>);
+                break;
+            case MineNodeType.ExperiencePotion:
+                player.Item_ExperiencePotion += 1;
+                root.NewMessage(<"Lucky, Found an Experience Potion!">);
+                break;
+            case MineNodeType.MoneyBag:
+                player.Item_MoneyBag += 1;
+                root.NewMessage(<"Nice, Found a Money Bag!">);
+                break;
+            case MineNodeType.Trinkets:
+                define trinketLoot! = RandomInteger(15, 50);
+                MinWait();
+                player.Item_Trinket += trinketLoot;
+                root.NewMessage(<"<0> Trinkets Discovered!", trinketLoot>);
+                break;
+            case MineNodeType.WishingStar:
+                player.Item_WishingStar += 1;
+                root.NewMessage(<"Wow, found a Wishing Star!">);
+                break;
+        }
     }
 }

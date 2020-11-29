@@ -1,8 +1,0 @@
-import "../../utils/index.ostw";
-
-rule: "[Hud] Chill"
-Event.OngoingPlayer
-{
-    CreateEffect(Player, Effect.Ring, Color.Orange, ChillLocation, 2, EffectRev.VisibleToPositionAndRadius);
-    CreateInWorldText(Player, <"<0>", ChillModeEnabled ? "Disable Chill Mode" : "Enable Chill Mode">, ChillLocation, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.LimeGreen, Spectators.DefaultVisibility);
-}

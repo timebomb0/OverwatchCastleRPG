@@ -22,7 +22,6 @@ class Mob {
 	public define AttackInterval;
 	
 	// Vars set/used only in methods
-	private define chillingMobRewardModifier;
 	private define levelMobRewardModifier;
 	private define attackerMobRewardModifier;
 
@@ -63,21 +62,21 @@ class Mob {
 			define aPlayer = root.PlayerList[0][root.playerItr[SlotOf(root.Player)]];
 			MinWait();
 
-			chillingMobRewardModifier = aPlayer.ChillModeEnabled ? 0.5 : 1;
 			attackerMobRewardModifier = ArrayContains(root.Player.Attackers, aPlayer) ? 1 : 0.33;
 			// If player is much higher or lower level than mob, they get much lower rewards
 			if (
 				(aPlayer.PlayerLevel / 2 < root.Player.PlayerLevel && aPlayer.PlayerLevel - root.Player.PlayerLevel > 10) ||
 				(root.Player.PlayerLevel / 2 < aPlayer.PlayerLevel && root.Player.PlayerLevel - aPlayer.PlayerLevel > 10)
 			) {
-				levelMobRewardModifier = 0.2 * root.Player.PlayerLevel / 40;
+				levelMobRewardModifier = 1 + (aPlayer.PlayerLevel / 80) + (root.Player.PlayerLevel / 40);
+				// levelMobRewardModifier = 0.2 * root.Player.PlayerLevel / 40;
 			} else {
 				levelMobRewardModifier = 1 + (aPlayer.PlayerLevel / 80) + (root.Player.PlayerLevel / 40);
 			}
 
 			aPlayer._MobVars[0] = RoundToInteger(RandomInteger(EXPOnKill * 0.9, EXPOnKill * 1.1) * attackerMobRewardModifier * aPlayer.EXPGainRate * levelMobRewardModifier, Rounding.Nearest);
-			aPlayer._MobVars[1] = RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * attackerMobRewardModifier * aPlayer.CoinGainRate  * chillingMobRewardModifier * levelMobRewardModifier * root.CoinsOnKillMultiplier, Rounding.Nearest);
-			// aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate * chillingMobRewardModifier, Rounding.Nearest);
+			aPlayer._MobVars[1] = RoundToInteger(RandomInteger(CoinsOnKill * 0.8, CoinsOnKill * 1.2) * attackerMobRewardModifier * aPlayer.CoinGainRate  * levelMobRewardModifier * root.CoinsOnKillMultiplier, Rounding.Nearest);
+			// aPlayer._MobVars[2] = RoundToInteger(root.Item_TrinketModifier * TrinketOnKill * aPlayer.TrinketGainRate, Rounding.Nearest);
 			aPlayer._MobVars[2] = RandomInteger(1, 4);
 			MinWait();
 			
@@ -109,26 +108,32 @@ class Mob {
 		Kill(mob, null);
 	}
 
-	public void spawn(ref define slot, ref define mobId)
-	{
-		CreateDummyBot(HeroMob, Team.All, slot, Vector(0, 0, 0), Vector(0, 0, 0));
+	public void initialize(ref define mob, ref define mobId) {
+		SetRespawnMaxTime(mob, 2);
+    	root.BotList = Append(root.BotList, mob);
+		define totalPlayerLevelZ1! = 0;
+		for (define i! = 0; i < CountOf(root.PlayerList[1]); i++) {
+			totalPlayerLevelZ1 += root.PlayerList[1][i].PlayerLevel;
+		}
 		MinWait();
-    	root.BotList = FilteredArray(AllPlayers(Team.All), IsDummyBot(ArrayElement()));
+		define averagePlayerLevelZ1! = RoundToInteger(totalPlayerLevelZ1 / CountOf(root.PlayerList[1]), Rounding.Nearest);
+		if (averagePlayerLevelZ1 < 1) {
+			 averagePlayerLevelZ1 = 1;
+		}
 		MinWait();
 
-		root.UpdateAveragePlayerLevelZone1();
-		define mob = PlayersInSlot(slot, Team.All);
+		mob.Attackers = [];
 		mob.MobId = mobId;
-		mob.PlayerLevel = RoundToInteger(RandomInteger(root.AveragePlayerLevel[1] * 0.9, root.AveragePlayerLevel[1] * 1.1), Rounding.Nearest);
+		mob.PlayerLevel = RoundToInteger(RandomInteger(averagePlayerLevelZ1 * 0.9, averagePlayerLevelZ1 * 1.1), Rounding.Nearest);
 		if (mob.PlayerLevel < 1) {
 			mob.PlayerLevel = 1;
 		}
 		StartDamageModification(mob, root.BotList, 0, DamageModificationRev.ReceiversAndDamagers);
 
 		MinWait();
-		define MobLevelModifier = 1 + (mob.PlayerLevel * 0.3);
+		define MobLevelModifier = 1 + (mob.PlayerLevel * 0.15);
 		SetHealingReceived(PlayersOnHero(HeroMob, Team.Team1), 0);
-		SetMaxHealth(mob, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * (CountOf(root.PlayerList[1]) > 1 ? CountOf(root.PlayerList[1]) / 2 : 1) * MaxHealth);
+		SetMaxHealth(mob, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * (CountOf(root.PlayerList[1]) > 3 ? CountOf(root.PlayerList[1]) / 3 : 1) * MaxHealth);
 		MinWait();
 		SetPlayerHealth(mob, MaxHealth(mob));
 		SetDamageDealt(mob, MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);

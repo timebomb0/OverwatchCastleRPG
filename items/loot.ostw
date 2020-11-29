@@ -18,14 +18,14 @@ if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UseExperiencePotionLoc) <= 2.5)
 {
 	SmallMessage(Player, "Consuming Experience Potion...");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.White, Player, 100);
 	define loot! = RandomInteger(EXPToLevelUp * 0.25, EXPToLevelUp * 0.8);
 	Item_ExperiencePotion -= 1;
 	MinWait();
 	NewMessage(<"Gained <0> Experience Points!", loot>);
 	EXP += loot;
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
 }
 
@@ -37,14 +37,14 @@ if (IsAlive(Player) == true)
 if (DistanceBetween(Player, UseMoneyBagLoc) <= 2.5)
 {
 	SmallMessage(Player, "Opening Money Bag...");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, Player, 100);
 	define loot! = RandomInteger(500, 10000);
 	Item_MoneyBag -= 1;
 	MinWait();
 	Coins += loot;
 	NewMessage(<"Received <0> Coins from Opening Money Bag", loot>);
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	LoopIfConditionIsTrue();
 }
 
@@ -56,7 +56,7 @@ if (IsAlive(Player) == true)
 if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 {
 	SmallMessage(Player, "Tossing Wishing Star...");
-	Wait(1, WaitBehavior.AbortWhenFalse);
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, Color.White, Player, 100);
 	PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Violet, Player, 8);
 	define rand! = RandomInteger(1,1);
@@ -70,4 +70,7 @@ if (DistanceBetween(Player, TossWishingStarLoc) <= 2)
 		BigMessage(AllPlayers(Team.All), <"<0> has received <1> Free Level(s) from Wishing Star!", Player, rand>);
 		EXP = EXP + (EXPToLevelUp * WishingStarXPLevelGainMultiplier[rand]);
 	}
+
+	Wait(0.2, WaitBehavior.AbortWhenFalse);
+	LoopIfConditionIsTrue();
 }

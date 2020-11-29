@@ -4,35 +4,53 @@ import "mineNode.ostw";
 rule: "[Mine Nodes] Init"
 {
     UnusedMineNodeLocations = [
-        Vector(107.269, 13.173, -53.646),
-        Vector(112.690, 13.173, -57.373),
-        Vector(118.228, 11.475, -61.543),
-        Vector(121.632, 11.173, -65.216),
-        Vector(124.062, 11.172, -57.442),
-        Vector(134.844, 12.173, -61.406),
-        Vector(138.868, 12.173, -59.217),
-        Vector(134.384, 12.173, -55.234),
-        Vector(130.359, 12.173, -55.520),
-        Vector(139.834, 12.173, -49.501),
-        Vector(139.432, 12.173, -42.811),
-        Vector(143.521, 12.173, -39.166),
-        Vector(141.758, 12.173, -35.091),
-        Vector(141.296, 11.862, -30.120),
-        Vector(135.394, 13.803, -40.527),
-        Vector(130.997, 15.186, -37.928),
-        Vector(134.381, 15.186, -35.919),
-        Vector(130.525, 15.186, -34.088),
-        Vector(129.459, 12.260, -62.363)
+        Vector(107.269, 12.673, -53.646),
+        Vector(112.690, 12.673, -57.373),
+        Vector(118.228, 10.975, -61.543),
+        Vector(121.632, 10.673, -65.216),
+        Vector(124.062, 10.672, -57.442),
+        Vector(134.844, 11.673, -61.406),
+        Vector(138.868, 11.673, -59.217),
+        Vector(134.384, 11.673, -55.234),
+        Vector(130.359, 11.673, -55.520),
+        Vector(139.834, 11.673, -49.501),
+        Vector(139.432, 11.673, -42.811),
+        Vector(143.521, 11.673, -39.166),
+        Vector(141.758, 11.673, -35.091),
+        Vector(141.296, 11.362, -30.120),
+        Vector(135.394, 13.303, -40.527),
+        Vector(130.997, 14.686, -37.928),
+        Vector(134.381, 14.686, -35.919),
+        Vector(130.525, 14.686, -34.088),
+        Vector(129.459, 11.760, -62.363)
     ];
     SpawnedMineNodeLocs = [];
     SpawnedMineNodes = [];
+    MinWait();
+    CreateInWorldText(AllPlayers(Team.All), CountOf(SpawnedMineNodeLocs) > 0 ? "Melee mining nodes to damage & destroy them!" : "", Vector(105.320, 15.541, -47.545), 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToAndString, Color.Yellow, Spectators.DefaultVisibility);
+}
+
+rule: "[Mine Nodes] Toggle event"
+{
+    define rand! = RandomInteger(1, 3);
+    MinWait();
+    if (rand == 1) {
+        MineSpawningEnabled = true;
+        NewMessageToAll("The Mine has started spawning nodes!");
+        BigMessage(AllPlayers(), "The Mine has started spawning nodes!");
+    } else {
+        MineSpawningEnabled = false;
+    }
+    Wait(45, WaitBehavior.IgnoreCondition);
+    Loop();
 }
 
 rule: "[Mine Nodes] Spawn"
 if (CountOf(SpawnedMineNodes) < MaxSpawnedMineNodes)
+if (MineSpawningEnabled == true)
 {
     while(CountOf(SpawnedMineNodeLocs) <= MaxSpawnedMineNodes) {
-        Wait(RandomInteger(4, 10), WaitBehavior.AbortWhenFalse);
+        Wait(RandomInteger(2, 5), WaitBehavior.AbortWhenFalse);
         define nodeLoc! = RandomValueInArray(UnusedMineNodeLocations);
         MinWait();
         SpawnedMineNodeLocs = Append(SpawnedMineNodeLocs, nodeLoc);
@@ -43,21 +61,32 @@ if (CountOf(SpawnedMineNodes) < MaxSpawnedMineNodes)
     LoopIfConditionIsTrue();
 }
 
-rule: "[Mine Nodes] Consume"
+rule: "[Mine Nodes] Use Node"
 Event.OngoingPlayer
-if (IsButtonHeld(Player, Button.Melee))
-if (IsTrueForAny(SpawnedMineNodeLocs, DistanceBetween(PositionOf(Player), ArrayElement()) < 2))
+if (PositionOf(Player) != 0)
+if (
+    IsButtonHeld(Player, Button.Melee) ||
+    ((HeroOf(Player) == Hero.Brigitte || HeroOf(Player) == Hero.Reinhardt) && IsButtonHeld(Player, Button.PrimaryFire))
+)
+if (IsTrueForAny(SpawnedMineNodeLocs, DistanceBetween(PositionOf(Player), ArrayElement()) < 2.5))
 {
     define nearestNodeLoc! = FirstOf(SortedArray(SpawnedMineNodeLocs, DistanceBetween(ArrayElement(), PositionOf(Player))));
     MinWait();
     
     MineNode node! = SpawnedMineNodes[IndexOfArrayValue(SpawnedMineNodeLocs, nearestNodeLoc)];
     MinWait();
-    BigMessage(AllPlayers(), <"Nearest node loc is <0> that node's loc is <1>", nearestNodeLoc, node.Location>);
-    node.consume(Player);
+    node.damage(Player);
+    MinWait();
+    
+    if (node.Health == 0) {
+        delete(node);
+        UnusedMineNodeLocations = Append(UnusedMineNodeLocations, nearestNodeLoc);
+        SpawnedMineNodeLocs = RemoveFromArray(SpawnedMineNodeLocs, nearestNodeLoc);
+        SpawnedMineNodes = RemoveFromArray(SpawnedMineNodes, node);
+    }
 
-    delete(node);
-    UnusedMineNodeLocations = Append(UnusedMineNodeLocations, nearestNodeLoc);
-    SpawnedMineNodeLocs = RemoveFromArray(SpawnedMineNodeLocs, nearestNodeLoc);
-    SpawnedMineNodes = RemoveFromArray(SpawnedMineNodes, node);
+    Wait(0.9, WaitBehavior.IgnoreCondition); // Wait for melee animation to finish
+    if (HeroOf(Player) == Hero.Brigitte || HeroOf(Player) == Hero.Reinhardt) {
+        LoopIfConditionIsTrue();
+    }
 }

@@ -3,6 +3,7 @@ import "../utils/index.ostw";
 rule: "[Ultimate] Passive Ultimate Generation"
 Event.OngoingPlayer
 if (!IsDummyBot(Player))
+if (UltimateNumber < 100)
 {
 	Wait(UltimateTickRate, WaitBehavior.AbortWhenFalse);
 	UltimateNumber += UltimateGain;

@@ -13,7 +13,7 @@ if (DistanceBetween(Player, Vector(53.993, 12.975, -81.314)) <= 1.5)
 	StatPoints = StatPoints - 1;
 	DamageDealt += 1;
 	SetDamageDealt(Player, DamageDealt);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 30);
 	LoopIfConditionIsTrue();
 }
 
@@ -30,23 +30,24 @@ if (DistanceBetween(Player, Vector(56.398, 12.975, -81.814)) <= 1.5)
 	SetMaxHealth(Player, HP);
 	MinWait();
 	SetPlayerHealth(Player, MaxHealth(Player));
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 30);
 	LoopIfConditionIsTrue();
 }
 
 rule: "[Upgrade] BasicDamageReceiveUpgrade"
 Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact) == true)
-if (DamageReceive > 40)
+if (DamageReceive > 25)
 if (StatPoints >= 1)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, Vector(54.539, 12.975, -77.976)) <= 1.5)
 {
 	Wait(0.1, WaitBehavior.IgnoreCondition);
 	StatPoints = StatPoints - 1;
-	DamageReceive -= 0.25;
+	DamageReceive -= 0.3;
+	MinWait();
 	SetDamageReceived(Player, DamageReceive);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 30);
 	LoopIfConditionIsTrue();
 }
 
@@ -61,6 +62,6 @@ if (DistanceBetween(Player, Vector(56.873, 12.975, -78.476)) <= 1.5)
 	StatPoints = StatPoints - 1;
 	HealingDealt += 1;
 	SetHealingDealt(Player, HealingDealt);
-	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 45);
+	PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, Player, 30);
 	LoopIfConditionIsTrue();
 }

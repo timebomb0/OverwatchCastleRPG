@@ -26,13 +26,13 @@ if (!IsDummyBot(Player))
 		Money Bag : <2> | Wishing Star : <3>",
 	Item_Trinket, Item_ExperiencePotion, Item_MoneyBag, Item_WishingStar>, Color.Orange, Color.Turquoise, 2);
 
-	RightHUDSubheader(Player, (Messages[0] != "" && !Messages[0]) ? <"<0>
+	RightHUDSubheader(Player, StringLength(Messages[0]) > 0 ? <"<0>
 		<1>
 		<2>
 		<3>
 		<4>",
 		Messages[0], Messages[1], Messages[2], Messages[3], Messages[4]>
-	: null, Color.White, 1);
+	: "", Color.White, 1);
 
 	TopHUDSubheader(Player, RecentGains[0] > 0 || RecentGains[1] > 0 || RecentGains[2] > 0 ?
 <"+<0> XP

@@ -4,10 +4,11 @@ import "../utils/index.ostw";
 rule: "[All World] Prevent Pit"
 Event.OngoingPlayer
 if (IsDummyBot(Player))
+if (PositionOf(Player) != 0)
 if (YOf(PositionOf(Player)) <= 0.5)
 {
 	SetStatus(Player, null, Status.Frozen, 0.5);
-	Teleport(Player, RandomValueInArray(MonsterSpawnRandom));
+	Teleport(Player, RandomValueInArray(Player.MobSpawnLoc));
 }
 
 // After initial spawn bridge
