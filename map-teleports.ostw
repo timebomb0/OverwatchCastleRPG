@@ -20,9 +20,9 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, SecondPointToFirstPointLoc) <= 2)
 {
-    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
-    CurrentZone = 1;
     root.PlayerList[1] = Append(root.PlayerList[1], Player);
+    root.PlayerList[2] = RemoveFromArray(root.PlayerList[2], Player);
+    root.PlayerList[3] = RemoveFromArray(root.PlayerList[3], Player);
     ClearStatus(Player, Status.PhasedOut);
     Teleport(Player, root.FirstPointSpawnLoc);
 }
@@ -32,9 +32,9 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, FirstPointToSecondPointLoc) <= 2)
 {
-    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
-    CurrentZone = 2;
+    root.PlayerList[1] = RemoveFromArray(root.PlayerList[1], Player);
     root.PlayerList[2] = Append(root.PlayerList[2], Player);
+    root.PlayerList[3] = RemoveFromArray(root.PlayerList[3], Player);
     SetStatus(Player, null, Status.PhasedOut, 9999);
     Teleport(Player, root.SecondPointFromFirstPointSpawnLoc);
 }
@@ -44,8 +44,8 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, SecondPointToThirdPointLoc) <= 2)
 {
-    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
-    CurrentZone = 3;
+    root.PlayerList[1] = RemoveFromArray(root.PlayerList[1], Player);
+    root.PlayerList[2] = RemoveFromArray(root.PlayerList[2], Player);
     root.PlayerList[3] = Append(root.PlayerList[3], Player);
     ClearStatus(Player, Status.PhasedOut);
     Teleport(Player, root.ThirdPointSpawnLoc);
@@ -56,9 +56,9 @@ Event.OngoingPlayer
 if (IsButtonHeld(Player, Button.Interact))
 if (DistanceBetween(Player, ThirdPointToSecondPointLoc) <= 2)
 {
-    root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
-    CurrentZone = 2;
+    root.PlayerList[1] = RemoveFromArray(root.PlayerList[1], Player);
     root.PlayerList[2] = Append(root.PlayerList[2], Player);
+    root.PlayerList[3] = RemoveFromArray(root.PlayerList[3], Player);
     SetStatus(Player, null, Status.PhasedOut, 9999);
     Teleport(Player, root.SecondPointFromThirdPointSpawnLoc);
 }

@@ -50,7 +50,6 @@ if(!IsDummyBot(Player))
 	MoveSpeed = 100;
     CooldownReduction = 0;
 	IsLastBotInitd = true; // On round start, we want to start spawning the first mob, so we set this to true
-	CurrentZone = 2;
 	ProjectileSpeed = 100;
 	HealingDealt = 20;
 	HealingReceive = 100;

@@ -16,6 +16,7 @@ Event.OnPlayerLeave
 if (!IsDummyBot(Player))
 {
     root.PlayerList[0] = RemoveFromArray(root.PlayerList[0], Player);
-    MinWait();
-    root.PlayerList[Player.CurrentZone] = RemoveFromArray(root.PlayerList[Player.CurrentZone], Player);
+    root.PlayerList[1] = RemoveFromArray(root.PlayerList[1], Player);
+    root.PlayerList[2] = RemoveFromArray(root.PlayerList[2], Player);
+    root.PlayerList[3] = RemoveFromArray(root.PlayerList[3], Player);
 }

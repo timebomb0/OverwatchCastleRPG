@@ -38,9 +38,9 @@ if (PositionOf(Player) != 0)
 if (HasDied == true)
 {
 	SetPlayerScore(Player, PlayerLevel); // On initial spawn, we set score here - i.e. once player has picked hero
-	root.PlayerList[CurrentZone] = RemoveFromArray(root.PlayerList[CurrentZone], Player);
-    CurrentZone = 2;
+    root.PlayerList[1] = RemoveFromArray(root.PlayerList[1], Player);
     root.PlayerList[2] = Append(root.PlayerList[2], Player);
+    root.PlayerList[3] = RemoveFromArray(root.PlayerList[3], Player);
 	SetStatus(Player, null, Status.PhasedOut, 9999);
 	Teleport(Player, Vector(56.125, 12.973, -75.400));
 	MinWait();

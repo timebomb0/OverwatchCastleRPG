@@ -108,6 +108,5 @@ playervar define RecentGains;
 playervar define RecentGainsHistory;
 playervar define MobId;
 playervar define Attackers;
-playervar define CurrentZone;
 playervar define MobSpawnLoc;
 playervar define DeathCount;
