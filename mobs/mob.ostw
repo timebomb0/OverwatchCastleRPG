@@ -5,10 +5,8 @@ class Mob {
 	private define TrinketOnKill;
 	private define EnergyOnKill;
 	private define CoreDamage;
-	private define SpawnMessage;
 	private define DamageDealt;
 	private define MaxHealth;
-	private define MoveSpeed;
 	private define HeroMob;
 	private define EXPOnKill;
 	private define AutoUltChance;
@@ -27,8 +25,7 @@ class Mob {
 
 	public Mob(ref define heroMob, ref define coinsOnKill, ref define trinketOnKill,
 				ref define energyOnKill, ref define expOnKill,
-				ref define spawnMessage,
-				ref define coreDamage, ref define damageDealt, ref define maxHealth, ref define moveSpeed,
+				ref define coreDamage, ref define damageDealt, ref define maxHealth,
 				ref define autoUltChance, ref define autoPrimaryAtkChance, ref define autoSecondaryAtkChance,
 				ref define autoAbility1Chance, ref define autoAbility2Chance,
 				ref define attackDuringUlt, ref define holdPrimaryFire, ref define holdSecondaryFire, ref define attackInterval)
@@ -38,10 +35,8 @@ class Mob {
 		TrinketOnKill = trinketOnKill;
 		EnergyOnKill = energyOnKill;
 		CoreDamage = coreDamage;
-		SpawnMessage = spawnMessage;
 		DamageDealt = damageDealt;
 		MaxHealth = maxHealth;
-		MoveSpeed = moveSpeed;
 		AutoUltChance = autoUltChance;
 		AutoPrimaryAtkChance = autoPrimaryAtkChance;
 		AutoSecondaryAtkChance = autoSecondaryAtkChance;
@@ -116,28 +111,34 @@ class Mob {
 			totalPlayerLevelZ1 += root.PlayerList[1][i].PlayerLevel;
 		}
 		MinWait();
-		define averagePlayerLevelZ1! = RoundToInteger(totalPlayerLevelZ1 / CountOf(root.PlayerList[1]), Rounding.Nearest);
-		if (averagePlayerLevelZ1 < 1) {
-			 averagePlayerLevelZ1 = 1;
+		// If no players in zone 1 when mob is spawned, then use avereage player level instead of average zone 1 player level
+		define averageLevelToUse!;
+		if (CountOf(root.PlayerList[1] > 0)) {
+			averageLevelToUse = RoundToInteger(totalPlayerLevelZ1 / CountOf(root.PlayerList[1]), Rounding.Nearest);
+		} else {
+			root.UpdateAveragePlayerLevel();
+			MinWait();
+			averageLevelToUse = root.AveragePlayerLevel;
+		}
+		if (averageLevelToUse < 1) {
+			 averageLevelToUse = 1;
 		}
 		MinWait();
 
 		mob.Attackers = [];
 		mob.MobId = mobId;
-		mob.PlayerLevel = RoundToInteger(RandomInteger(averagePlayerLevelZ1 * 0.9, averagePlayerLevelZ1 * 1.1), Rounding.Nearest);
+		mob.PlayerLevel = RoundToInteger(RandomInteger(averageLevelToUse * 0.9, averageLevelToUse * 1.1), Rounding.Nearest);
 		if (mob.PlayerLevel < 1) {
 			mob.PlayerLevel = 1;
 		}
 		StartDamageModification(mob, root.BotList, 0, DamageModificationRev.ReceiversAndDamagers);
 
 		MinWait();
-		define MobLevelModifier = 1 + (mob.PlayerLevel * 0.15);
 		SetHealingReceived(PlayersOnHero(HeroMob, Team.Team1), 0);
-		SetMaxHealth(mob, MobLevelModifier * root.DifficultyModifier * root.MobHealthModifier * (CountOf(root.PlayerList[1]) > 3 ? CountOf(root.PlayerList[1]) / 3 : 1) * MaxHealth);
+		SetMaxHealth(mob, (1 + (mob.PlayerLevel * 0.2)) * root.DifficultyModifier * root.MobHealthModifier * (CountOf(root.PlayerList[1]) > 2 ? CountOf(root.PlayerList[1]) / 3 : 1) * MaxHealth);
 		MinWait();
 		SetPlayerHealth(mob, MaxHealth(mob));
-		SetDamageDealt(mob, MobLevelModifier * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
-		SetMoveSpeed(mob, (MobLevelModifier / 2) * root.MobSpeedModifier * MoveSpeed);
+		SetDamageDealt(mob, mob.PlayerLevel * 0.75 * root.DifficultyModifier * root.MobDamageModifier * DamageDealt);
 
 		CreateInWorldText(
 			AllPlayers(Team.All),

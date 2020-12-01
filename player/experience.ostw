@@ -9,7 +9,7 @@ if (EXP >= EXPToLevelUp)
     PlayerLevel += 1;
     MinWait();
     SetPlayerScore(Player, PlayerLevel);
-    StatPoints += root.StatPointsPerLevel;
+    StatPoints += root.StatPointsPerLevel + PrestigeLevel;
     if (PlayerLevel % root.TraitPointGainedEveryXLevels == 0) {
         TraitPoints += 1;
     }
@@ -29,6 +29,8 @@ if (!IsDummyBot(Player))
 if (PlayerLevel <= root.AveragePlayerLevel * 0.85)
 if (CatchUpEnabled == false)
 {
+    UpdateAveragePlayerLevel();
+    Wait(0.1, WaitBehavior.AbortWhenFalse);
     EXPGainRate += 4;
     Wait(5, WaitBehavior.AbortWhenFalse);
     CatchUpEnabled = true;
@@ -41,6 +43,10 @@ if (!IsDummyBot(Player))
 if (PlayerLevel > root.AveragePlayerLevel * 0.85)
 if (CatchUpEnabled == true)
 {
+    UpdateAveragePlayerLevel();
+    Wait(0.1, WaitBehavior.AbortWhenFalse);
+
+
     EXPGainRate -= 4;
     Wait(3, WaitBehavior.AbortWhenFalse);
     CatchUpEnabled = false;

@@ -1,5 +1,2 @@
-Built with https://github.com/ItsDeltin/Overwatch-Script-To-Workshop
-
+Built with https://github.com/ItsDeltin/Overwatch-Script-To-Workshop v2.0 Preview B
 Compile from main.ostw
-
-Read README-COMPILING-ISSUES.txt before compiling.

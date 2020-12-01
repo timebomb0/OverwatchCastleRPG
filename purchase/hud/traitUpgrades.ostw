@@ -22,7 +22,8 @@ rule: "[World Effect] Trait upgrades"
     CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Orange, CooldownReductionTraitEffectLoc, 1.8, EffectRev.VisibleToPositionAndRadius);
     
     CreateInWorldText(AllPlayers(Team.All),
-    "Hold Interact [F] to Unlock/Upgrade traits
-    Unlock new traits with coins
-    Unlocked traits cost trait points to level up", TraitInfoTextLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleTo, Color.Yellow, Spectators.DefaultVisibility);
+"       HOLD INTERACT [F] TO UNLOCK TRAITS
+           UNLOCK NEW TRAITS WITH COINS
+  UPGRADE UNLOCKED TRAITS WITH TRAIT POINTS",
+    TraitInfoTextLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleTo, Color.Yellow, Spectators.DefaultVisibility);
 }

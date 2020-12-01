@@ -6,3 +6,4 @@ import "ultimateGeneration.ostw";
 import "traits/index.ostw";
 import "recentGainsDisplay.ostw";
 import "blockedAreas.ostw";
+import "prestige.ostw";

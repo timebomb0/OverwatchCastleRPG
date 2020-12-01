@@ -35,3 +35,5 @@ globalvar define MagicFieldLoc = Vector(123.177, 9.972, -31.567);
 globalvar define BlockedArea1Loc = Vector(100.362, 11.973, -26.007); // 7 radius
 globalvar define BlockedArea2Loc = Vector(111.681, 11.988, -6.484); // 6 radius, on the right
 globalvar define BlockedArea3Loc = Vector(144.092, 11.987, -15.169); // 6 radius, on the left
+
+globalvar define PrestigeLoc = Vector(41.591, 9.05, -86.174);

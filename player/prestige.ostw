@@ -1,0 +1,45 @@
+import "../utils/index.ostw";
+
+rule: "[HUD] Prestige"
+{
+	CreateEffect(AllPlayers(Team.All), Effect.Ring, Color.Blue, PrestigeLoc, 3, EffectRev.VisibleTo);
+	CreateInWorldText(AllPlayers(Team.All),
+"           HOLD INTERACT [F] TO PRESTIGE
+       HALVES YOUR CURRENT LEVEL AND
+GIVES YOU +1 STAT POINTS EVERY LEVEL UP",
+	PrestigeLoc + Vector(0, 2, 0), 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleTo, Color.LimeGreen, Spectators.DefaultVisibility);
+	CreateInWorldText(AllPlayers(Team.All), "Prestige", PrestigeLoc, 1.5, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleTo, Color.Blue, Spectators.DefaultVisibility);
+}
+
+rule: "[Prestige] Prestige!"
+Event.OngoingPlayer
+if (IsButtonHeld(Player, Button.Interact))
+if (DistanceBetween(PositionOf(Player), PrestigeLoc) <= 2)
+{
+	define prestigeCoinCost! = 200000 * (1 + PrestigeLevel);
+	define prestigeMinLevel! = 60 + (PrestigeLevel * 10);
+	define prestigeWishingStarCost! = 2 * (1 + PrestigeLevel);
+	if (Coins < prestigeCoinCost || PlayerLevel < prestigeMinLevel || Item_WishingStar < prestigeWishingStarCost) {
+		SmallMessage(Player, <"Prestiging to Prestige <0> requires <1> Coins, <2> Wishing Stars, and Level <3>", PrestigeLevel + 1, prestigeCoinCost, prestigeWishingStarCost, prestigeMinLevel>);
+	} else {
+		Coins -= prestigeCoinCost;
+		Item_WishingStar -= prestigeWishingStarCost;
+		PlayerLevel = RoundToInteger(PlayerLevel / 2, Rounding.Down);
+		PrestigeLevel += 1;
+		MinWait();
+		ResetStatPoints(Player);
+		ResetTraitPoints(Player);
+		PlayEffect(AllPlayers(Team.All), PlayEffect.BadExplosion, Color.Yellow, PositionOf(Player) + Vector(0, 1, 0), 50);
+		PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Yellow, PositionOf(Player) + Vector(0, 1, 0), 30);
+		PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.White, PositionOf(Player), 200);
+		NewMessageToAll(<"Amazing, <0> has just reached Prestige <1>!", Player, PrestigeLevel>);
+		BigMessage(AllPlayers(Team.All), <"Amazing, <0> has just reached Prestige <1>!", Player, PrestigeLevel>);
+		NewMessage("Your stat points and trait points have been reset.");
+		for (define i! = 2; i < 5; i++) {
+			Wait(0.5, WaitBehavior.IgnoreCondition);
+			PlayEffect(AllPlayers(Team.All), PlayEffect.BadExplosion, Color.Blue, PositionOf(Player) + Vector(0, i, 0), 50);
+			PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosion, Color.Blue, PositionOf(Player) + Vector(0, i, 0), 30);
+			PlayEffect(AllPlayers(Team.All), PlayEffect.BuffExplosionSound, Color.White, PositionOf(Player), 200);
+		}
+	}
+}

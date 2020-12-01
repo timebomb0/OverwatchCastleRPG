@@ -9,7 +9,11 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, Vector(53.993, 12.975, -81.314)) <= 1.5)
 {
-	Wait(0.1, WaitBehavior.IgnoreCondition);
+	if (!IsButtonHeld(Player, Button.Crouch)) {
+		Wait(0.1, WaitBehavior.IgnoreCondition);
+	} else {
+		MinWait();
+	}
 	StatPoints = StatPoints - 1;
 	DamageDealt += 1;
 	SetDamageDealt(Player, DamageDealt);
@@ -24,7 +28,9 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, Vector(56.398, 12.975, -81.814)) <= 1.5)
 {
-	Wait(0.1, WaitBehavior.IgnoreCondition);
+	if (!IsButtonHeld(Player, Button.Crouch)) {
+		Wait(0.1, WaitBehavior.IgnoreCondition);
+	}
 	StatPoints = StatPoints - 1;
 	HP += 1;
 	SetMaxHealth(Player, HP);
@@ -42,7 +48,11 @@ if (StatPoints >= 1)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, Vector(54.539, 12.975, -77.976)) <= 1.5)
 {
-	Wait(0.1, WaitBehavior.IgnoreCondition);
+	if (!IsButtonHeld(Player, Button.Crouch)) {
+		Wait(0.1, WaitBehavior.IgnoreCondition);
+	} else {
+		MinWait();
+	}
 	StatPoints = StatPoints - 1;
 	DamageReceive -= 0.3;
 	MinWait();
@@ -58,7 +68,11 @@ if (IsButtonHeld(Player, Button.Interact) == true)
 if (IsAlive(Player) == true)
 if (DistanceBetween(Player, Vector(56.873, 12.975, -78.476)) <= 1.5)
 {
-	Wait(0.1, WaitBehavior.IgnoreCondition);
+	if (!IsButtonHeld(Player, Button.Crouch)) {
+		Wait(0.1, WaitBehavior.IgnoreCondition);
+	} else {
+		MinWait();
+	}
 	StatPoints = StatPoints - 1;
 	HealingDealt += 1;
 	SetHealingDealt(Player, HealingDealt);

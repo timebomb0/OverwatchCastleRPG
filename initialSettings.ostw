@@ -10,7 +10,7 @@ rule: "[All World] Initialize Settings"
 	BotList = [];
 	DifficultyModifier = 1;
 	UnlockLevel = 0;
-	StatPointsPerLevel = 7;
+	StatPointsPerLevel = 5;
 	TraitPointGainedEveryXLevels = 4;
 	CoinsPerLevel = 2000;
 	MobSpeedModifier = 0.7;
@@ -38,7 +38,7 @@ if(!IsDummyBot(Player))
 		<@"<0> <1> <2>",
 			HeroIconString(HeroOf(Player)),
 			Player,
-			<"Level <0>", PlayerLevel>
+			<"Level <0> <1>", PlayerLevel, PrestigeLevel > 0 ? <"- Prestige <0>", PrestigeLevel> : "">
 		>,
 		Player, 1, Clipping.ClipAgainstSurfaces, InworldTextRev.VisibleToPositionAndString, Color.SkyBlue, Spectators.DefaultVisibility);
 	BaseMaxAmmo0 = MaxAmmo(Player, 0);
@@ -63,7 +63,7 @@ if(!IsDummyBot(Player))
 	UltimateGain = 2;
 	CoinGainRate = 1.3;
 	// TODO: Change EXPGainRate back to ~1.1
-	EXPGainRate = 5;
+	EXPGainRate = 4;
 	TrinketGainRate = 1;
 	Item_Trinket = 0;
 	Item_ExperiencePotion = 0;

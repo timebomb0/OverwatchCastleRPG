@@ -110,3 +110,4 @@ playervar define MobId;
 playervar define Attackers;
 playervar define MobSpawnLoc;
 playervar define DeathCount;
+playervar define PrestigeLevel;

@@ -1,3 +1,5 @@
+import "vars.ostw";
+
 define LeftHUDSubheader(define players, define string, Color color, define sortOrder = 0):
     CreateHudText(players, null, string, null, Location.Left, sortOrder, Color.White, color, Color.White, HudTextRev.VisibleToAndString);
 define RightHUDSubheader(define players, define string, Color color, define sortOrder = 0):
@@ -12,3 +14,22 @@ define TopHUDHeader(define players, define headerString, define subHeaderString,
 
 define TopHUDSubheader(define players, define string, Color color, define sortOrder = 0):
     CreateHudText(players, null, string, null, Location.Top, sortOrder, Color.White, color, Color.White, HudTextRev.VisibleToAndString);
+
+void ResetStatPoints(define player!) {
+    player.DamageDealt = 100;
+	player.HP = 15;
+	player.HealingDealt = 20;
+	player.DamageReceive = 100;
+    player.StatPoints = PlayerLevel * (StatPointsPerLevel + PrestigeLevel);
+    MinWait();
+    SetDamageDealt(player, player.DamageDealt);
+    SetDamageReceived(player, player.DamageReceive);
+    SetHealingDealt(player, player.HealingDealt);
+    SetMaxHealth(player, player.HP);
+    MinWait();
+    SetPlayerHealth(player, MaxHealth(player));
+}
+
+void ResetTraitPoints(define player!) {
+    
+}
